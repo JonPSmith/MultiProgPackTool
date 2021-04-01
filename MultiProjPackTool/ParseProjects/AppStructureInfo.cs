@@ -4,9 +4,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using MultProjPackTool.HelperExtensions;
+using MultiProjPackTool.HelperExtensions;
 
-namespace MultProjPackTool.ParseProjects
+namespace MultiProjPackTool.ParseProjects
 {
     public class AppStructureInfo
     {

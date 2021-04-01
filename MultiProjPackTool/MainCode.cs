@@ -2,10 +2,10 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.Configuration;
-using MultProjPackTool.HelperExtensions;
-using MultProjPackTool.ParseProjects;
+using MultiProjPackTool.HelperExtensions;
+using MultiProjPackTool.ParseProjects;
 
-namespace MultProjPackTool
+namespace MultiProjPackTool
 {
     public class MainCode
     {

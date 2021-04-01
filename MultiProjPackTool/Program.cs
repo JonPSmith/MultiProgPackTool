@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using MultiProgPack;
 
-namespace MultProjPackTool
+namespace MultiProjPackTool
 {
     class Program
     {

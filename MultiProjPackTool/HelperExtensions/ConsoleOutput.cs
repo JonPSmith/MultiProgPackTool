@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace MultProjPackTool.HelperExtensions
+namespace MultiProjPackTool.HelperExtensions
 {
     public class ConsoleOutput
     {

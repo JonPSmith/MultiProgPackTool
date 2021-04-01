@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace MultProjPackTool.ParseProjects
+namespace MultiProjPackTool.ParseProjects
 {
     public class ProjectInfo
     {

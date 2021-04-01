@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 
-namespace MultProjPackTool.HelperExtensions
+namespace MultiProjPackTool.HelperExtensions
 {
     public static class ProjectHelpers
     {
