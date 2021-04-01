@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<allsettings>
+  <nugetSettings>
+    <id>BookApp.Books</id>
+    <version>1.0.0-preview001</version>
+    <title>A human-friendly title of the package</title>
+    <authors>The authors</authors>
+    <owners>The owners</owners>
+    <company>My Company</company>
+    <product>My Product</product>
+    <copyright>My copyright string</copyright>
+    <description>description of this NuGet package</description>
+    <releaseNotes>Description of what is changed in this release</releaseNotes>
+    <license>MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
+    <packageLicenseFile>LICENSE.txt</packageLicenseFile> <!-- license must be in a project -->
+    <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
+    <iconUrl>https://github.com/NuGet/someicon.png</iconUrl>
+    <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev"
+                commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
+    <tags>NuGet ModularMonolith</tags>
+  </nugetSettings>
+  <toolSettings>
+    <NamespacePrefix>BookApp.Books</NamespacePrefix> 
+    <ExcludeProjects>.Test</ExcludeProjects> >
+    <CopyNuGetTo>{UserProfile}\LocalNuGet</CopyNuGetTo> 
+    <LogLevel>Information</LogLevel> 
+    <AddSymbols>None</AddSymbols> 
+    <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> 
+    <NoAutoPack>false</NoAutoPack>
+  </toolSettings>
+</allsettings>

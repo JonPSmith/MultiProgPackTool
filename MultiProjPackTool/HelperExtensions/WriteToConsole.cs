@@ -6,7 +6,13 @@ using Microsoft.Extensions.Logging;
 
 namespace MultiProjPackTool.HelperExtensions
 {
-    public class ConsoleOutput
+    public interface IWriteToConsole
+    {
+        LogLevel DefaultLogLevel { get; set; }
+        void LogMessage(string message, LogLevel level);
+    }
+
+    public class WriteToConsole : IWriteToConsole
     {
         public LogLevel DefaultLogLevel { get; set; } = LogLevel.Information;
 

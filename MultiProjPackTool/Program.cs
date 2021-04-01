@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace MultiProjPackTool
@@ -13,7 +14,7 @@ namespace MultiProjPackTool
             using var host = CreateHostBuilder(args).Build();
 
             var main = new MainCode(_configurationRoot);
-            main.BuildNuGet(args);
+            main.BuildNuGet(args, Environment.CurrentDirectory);
 
         }
         //see https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration-providers#json-configuration-provider

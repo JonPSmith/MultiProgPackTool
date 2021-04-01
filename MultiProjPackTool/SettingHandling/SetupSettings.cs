@@ -1,0 +1,86 @@
+﻿// Copyright (c) 2021 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
+// Licensed under MIT license. See License.txt in the project root for license information.
+
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Xml.Serialization;
+using Microsoft.Extensions.Logging;
+using MultiProjPackTool.HelperExtensions;
+
+namespace MultiProjPackTool.SettingHandling
+{
+    public class SetupSettings
+    {
+        public const string MultiProjPackFileName = "MultiProjPack.xml";
+        private readonly IWriteToConsole _writeToConsoleOut;
+        private readonly string _currentDirectory;
+
+        public SetupSettings(IWriteToConsole writeToConsoleOut, string currentDirectory)
+        {
+            _writeToConsoleOut = writeToConsoleOut;
+            _currentDirectory = currentDirectory;
+        }
+
+
+        //NOTE: should check that it can access some .csproj file before we enter this
+        public allsettings ReadSettingsWithOverridesAndChecks(ArgsDecoded argsDecoded)
+        {
+           var filepath = Path.Combine(_currentDirectory, MultiProjPackFileName);
+
+            if (argsDecoded.WhatAction == ToolActions.CreateSettingsFile)
+            {
+                if (File.Exists(filepath))
+                    _writeToConsoleOut.LogMessage($"A {MultiProjPackFileName} already exists in this folder. I won't overwrite it",
+                        LogLevel.Error);
+
+                const string fromFilepath = "SettingHandling\\MinimalMultiProjPack.xml";
+                File.Copy(fromFilepath, filepath, true);
+                _writeToConsoleOut.LogMessage($"Now fill in the {MultiProjPackFileName} with your information.",
+                    LogLevel.Information);
+                return null;
+            }
+
+            if (!File.Exists(filepath))
+                _writeToConsoleOut.LogMessage($"Could not find the {MultiProjPackFileName} in the current directory. Use --CreateSettings to create a empty file",
+                    LogLevel.Error);
+
+            var settings = ReadAllSettingsFromXmlFile(filepath);
+
+            //Apply args updates
+            argsDecoded.OverrideSettings(settings);
+
+            if (argsDecoded.WhatAction == ToolActions.CreateNuGet)
+            {
+                //Tests of nuget settings
+                if (string.IsNullOrEmpty(settings.nugetSettings.id))
+                    _writeToConsoleOut.LogMessage("The 'id' in the nugetSettings must be provided", LogLevel.Error);
+
+                //tool settings that need to be set if null
+                //settings.toolSettings.NamespacePrefix
+
+                //Now check settings
+
+                return settings;
+            }
+
+            return null;
+        }
+
+
+        private void CheckSetDefaultIfPropertyIsNull(allsettings settings)
+        {
+
+        }
+
+        private static allsettings ReadAllSettingsFromXmlFile(string filepath)
+        {
+            //see https://docs.microsoft.com/en-us/dotnet/standard/serialization/how-to-deserialize-an-object#to-deserialize-an-object
+            XmlSerializer serializerObj = new XmlSerializer(typeof(allsettings));
+            FileStream readFileStream = new FileStream(filepath, FileMode.Open);
+            // Load the object saved above by using the Deserialize function
+            var settings = (allsettings) serializerObj.Deserialize(readFileStream);
+            readFileStream.Close();
+            return settings;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<allsettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- this contains the minimal information you should have in your settings -->
+<!-- See documentation for all the possible values -->
+  <nugetSettings>
+    <id>BookApp.Books</id>
+    <version>1.0.0-preview001</version>
+    <authors>The authors</authors>
+    <description>description of this NuGet package</description>
+    <releaseNotes>Description of what is changed in this release</releaseNotes>
+  </nugetSettings>
+  <toolSettings>
+    <!-- worth filling in with your local NuGet Package Source folder. See docs about this -->
+    <CopyNuGetTo>{UserProfile}\LocalNuGet</CopyNuGetTo>
+  </toolSettings>
+</allsettings>

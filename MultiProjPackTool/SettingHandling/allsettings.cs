@@ -4,6 +4,7 @@
 namespace MultiProjPackTool.SettingHandling
 {
 
+
     // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
     /// <remarks/>
     [System.SerializableAttribute()]
@@ -371,22 +372,22 @@ namespace MultiProjPackTool.SettingHandling
     public partial class allsettingsToolSettings
     {
 
-        private object namespacePrefixField;
+        private string namespacePrefixField;
 
         private string excludeProjectsField;
 
         private string copyNuGetToField;
 
-        private object logLevelField;
+        private string logLevelField;
 
-        private object addSymbolsField;
+        private string addSymbolsField;
 
-        private object nuGetCachePathField;
+        private string nuGetCachePathField;
 
-        private object noAutoPackField;
+        private bool noAutoPackField;
 
         /// <remarks/>
-        public object NamespacePrefix
+        public string NamespacePrefix
         {
             get
             {
@@ -425,7 +426,7 @@ namespace MultiProjPackTool.SettingHandling
         }
 
         /// <remarks/>
-        public object LogLevel
+        public string LogLevel
         {
             get
             {
@@ -438,7 +439,7 @@ namespace MultiProjPackTool.SettingHandling
         }
 
         /// <remarks/>
-        public object AddSymbols
+        public string AddSymbols
         {
             get
             {
@@ -451,7 +452,7 @@ namespace MultiProjPackTool.SettingHandling
         }
 
         /// <remarks/>
-        public object NuGetCachePath
+        public string NuGetCachePath
         {
             get
             {
@@ -464,7 +465,7 @@ namespace MultiProjPackTool.SettingHandling
         }
 
         /// <remarks/>
-        public object NoAutoPack
+        public bool NoAutoPack
         {
             get
             {
@@ -476,6 +477,8 @@ namespace MultiProjPackTool.SettingHandling
             }
         }
     }
+
+
 
 
 }

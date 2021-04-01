@@ -4,27 +4,27 @@
 using Microsoft.Extensions.Configuration;
 using MultiProjPackTool.HelperExtensions;
 using MultiProjPackTool.ParseProjects;
+using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool
 {
     public class MainCode
     {
         private readonly IConfiguration _configuration;
-        private readonly ConsoleOutput _consoleOut;
+        private readonly WriteToConsole _writeToConsoleOut;
 
         //fields filled in by BuildNuGet method
-        private Settings _settings;
+        private allsettings _settings;
         private AppStructureInfo _appInfo;
 
         public MainCode(IConfiguration configuration)
         {
             _configuration = configuration;
-            _consoleOut = new ConsoleOutput();
+            _writeToConsoleOut = new WriteToConsole();
         }
 
-        public void BuildNuGet(string[] args)
+        public void BuildNuGet(string[] args, string currentDirectory)
         {
-
         }
     }
 }

@@ -10,11 +10,11 @@ namespace MultiProjPackTool.ParseProjects
 {
     public class AppStructureInfo
     {
-        public AppStructureInfo(string rootName, Dictionary<string, ProjectInfo> allProjects, ConsoleOutput consoleOut)
+        public AppStructureInfo(string namespacePrefix, Dictionary<string, ProjectInfo> allProjects, WriteToConsole writeToConsoleOut)
         {
-            RootName = rootName;
+            NamespacePrefix = namespacePrefix;
             AllProjects = allProjects.Values.ToList();
-            SetupAllNuGetInfosDistinctWithChecks(consoleOut);
+            SetupAllNuGetInfosDistinctWithChecks(writeToConsoleOut);
 
             foreach (var project in allProjects.Values)
             {
@@ -29,7 +29,7 @@ namespace MultiProjPackTool.ParseProjects
                 .OrderBy(x => x.ProjectName.Length).ToList();
         }
 
-        public string RootName { get; private set; }
+        public string NamespacePrefix { get; private set; }
 
         public List<ProjectInfo> RootProjects { get; private set; }
 
@@ -37,7 +37,7 @@ namespace MultiProjPackTool.ParseProjects
 
         public Dictionary<string, List<NuGetInfo>> NuGetInfosDistinctByFramework { get; private set; }
 
-        private void SetupAllNuGetInfosDistinctWithChecks(ConsoleOutput consoleOut)
+        private void SetupAllNuGetInfosDistinctWithChecks(WriteToConsole writeToConsoleOut)
         {
             var projectsByFramework = AllProjects.GroupBy(x => x.TargetFramework);
             NuGetInfosDistinctByFramework = new Dictionary<string, List<NuGetInfo>>();
@@ -52,7 +52,7 @@ namespace MultiProjPackTool.ParseProjects
                 {
                     var versionDistinct = groupedNuGet.Key.Distinct().ToList();
                     if (versionDistinct.Count > 1)
-                        consoleOut.LogMessage(
+                        writeToConsoleOut.LogMessage(
                             $"{groupedNuGet.Key} NuGet has multiple versions: \n {string.Join("\n", versionDistinct)}",
                             LogLevel.Error);
                     allNuGets.Add(groupedNuGet.Single().First());
@@ -65,7 +65,7 @@ namespace MultiProjPackTool.ParseProjects
         public override string ToString()
         {
             return
-                $"Found {AllProjects.Count} projects starting with {RootName}, with {NuGetInfosDistinctByFramework.Values.Sum(x => x.Count)} NuGet packages.";
+                $"Found {AllProjects.Count} projects starting with {NamespacePrefix}, with {NuGetInfosDistinctByFramework.Values.Sum(x => x.Count)} NuGet packages.";
         }
     }
 }

@@ -6,22 +6,23 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
+using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool.ParseProjects
 {
     public static class ProjectsParser
     {
-        public static AppStructureInfo ParseModularMonolithApp(this string solutionDir, Settings settings, ConsoleOutput consoleOut)
+        public static AppStructureInfo ParseModularMonolithApp(this string solutionDir, allsettings settings, WriteToConsole writeToConsoleOut)
         {
             string FormProjectName(string partialName)
             {
                 return partialName.StartsWith('.')
-                    ? settings.RootName + partialName
+                    ? settings.toolSettings.NamespacePrefix + partialName
                     : partialName;
             }
 
             var projFilePaths = Directory.GetDirectories(solutionDir)
-                    .Where(dir => Path.GetFileNameWithoutExtension(dir).StartsWith(settings.RootName))
+                    .Where(dir => Path.GetFileNameWithoutExtension(dir).StartsWith(settings.toolSettings.NamespacePrefix))
                     .SelectMany(dir =>
                 Directory.GetFiles(dir, "*.csproj")).ToList();
 
@@ -31,12 +32,12 @@ namespace MultiProjPackTool.ParseProjects
             {
                 foreach (var path in folderNotSame)
                 {
-                    consoleOut.LogMessage($"the project {Path.GetFileName(path)} isn't in a folder of the same name", LogLevel.Warning);
+                    writeToConsoleOut.LogMessage($"the project {Path.GetFileName(path)} isn't in a folder of the same name", LogLevel.Warning);
                 }
-                consoleOut.LogMessage($"This code relies on the project file to be in a folder of the same name.", LogLevel.Error);
+                writeToConsoleOut.LogMessage($"This code relies on the project file to be in a folder of the same name.", LogLevel.Error);
             }
 
-            var excludedProjectNames = settings.ExcludeProjects?.Split(',')
+            var excludedProjectNames = settings.toolSettings.ExcludeProjects?.Split(',')
                 .Select(x => FormProjectName(x.Trim())).ToList() ?? new List<string>();
             foreach (var projectName in excludedProjectNames)
             {
@@ -45,10 +46,10 @@ namespace MultiProjPackTool.ParseProjects
                 if (excludedPath != null)
                 {
                     projFilePaths.Remove(excludedPath);
-                    consoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
+                    writeToConsoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
                 }
                 else
-                    consoleOut.LogMessage($"Could not find a project called '{projectName}' to exclude", LogLevel.Warning);
+                    writeToConsoleOut.LogMessage($"Could not find a project called '{projectName}' to exclude", LogLevel.Warning);
             }
 
 
@@ -87,7 +88,7 @@ namespace MultiProjPackTool.ParseProjects
                     .ToList() ?? new List<ProjectInfo>();
             }
 
-            return new AppStructureInfo(settings.RootName, pInfo, consoleOut);
+            return new AppStructureInfo(settings.toolSettings.NamespacePrefix, pInfo, writeToConsoleOut);
         }
 
         private static T DeserializeToObject<T>(this string filepath) where T : class

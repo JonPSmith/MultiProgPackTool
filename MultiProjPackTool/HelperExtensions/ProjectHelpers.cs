@@ -29,13 +29,13 @@ namespace MultiProjPackTool.HelperExtensions
             return Path.GetFullPath(Path.Combine(executingProjectPath, "..\\"));
         }
 
-        public static string GetSolutionFilename(this string solutionDir, ConsoleOutput consoleOutput)
+        public static string GetSolutionFilename(this string solutionDir, WriteToConsole writeToConsole)
         {
             var files = Directory.GetFiles(solutionDir, "*.sln");
             if (files.Length > 1)
                 throw new Exception( $"Found {files.Length} solution files. I can't handle that!");
             if (files.Length != 1)
-                consoleOutput.LogMessage($"You didn't provide a setting for \"RootName\", and couldn't find a solution (.sln) file.", LogLevel.Error);
+                writeToConsole.LogMessage($"You didn't provide a setting for \"RootName\", and couldn't find a solution (.sln) file.", LogLevel.Error);
             return Path.GetFileNameWithoutExtension(files.Single());
         }
 
