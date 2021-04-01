@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<allsettings>
+  <nugetSettings>
+    <id>PackageId</id>
+    <version>1.0.0-preview001</version>
+    <title>A human-friendly title of the package</title>
+    <authors>The authors</authors>
+    <owners>The owners</owners>
+    <company>My Company</company>
+    <product>My Product</product>
+    <copyright>My copyright string</copyright>
+    <description>description of this NuGet package</description>
+    <releaseNotes>Description of what is changed in this release</releaseNotes>
+    <license>MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
+    <packageLicenseFile>LICENSE.txt</packageLicenseFile> <!-- license must be in a project -->
+    <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
+    <iconUrl>https://github.com/NuGet/someicon.png</iconUrl>
+    <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev"
+                commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
+    <tags>NuGet ModularMonolith</tags>
+  </nugetSettings>
+  <toolSettings>
+    <NamespacePrefix></NamespacePrefix> <!-- If null then uses NuGet id -->
+    <ExcludeProjects>.Test</ExcludeProjects> <!-- //excludes named projects (comma separated). If start with "." the NamespacePrefix is prefix to test -->
+    <CopyNuGetTo>{UserProfile}\\LocalNuGet</CopyNuGetTo> <!-- if not empty at it auto-packs the NuGet, then copies NuGet to this dir  -->
+    <LogLevel></LogLevel> <!-- defines what is written to the Console (uses LogLevel names), if null the is set to Information -->
+    <AddSymbols></AddSymbols> <!-- Can be "None", "Debug", "Release" or "Both", if null then is "None" -->
+    <NuGetCachePath></NuGetCachePath> <!-- if null then set to default for type of dev computer. If your path is different then set this  -->
+    <NoAutoPack></NoAutoPack> <!-- set to true if you don't want the the tool to automatically call "dotnet pack" -->
+  </toolSettings>
+</allsettings>
