@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultProjPackTool", "MultProjPackTool\MultProjPackTool.csproj", "{EC3F7D5E-3C8D-43FF-BD46-E5D500C1AC0C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{CC9007A7-8FC5-4FFA-9FDD-58131E004BD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiProjPackTool", "MultiProjPackTool\MultiProjPackTool.csproj", "{5069D575-CB2E-4F23-B0BC-FEF7425F3F02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EC3F7D5E-3C8D-43FF-BD46-E5D500C1AC0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC3F7D5E-3C8D-43FF-BD46-E5D500C1AC0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC3F7D5E-3C8D-43FF-BD46-E5D500C1AC0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC3F7D5E-3C8D-43FF-BD46-E5D500C1AC0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC9007A7-8FC5-4FFA-9FDD-58131E004BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC9007A7-8FC5-4FFA-9FDD-58131E004BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC9007A7-8FC5-4FFA-9FDD-58131E004BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC9007A7-8FC5-4FFA-9FDD-58131E004BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5069D575-CB2E-4F23-B0BC-FEF7425F3F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5069D575-CB2E-4F23-B0BC-FEF7425F3F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5069D575-CB2E-4F23-B0BC-FEF7425F3F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5069D575-CB2E-4F23-B0BC-FEF7425F3F02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
