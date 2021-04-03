@@ -22,7 +22,7 @@
   <toolSettings>
     <NamespacePrefix>BookApp.Books</NamespacePrefix> <!-- If null then uses NuGet id -->
     <ExcludeProjects>.Test</ExcludeProjects> <!-- //excludes named projects (comma separated). If start with "." the NamespacePrefix is prefix to test -->
-    <CopyNuGetTo>{UserProfile}\LocalNuGet</CopyNuGetTo> <!-- if not empty at it auto-packs the NuGet, then copies NuGet to this dir  -->
+    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo> <!-- if not empty at it auto-packs the NuGet, then copies NuGet to this dir  -->
     <LogLevel>Information</LogLevel> <!-- defines what is written to the Console (uses LogLevel names), if null the is set to Information -->
     <AddSymbols>None</AddSymbols> <!-- Can be "None", "Debug", "Release" or "Both", if null then is "None" -->
     <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> <!-- if null then set to default for type of dev computer. If your path is different then set this  -->

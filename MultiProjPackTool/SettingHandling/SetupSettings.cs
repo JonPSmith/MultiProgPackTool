@@ -51,14 +51,8 @@ namespace MultiProjPackTool.SettingHandling
 
             if (argsDecoded.WhatAction == ToolActions.CreateNuGet)
             {
-                //Tests of nuget settings
-                if (string.IsNullOrEmpty(settings.nugetSettings.id))
-                    _writeToConsoleOut.LogMessage("The 'id' in the nugetSettings must be provided", LogLevel.Error);
-
-                //tool settings that need to be set if null
-                //settings.toolSettings.NamespacePrefix
-
-                //Now check settings
+                if (CheckSetDefaultIfPropertyIsNull(settings))
+                    _writeToConsoleOut.LogMessage("I have stopped because there were errors in your settings.", LogLevel.Error);
 
                 return settings;
             }
@@ -67,9 +61,11 @@ namespace MultiProjPackTool.SettingHandling
         }
 
 
-        private void CheckSetDefaultIfPropertyIsNull(allsettings settings)
+        private bool CheckSetDefaultIfPropertyIsNull(allsettings settings)
         {
+            bool hasErrors = false;
 
+            return hasErrors;
         }
 
         private static allsettings ReadAllSettingsFromXmlFile(string filepath)
