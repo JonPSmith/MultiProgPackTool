@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <allsettings>
-  <nugetSettings>
+  <metadata>
     <id>BookApp.Books</id>
     <version>1.0.0-preview001</version>
     <title>A human-friendly title of the package</title>
@@ -18,13 +18,13 @@
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev"
                 commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
     <tags>NuGet ModularMonolith</tags>
-  </nugetSettings>
+  </metadata>
   <toolSettings>
-    <NamespacePrefix>BookApp.Books</NamespacePrefix> <!-- If null then uses NuGet id -->
-    <ExcludeProjects>.Test</ExcludeProjects> <!-- //excludes named projects (comma separated). If start with "." the NamespacePrefix is prefix to test -->
+    <NamespacePrefix>BookApp.Books</NamespacePrefix> <!-- This used used to find projects with names starting with this. If null then uses NuGet id -->
+    <ExcludeProjects>Test</ExcludeProjects> <!-- excludes named projects (comma separated). Assumes NamespacePrefix is prefixed to every name -->
     <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo> <!-- if not empty at it auto-packs the NuGet, then copies NuGet to this dir  -->
     <LogLevel>Information</LogLevel> <!-- defines what is written to the Console (uses LogLevel names), if null the is set to Information -->
-    <AddSymbols>None</AddSymbols> <!-- Can be "None", "Debug", "Release" or "Both", if null then is "None" -->
+    <AddSymbols>None</AddSymbols> <!-- Can be "None", "Debug", "Release" or "Always", if null then is "None" -->
     <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> <!-- if null then set to default for type of dev computer. If your path is different then set this  -->
     <NoAutoPack>false</NoAutoPack> <!-- set to true if you don't want the the tool to automatically call "dotnet pack" -->
   </toolSettings>

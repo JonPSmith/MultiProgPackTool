@@ -107,7 +107,7 @@ namespace Test
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
-            settings.nugetSettings.id.ShouldEqual("BookApp.Books");
+            settings.metadata.id.ShouldEqual("BookApp.Books");
             settings.toolSettings.CopyNuGetTo.ShouldEqual("{UserProfile}\\LocalNuGet ");
         }
 
@@ -125,7 +125,7 @@ namespace Test
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
-            settings.nugetSettings.id.ShouldEqual("BookApp.Books");
+            settings.metadata.id.ShouldEqual("BookApp.Books");
             settings.toolSettings.ShouldBeNull();
         }
 
@@ -146,8 +146,8 @@ namespace Test
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
-            var settingProp = typeof(allsettingsNugetSettings).GetProperty(propertyName);
-            settingProp.GetValue(settings.nugetSettings).ShouldEqual(option.Substring(3));
+            var settingProp = typeof(allsettingsMetadata).GetProperty(propertyName);
+            settingProp.GetValue(settings.metadata).ShouldEqual(option.Substring(3));
         }
 
         [Theory]

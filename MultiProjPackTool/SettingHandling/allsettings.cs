@@ -5,6 +5,7 @@ namespace MultiProjPackTool.SettingHandling
 {
 
 
+
     // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
     /// <remarks/>
     [System.SerializableAttribute()]
@@ -14,20 +15,20 @@ namespace MultiProjPackTool.SettingHandling
     public partial class allsettings
     {
 
-        private allsettingsNugetSettings nugetSettingsField;
+        private allsettingsMetadata metadataField;
 
         private allsettingsToolSettings toolSettingsField;
 
         /// <remarks/>
-        public allsettingsNugetSettings nugetSettings
+        public allsettingsMetadata metadata
         {
             get
             {
-                return this.nugetSettingsField;
+                return this.metadataField;
             }
             set
             {
-                this.nugetSettingsField = value;
+                this.metadataField = value;
             }
         }
 
@@ -49,7 +50,7 @@ namespace MultiProjPackTool.SettingHandling
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class allsettingsNugetSettings
+    public partial class allsettingsMetadata
     {
 
         private string idField;
@@ -80,7 +81,7 @@ namespace MultiProjPackTool.SettingHandling
 
         private string iconUrlField;
 
-        private allsettingsNugetSettingsRepository repositoryField;
+        private allsettingsMetadataRepository repositoryField;
 
         private string tagsField;
 
@@ -267,7 +268,7 @@ namespace MultiProjPackTool.SettingHandling
         }
 
         /// <remarks/>
-        public allsettingsNugetSettingsRepository repository
+        public allsettingsMetadataRepository repository
         {
             get
             {
@@ -297,7 +298,7 @@ namespace MultiProjPackTool.SettingHandling
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class allsettingsNugetSettingsRepository
+    public partial class allsettingsMetadataRepository
     {
 
         private string typeField;
@@ -477,6 +478,7 @@ namespace MultiProjPackTool.SettingHandling
             }
         }
     }
+
 
 
 

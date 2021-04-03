@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="SettingHandling\MinimalMultiProjPack.xml">
+    <None Update="SettingHandling\TypicalMultiProjPack.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

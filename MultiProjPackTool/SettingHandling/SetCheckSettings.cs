@@ -22,8 +22,8 @@ namespace MultiProjPackTool.SettingHandling
         {
             if (InNuGetSettings)
             {
-                var settingProp = typeof(allsettingsNugetSettings).GetProperty(PropertyName);
-                settingProp.SetValue(settings.nugetSettings, value);
+                var settingProp = typeof(allsettingsMetadata).GetProperty(PropertyName);
+                settingProp.SetValue(settings.metadata, value);
             }
             else
             {
