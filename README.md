@@ -9,7 +9,15 @@ This modular approach is useful for two reasons:
 - It breaks up a complex application into bounded context sub-applications, which are managed via NuGet packages.
 - It allows a development team to work on a bounded context sub-application separately for the main application.
 
-The `MultiProjPack` tool is needed because some of the projects in a sub-application can have projects that aren't linked to a 'top' project, and some projects might not be linked to any other project because they are only linked via dependency injection. It also builds  a combined list of the NuGet packages covering all the project.
+The `MultiProjPack` tool is needed because some of the projects in a sub-application can have projects that aren't linked to a 'top' project, and some projects might not be linked to any other project because they are only linked via dependency injection. It also builds  a combined list of the NuGet packages covering all the project. Both of these aren't easy to do with the normal NuGet tools.
+
+See [Release Notes](https://github.com/JonPSmith/MultiProgPackTool/blob/main/ReleaseNotes.md) file for changes to this tool.
+
+## Limitations
+
+NuGet packages are designed handle multi-framework NuGet packages, but when you are creating NuGet package to go into your application you want a single framework. This means that all the projects going into the NuGet package must all be the SAME framework, e.g. `net6.0`.
+
+*NOTE: If you have multiple frameworks the tool will create a NuGet package, but outputs and warning.**
 
 ## Overview of how to use the `MultiProjPack` tool
 
@@ -43,7 +51,7 @@ BookApp.Orders.Domain
 //etc...
 ```
 
-By telling the `MultiProjPack` tool to look for namespaces starting with "`BookApp.Books.`" it would create a NuGet packages that contains all the projects with names starting with "`BookApp.Books.`".
+By telling the `MultiProjPack` tool to look for namespaces starting with "`BookApp.Books.`" it would create a NuGet packages that contains all the projects with names starting with "`BookApp.Books.`", and leaving out any other projects, such as the `BookApp.Orders...` projects.
 
 ### 3. Create a file containing the NuGet package info
 
@@ -112,11 +120,13 @@ The `MultiProjPack.xml` settings file has two sections
 
 ### 1. The `<metadata>` section
 
+I assume you know how to define a NuGet package. If you don't then see this [create a NuGet package document](https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild).
+
 This holds the the information that NuGet needs when building a package. This follows the [nuspec metadata format](https://docs.microsoft.com/en-us/nuget/reference/nuspec) because the `MultiProjPack` tool create a `.nuspec` file.
 
-*NOTE: The `<metadata>` section uses same commands as you would add to a .csproj file to create a NuGet package, but the xml names are camelCase, while the .csproj version is PascalCase.
+*NOTE: The `<metadata>` section uses same commands as you would add to a .csproj file to create a NuGet package, but the xml names are camelCase, while the .csproj version is PascalCase.**
 
-The [this file](https://github.com/JonPSmith/MultiProgPackTool/blob/main/MultiProjPackTool/SettingHandling/EveryPropertyFilledIn.xml) contains all the NeGet information you can define.
+The [this file](https://github.com/JonPSmith/MultiProgPackTool/blob/main/MultiProjPackTool/SettingHandling/EveryPropertyFilledIn.xml) contains ALL the possible settings. 
 
 ### 2. The `<toolSettings>` section
 
@@ -172,7 +182,7 @@ This is pretty obvious - it outputs a list of the commands and options.
 
 ### Create `MultiProjPack.xml` settings file
 
-the ``--CreateSettings` command will create a `MultiProjPack.xml` setting file in the current directory. This xml file contains the typical settings you should need to set, but you can add other settings as required.
+the ``--CreateSettings` command will create an example `MultiProjPack.xml` setting file in the current directory. This xml file contains the typical settings you should need to set, but you can add other settings as required.
 
 ### Set source for MultiProjPack setting file
 
