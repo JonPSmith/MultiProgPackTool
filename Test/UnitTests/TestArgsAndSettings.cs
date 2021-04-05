@@ -1,16 +1,23 @@
 using System;
-using System.Reflection;
-using Microsoft.Extensions.Logging;
 using MultiProjPackTool.SettingHandling;
 using Test.Stubs;
 using TestSupport.Helpers;
 using Xunit;
+using Xunit.Abstractions;
 using Xunit.Extensions.AssertExtensions;
 
 namespace Test
 {
     public class TestArgsAndSettings
     {
+        private readonly ITestOutputHelper _output;
+
+        public TestArgsAndSettings(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
+
         [Theory]
         [InlineData(null, true, false)]
         [InlineData("D", true, false)]
@@ -168,6 +175,37 @@ namespace Test
             //VERIFY
             var settingProp = typeof(allsettingsToolSettings).GetProperty(propertyName);
             settingProp.GetValue(settings.toolSettings).ShouldEqual(propertyValue);
+        }
+
+        [Theory]
+        [InlineData("-m:BadFormat")]
+        [InlineData("-m:BadName=XXX")]
+        [InlineData("-t:BadName=XXX")]
+        public void TestReadSettingsWithOverridesAndChecks_AbsoluteMinimalDataProvided_OverrideToolSettings_Bad(string option)
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole();
+            var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
+
+            var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
+
+
+            //ATTEMPT
+            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            try
+            {
+                var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
+            }
+            catch (Exception e)
+            {
+                _output.WriteLine(e.Message);
+                e.Message.ShouldStartWith("ERROR: ");
+
+                return;
+            }
+
+            //VERIFY
+            false.ShouldBeTrue("Didn't catch the incorrect options");
         }
 
     }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2021 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.Extensions.Logging;
@@ -48,6 +47,8 @@ namespace MultiProjPackTool.SettingHandling
 
             //Apply args updates
             argsDecoded.OverrideSettings(settings);
+            //Check/SetDefault settings
+            SetCheckSetting.CheckUpdateAllSettings(settings, _writeToConsoleOut);
 
             if (argsDecoded.WhatAction == ToolActions.CreateNuGet)
             {
@@ -68,13 +69,17 @@ namespace MultiProjPackTool.SettingHandling
             return hasErrors;
         }
 
-        private static allsettings ReadAllSettingsFromXmlFile(string filepath)
+        private allsettings ReadAllSettingsFromXmlFile(string filepath)
         {
             //see https://docs.microsoft.com/en-us/dotnet/standard/serialization/how-to-deserialize-an-object#to-deserialize-an-object
             XmlSerializer serializerObj = new XmlSerializer(typeof(allsettings));
             FileStream readFileStream = new FileStream(filepath, FileMode.Open);
             // Load the object saved above by using the Deserialize function
             var settings = (allsettings) serializerObj.Deserialize(readFileStream);
+            if (settings.metadata == null)
+                _writeToConsoleOut.LogMessage("The MultiProjPack settings must have a <metadata> part in it.", LogLevel.Error);
+            if (settings.toolSettings == null)
+                settings.toolSettings = new allsettingsToolSettings();
             readFileStream.Close();
             return settings;
         }

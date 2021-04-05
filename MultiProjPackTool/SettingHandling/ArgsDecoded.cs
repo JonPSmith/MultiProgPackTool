@@ -98,20 +98,9 @@ namespace MultiProjPackTool.SettingHandling
             var variableName = trimmedArg.Substring(0, indexOfEqual);
             var value = trimmedArg.Substring(indexOfEqual+1);
 
-            if (inNuGetSettings)
-            {
-                var settingProp = typeof(allsettingsMetadata).GetProperty(variableName);
-                if (settingProp == null)
-                    _writeToConsole.LogMessage($"The variable name 'variableName' isn't a valid metadata setting", LogLevel.Error);
-                settingProp.SetValue(settings.metadata, value);
-            }
-            else
-            {
-                var settingProp = typeof(allsettingsToolSettings).GetProperty(variableName);
-                if (settingProp == null)
-                    _writeToConsole.LogMessage($"The variable name 'variableName' isn't a valid tools setting", LogLevel.Error);
-                settingProp.SetValue(settings.toolSettings ??= new allsettingsToolSettings(), value);
-            }
+            var error = settings.SetSetting(inNuGetSettings, variableName, value);
+            if (error != null) 
+                _writeToConsole.LogMessage(error, LogLevel.Error);
         }
 
         private void OutputHelpText()
