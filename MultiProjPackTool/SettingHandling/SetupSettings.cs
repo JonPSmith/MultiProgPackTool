@@ -33,7 +33,7 @@ namespace MultiProjPackTool.SettingHandling
                     _writeToConsoleOut.LogMessage($"A {MultiProjPackFileName} already exists in this folder. I won't overwrite it",
                         LogLevel.Error);
 
-                const string fromFilepath = "SettingHandling\\MinimalMultiProjPack.xml";
+                const string fromFilepath = "SettingHandling\\TypicalMultiProjPack.xml";
                 File.Copy(fromFilepath, filepath, true);
                 _writeToConsoleOut.LogMessage($"Now fill in the {MultiProjPackFileName} with your information.",
                     LogLevel.Information);

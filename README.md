@@ -4,12 +4,18 @@ This `MultiProjPack` tool is designed to turn a significant section of code from
 
 *NOTE: I cover this bounded context sub-application approach in [part 2 of my evolving modular monolith](#) series.*
 
-This modular approach is useful for two reasons:
+This modular approach has three benefits:
 
 - It breaks up a complex application into bounded context sub-applications, which are managed via NuGet packages.
 - It allows a development team to work on a bounded context sub-application separately for the main application.
+- If you are adding a new feature an old application which is hard to extend, then you can build a separate solution using a more modern design and inset that package into your existing application via a NuGet package.
 
-The `MultiProjPack` tool is needed because some of the projects in a sub-application can have projects that aren't linked to a 'top' project, and some projects might not be linked to any other project because they are only linked via dependency injection. It also builds  a combined list of the NuGet packages covering all the project. Both of these aren't easy to do with the normal NuGet tools.
+I build the `MultiProjPack` tool because the normal NuGet tools don't handle certain things, for instance:
+
+1. The normal tools assume a main project, with references to sub-projects. But in the bounded context case you have multiple projects and not all of them are linked to a single, main project. In fact, some projects may not be referenced directly by any project beacause they are only accessed via dependency injection.
+2. The normal tools don't concatenate the NuGet packages referenced by the projects.
+3. The the `MultiProjPack` tool can add some features that speeds up the local testing of the created NuGet package - see [part 4 of my evolving modular monolith](#) series, which is about testing when using this bounded context/NuGet package approach.
+
 
 See [Release Notes](https://github.com/JonPSmith/MultiProgPackTool/blob/main/ReleaseNotes.md) file for changes to this tool.
 
@@ -17,7 +23,7 @@ See [Release Notes](https://github.com/JonPSmith/MultiProgPackTool/blob/main/Rel
 
 NuGet packages are designed handle multi-framework NuGet packages, but when you are creating NuGet package to go into your application you want a single framework. This means that all the projects going into the NuGet package must all be the SAME framework, e.g. `net6.0`.
 
-*NOTE: If you have multiple frameworks the tool will create a NuGet package, but outputs and warning.**
+*NOTE: If your projects have different frameworks the tool will still create a NuGet package, but outputs a warning as its unlikely to be useful in your application.*
 
 ## Overview of how to use the `MultiProjPack` tool
 
@@ -183,10 +189,6 @@ This is pretty obvious - it outputs a list of the commands and options.
 ### Create `MultiProjPack.xml` settings file
 
 the ``--CreateSettings` command will create an example `MultiProjPack.xml` setting file in the current directory. This xml file contains the typical settings you should need to set, but you can add other settings as required.
-
-### Set source for MultiProjPack setting file
-
-This tells the tool where to find the `MultiProjPack.xml` settings file, e.g. `--source=..\MultiProjPackDifferentName.xml`. You only need this if the MultiProjPack settings file has a non-standard name or is in another directory.
 
 ### Override NuGet metadata settings
 

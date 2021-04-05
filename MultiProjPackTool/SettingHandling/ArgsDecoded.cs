@@ -21,13 +21,6 @@ namespace MultiProjPackTool.SettingHandling
 
     public class ArgsDecoded
     {
-        private readonly SetCheckSetting[] _overrideViaOptions = new SetCheckSetting[]
-        {
-            new SetCheckSetting(true) {Name = "-i:", PropertyName = "id", Description = "Sets the NuGet id"},
-            new SetCheckSetting(true) {Name = "-v:", PropertyName = "version", Description = "Sets the NuGet version"},
-            new SetCheckSetting(true) {Name = "-n:", PropertyName = "releaseNotes", Description = "Set the NuGet releaseNotes"},
-            new SetCheckSetting(false) {Name = "--verbosity:", PropertyName = "LogLevel", Description = "Sets level for output. Uses LogLevel names, e.g. Debug, Information, Warning, Error."},
-        };
 
         private readonly string[] _args;
         private readonly IWriteToConsole _writeToConsole;
@@ -39,8 +32,6 @@ namespace MultiProjPackTool.SettingHandling
         public string DebugOrRelease => DebugMode ? "Debug" : "Release";
 
         public bool UpdateNuGetCache { get; }
-
-        public string Message { get; }
 
         public ArgsDecoded(string[] args, IWriteToConsole writeToConsole)
         {
@@ -88,17 +79,38 @@ namespace MultiProjPackTool.SettingHandling
 
         public void OverrideSettings(allsettings settings)
         {
-            foreach (var possibleOverride in _overrideViaOptions)
+            for (int i = 1; i < _args.Length; i++)
             {
-                foreach (var arg in _args)
-                {
-                    if (arg.StartsWith(possibleOverride.Name ?? "impossible arg"))
-                    {
-                        var value = arg.Substring(possibleOverride.Name.Length);
-                        possibleOverride.OverrideValue(value, settings);
-                    }
+                if (_args[i].StartsWith("-m:") || _args[i].StartsWith("-t:"))
+                    OverrideValue(_args[i], settings);
+                else
+                    _writeToConsole.LogMessage($"I did not understand the option {_args[i]}", LogLevel.Error);
+            }
+        }
 
-                }
+        private void OverrideValue(string arg, allsettings settings)
+        {
+            var inNuGetSettings = arg.StartsWith("-m:");
+            var trimmedArg = arg.Substring(3);
+            var indexOfEqual = trimmedArg.IndexOf('=');
+            if (indexOfEqual < 0)
+                _writeToConsole.LogMessage($"The option '{arg}' wasn't in the format <variableName>=<value>", LogLevel.Error);
+            var variableName = trimmedArg.Substring(0, indexOfEqual);
+            var value = trimmedArg.Substring(indexOfEqual+1);
+
+            if (inNuGetSettings)
+            {
+                var settingProp = typeof(allsettingsMetadata).GetProperty(variableName);
+                if (settingProp == null)
+                    _writeToConsole.LogMessage($"The variable name 'variableName' isn't a valid metadata setting", LogLevel.Error);
+                settingProp.SetValue(settings.metadata, value);
+            }
+            else
+            {
+                var settingProp = typeof(allsettingsToolSettings).GetProperty(variableName);
+                if (settingProp == null)
+                    _writeToConsole.LogMessage($"The variable name 'variableName' isn't a valid tools setting", LogLevel.Error);
+                settingProp.SetValue(settings.toolSettings ??= new allsettingsToolSettings(), value);
             }
         }
 
@@ -108,7 +120,10 @@ namespace MultiProjPackTool.SettingHandling
             {
                 "Usage: MultiProjPack <D/R/U> [[--] <additional arguments>...]]",
                 "",
-                "First parameter:  D (for Debug), R (for Release) or U (for direct update)",
+                "First parameter:  " +
+                "  - D(ebug): This creates a NuGet package using the Debug version of the code",
+                "  - R(elease): This creates a NuGet package using the Release version of the code",
+                "  - U(pdate): This builds a NuGet package using the Debug code, but also updates the `.dll`s in the NuGet cache",
                 "Options:",
 
 

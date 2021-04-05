@@ -19,7 +19,7 @@ namespace Test.Stubs
             LastMessage = message;
             LastLogLevel = level;
             if (level >= LogLevel.Error)
-                throw new Exception("StubWriteToConsole: There was an error");
+                throw new Exception("ERROR: " + message);
         }
     }
 }

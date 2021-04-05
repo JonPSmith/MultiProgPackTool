@@ -52,6 +52,7 @@ namespace Test
         {
             //SETUP
             var stubWriter = new StubWriteToConsole();
+            TestData.EnsureFileDeleted(SetupSettings.MultiProjPackFileName);
             var pathToSettings = TestData.GetTestDataDir();
 
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
@@ -64,7 +65,7 @@ namespace Test
             }
             catch (Exception e)
             {
-                e.Message.ShouldEqual("StubWriteToConsole: There was an error");
+                e.Message.ShouldEqual("ERROR: Could not find the MultiProjPack.xml in the current directory. Use --CreateSettings to create a empty file");
                 return;
             }
 
@@ -108,7 +109,7 @@ namespace Test
 
             //VERIFY
             settings.metadata.id.ShouldEqual("BookApp.Books");
-            settings.toolSettings.CopyNuGetTo.ShouldEqual("{UserProfile}\\LocalNuGet ");
+            settings.toolSettings.CopyNuGetTo.ShouldEqual("{USERPROFILE}\\LocalNuGet");
         }
 
         [Fact]
@@ -130,16 +131,15 @@ namespace Test
         }
 
         [Theory]
-        [InlineData("-i:ThisId", "id")]
-        [InlineData("-v:1.0.0-preview1", "version")]
-        [InlineData("-n:\"Great update\"", "releaseNotes")]
-        public void TestReadSettingsWithOverridesAndChecks_AbsoluteMinimalDataProvided_OverrideNuGet(string option, string propertyName)
+        [InlineData("-m:id=NewId", "id", "NewId")]
+        [InlineData("-m:releaseNotes=\"The release notes\"", "releaseNotes", "\"The release notes\"")]
+        public void TestReadSettingsWithOverridesAndChecks_AbsoluteMinimalDataProvided_OverrideNuGetSettings(string option, string propertyName, string propertyValue)
         {
             //SETUP
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { option }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(stubWriter, pathToSettings);
@@ -147,18 +147,19 @@ namespace Test
 
             //VERIFY
             var settingProp = typeof(allsettingsMetadata).GetProperty(propertyName);
-            settingProp.GetValue(settings.metadata).ShouldEqual(option.Substring(3));
+            settingProp.GetValue(settings.metadata).ShouldEqual(propertyValue);
         }
 
         [Theory]
-        [InlineData("--verbosity:Debug", "LogLevel")]
-        public void TestReadSettingsWithOverridesAndChecks_AbsoluteMinimalDataProvided_OverrideTools(string option, string propertyName)
+        [InlineData("-t:LogLevel=Debug", "LogLevel", "Debug")]
+        [InlineData(@"-t:CopyNuGetTo=C:\MyDir\MyNuGets", "CopyNuGetTo", @"C:\MyDir\MyNuGets")]
+        public void TestReadSettingsWithOverridesAndChecks_AbsoluteMinimalDataProvided_OverrideToolSettings(string option, string propertyName, string propertyValue)
         {
             //SETUP
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { option }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(stubWriter, pathToSettings);
@@ -166,7 +167,8 @@ namespace Test
 
             //VERIFY
             var settingProp = typeof(allsettingsToolSettings).GetProperty(propertyName);
-            settingProp.GetValue(settings.toolSettings).ShouldEqual(option.Substring("--verbosity:".Length));
+            settingProp.GetValue(settings.toolSettings).ShouldEqual(propertyValue);
         }
+
     }
 }

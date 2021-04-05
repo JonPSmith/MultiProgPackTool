@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <allsettings>
-  <nugetSettings>
+  <metadata>
     <id>BookApp.Books</id>
     <version>1.0.0-preview001</version>
     <title>A human-friendly title of the package</title>
@@ -18,11 +18,11 @@
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev"
                 commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
     <tags>NuGet ModularMonolith</tags>
-  </nugetSettings>
+  </metadata>
   <toolSettings>
     <NamespacePrefix>BookApp.Books</NamespacePrefix> 
     <ExcludeProjects>.Test</ExcludeProjects> >
-    <CopyNuGetTo>{UserProfile}\LocalNuGet</CopyNuGetTo> 
+    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo> 
     <LogLevel>Information</LogLevel> 
     <AddSymbols>None</AddSymbols> 
     <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> 

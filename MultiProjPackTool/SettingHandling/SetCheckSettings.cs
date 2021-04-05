@@ -18,18 +18,6 @@ namespace MultiProjPackTool.SettingHandling
         //NOTE: if null then it must not be null
         public string DefaultValue { get; set; }
 
-        public void OverrideValue(string value, allsettings settings)
-        {
-            if (InNuGetSettings)
-            {
-                var settingProp = typeof(allsettingsMetadata).GetProperty(PropertyName);
-                settingProp.SetValue(settings.metadata, value);
-            }
-            else
-            {
-                var settingProp = typeof(allsettingsToolSettings).GetProperty(PropertyName);
-                settingProp.SetValue(settings.toolSettings ??= new allsettingsToolSettings(), value);
-            }
-        }
+
     }
 }
