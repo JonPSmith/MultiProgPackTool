@@ -25,7 +25,7 @@
     <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo> <!-- if not empty at it auto-packs the NuGet, then copies NuGet to this dir  -->
     <LogLevel>Information</LogLevel> <!-- defines what is written to the Console (uses LogLevel names), if null the is set to Information -->
     <AddSymbols>None</AddSymbols> <!-- Can be "None", "Debug", "Release" or "Always", if null then is "None" -->
-    <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> <!-- if null then set to default for type of dev computer. If your path is different then set this  -->
     <NoAutoPack>false</NoAutoPack> <!-- set to true if you don't want the the tool to automatically call "dotnet pack" -->
+    <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> <!-- if null then set to default for type of dev computer. If your path is different then set this  -->
   </toolSettings>
 </allsettings>

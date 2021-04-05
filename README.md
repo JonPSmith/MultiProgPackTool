@@ -1,6 +1,6 @@
 # `MultiProjPack` Tool
 
-This dotnet tool is designed to turn a significant section of code from an application into NuGet package. This allows you to break up a large application into sub-application based on the Domain-Driven Design (DDD)'s [bounded context](https://martinfowler.com/bliki/BoundedContext.html) approach, and turn them into NuGet packages.
+This `MultiProjPack` tool is designed to turn a significant section of code from an application into NuGet package. This allows you to break up a large application into sub-application based on the Domain-Driven Design (DDD)'s [bounded context](https://martinfowler.com/bliki/BoundedContext.html) approach, and turn them into NuGet packages.
 
 *NOTE: I cover this bounded context sub-application approach in [part 2 of my evolving modular monolith](#) series.*
 
@@ -9,15 +9,19 @@ This modular approach is useful for two reasons:
 - It breaks up a complex application into bounded context sub-applications, which are managed via NuGet packages.
 - It allows a development team to work on a bounded context sub-application separately for the main application.
 
-The `MultiProjPack` tool is needed because some of the projects in a sub-application can have projects that aren't linked to a 'top' project, and some projects might not be linked to any other project because they are only linked via dependency injection.
+The `MultiProjPack` tool is needed because some of the projects in a sub-application can have projects that aren't linked to a 'top' project, and some projects might not be linked to any other project because they are only linked via dependency injection. It also builds  a combined list of the NuGet packages covering all the project.
 
 ## Overview of how to use the `MultiProjPack` tool
+
+The `MultiProjPack` tool is what is known as a [.NET tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) and is run from the command line
 
 ### 1. Install the `MultiProjPack` tool
 
 ```console
-dotnet tool install -g JonPSmith.`MultiProjPack`
+dotnet tool install -g JonPSmith.MultiProjPack
 ```
+
+*NOTE: To update the `MultiProjPack` .NET tool you need to run the command `dotnet tool update JonPSmith.MultiProjPack --global`.*
 
 ### 2. Organize the your code by namespaces
 
@@ -45,15 +49,15 @@ By telling the `MultiProjPack` tool to look for namespaces starting with "`BookA
 
 To create a NuGet package you need to define some NuGet information, such as the name (id) of the created NuGet package, its version, its authors and so on.
 
-The `MultiProjPack` tool looks for a file called `MultiProjPack.xml`, which contains NuGet info and settings for the `MultiProjPack` tool. Here is a link to a [example MultiProjPack.xml file](https://github.com/JonPSmith/MultiProgPackTool/blob/main/MultiProjPackTool/SettingHandling/TypicalMultiProjPack.xml), but I give more information on the `MultiProjPack.xml` file later (LINK!!!)
+The `MultiProjPack` tool looks for a settings file called `MultiProjPack.xml`, which contains NuGet info and settings for the `MultiProjPack` tool. Here is a link to a [example MultiProjPack.xml settings file](https://github.com/JonPSmith/MultiProgPackTool/blob/main/MultiProjPackTool/SettingHandling/TypicalMultiProjPack.xml), but I give more information on the `MultiProjPack.xml` file later (LINK!!!)
 
-*NOTE: The `MultiProjPack` tool will create an `MultiProjPack.xml` for you with the typical parts that you want to fill in. See !!!LINK on how to do that.*
+*NOTE: The `MultiProjPack` tool will create an `MultiProjPack.xml` settings file for you, with the typical settings that you should fill in. See !!!LINK on how to do that.*
 
-The `MultiProjPack.xml` file should be placed in the folder containing the projects in your solution, for instance `C:\Users\YourUser\source\repos\BookApp.Books>`
+The `MultiProjPack.xml` setting file should be placed in the directory containing the projects in your solution, for instance `C:\Users\YourUser\source\repos\BookApp.Books>`
 
 ### 4. Run the `MultiProjPack` tool
 
-You run the `MultiProjPack` tool from a command line in the folder containing the projects in your solution.
+You run the `MultiProjPack` tool from a command line in the directory containing the projects in your solution.
 
 *NOTE: If you want to create a new version of the NuGet package you must update the NuGet `version` and most likely the `releaseNotes` in the `MultiProjPack.xml` before you call the `MultiProjPack` tool.*
 
@@ -67,20 +71,33 @@ Where `<what to do>` is either:
 - `R`(elease): This creates a NuGet package using the `Release` version of the code.
 - `U`(pdate): This builds a NuGet package using the `Debug` code, but also updates the `.dll`s in the NuGet cache - See section [???](???) for more of this.
 
-### 5. Use the NuGet package
+The `MultiProjPack` tool does the following:
+
+1. Finds all the projects to go into the NuGet package
+2. Creates/updates a .nuspec file with the latests information> The .nuspec will contain 
+    - The `.dll` of each project.
+    - The xml documentation file if present.
+    - If the settings says a symbol output is requires, then any symbol file (.pdb) will be added.
+    - If the `MultiProjPack`'s settings says a symbol output is required, then any symbol file (.pdb) will be added.
+3. Calls `dotnet pack` to create the NuGet package
+4. Optionally it copies it to a local NuGet package server directory.
+
+### 5. Use the generated NuGet package
 
 At this point you have a new or updated NuGet package. You can use the package locally to check it works with the main application, or push it to a private NuGet server for others to use.
 
 ---
 
+# the `MultiProjPack`'s settings and options
+
 Now we look at the settings and options that MultiProjPack tool has.
 
-1. The `MultiProjPack.xml` file
-2. The MultiProjPack tool parameters and options.
+1. The `MultiProjPack.xml` settings file, which holds the NuGet information and extra setting for the `MultiProjPack` tool.
+2. The MultiProjPack tool parameters and options used when you run the `MultiProjPack` tool.
 
-## 1. The `MultiProjPack.xml` file content
+## 1. The `MultiProjPack.xml` settings file content
 
-The `MultiProjPack.xml` file has two sections
+The `MultiProjPack.xml` settings file has two sections
 
 ```xml
 <allsettings>
@@ -105,9 +122,11 @@ The [this file](https://github.com/JonPSmith/MultiProgPackTool/blob/main/MultiPr
 
 This contains options that are particular to the `MultiProjPack` tool and control the the tool works. Here is each list of the the options, with the most useful first.
 
+*NOTE: unlike the NuGet settings every tool setting has a default value.*
+
 #### `<NamespacePrefix>` - defines the namespace to look for (optional)
 
-The `MultiProjPack` tool will look for projects who's name starts with $"{NamespacePrefix}.". An example would be `NamespacePrefix>BookApp.Books</NamespacePrefix>`.
+The `MultiProjPack` tool will look for projects who's name starts with `$"{NamespacePrefix}."`. An example would be `<NamespacePrefix>BookApp.Books</NamespacePrefix>`.
 
 *NOTE: If you don't fill this in, or leave the setting out it will use the NuGet `<id>` from the `<metadata>` section.*
 
@@ -115,35 +134,15 @@ The `MultiProjPack` tool will look for projects who's name starts with $"{Namesp
 
 If you have projects starting with the `<NamespacePrefix>`, but you don't want them included in the NuGet package, then you can define them in this setting as a comma delimited list of the ending of their name.
 
-Example setting
-
-```xml
-<allsettings>
-        <!-- metadata left out -->
-  <toolSettings>
-    <ExcludeProjects>Test,AnotherProject</ExcludeProjects>
-  </toolSettings>
-</allsettings>
-```
-
-Assuming the `<id>` or `<NamespacePrefix>` is set to "`BookApp.Books`" then the `BookApp.Books.Test` and `BookApp.Books.AnotherProject` projects will be excluded from the NuGet package.
+For example, assuming the `<id>` or `<NamespacePrefix>` is set to "`BookApp.Books`" then a setting of `<ExcludeProjects>Test,AnotherProject</ExcludeProjects>` would exclude the `BookApp.Books.Test` and `BookApp.Books.AnotherProject` projects from the NuGet package.
 
 #### `<CopyNuGetTo>` - used to auto-copy new NuGet to local NuGet source
 
-The NuGet package is created in the folder the the `MultiProjPack` tool was run in. That's OK, but its useful to have your new NuGet available on your dev computer for local testing, and (via Visual Studio's NuGet Package Manager ) you can have a local NuGet package source so that you can immediately add it to your test application.
+The NuGet package is created in the directory the the `MultiProjPack` tool was run in. That's OK, but its useful to have your new NuGet available on your dev computer for local testing, and (via Visual Studio's NuGet Package Manager ) you can have a local NuGet package source so that you can immediately add it to your test application.
 
-You need to set up a local NuGet package source (which I explain in [part 4 of my evolving modular monolith](#) series on testing or this [useful article](https://spin.atomicobject.com/2021/01/05/local-nuget-package/)) and then fill the `<CopyNuGetTo>` setting with the local NuGet package source folder. When you run the `MultiProjPack` tool it will automatically copy your new NeGet package to your local NuGet package source.
+You need to set up a local NuGet package source (which I explain in [part 4 of my evolving modular monolith](#) series on testing or this [useful article](https://spin.atomicobject.com/2021/01/05/local-nuget-package/)) and then fill the `<CopyNuGetTo>` setting with the local NuGet package source directory. When you run the `MultiProjPack` tool it will automatically copy your new NeGet package to your local NuGet package source.
 
-Example settings
-
-```xml
-<allsettings>
-        <!-- metadata left out -->
-  <toolSettings>
-    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo>
-  </toolSettings>
-</allsettings>
-```
+For example, as  settings of ` <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo>` would refer to a directory called `LocalNuGet` in the user's directory.
 
 NOTE: The `{USERPROFILE}` is optional, but makes this setting work for any user. `USERPROFILE` is an environment value that contains your user directory - for me that's `C:\User\JonPSmith`.
 
@@ -151,17 +150,46 @@ NOTE: The `{USERPROFILE}` is optional, but makes this setting work for any user.
 
 When you are unit testing its useful to have the full information for unit testing. Personally I prefer embedding the code into the `.dll` file when in Debug mode (I explain why in [part 4 of my evolving modular monolith](#) series on testing).
 
-But if you want NuGet to create a symbol package then you need to a) add `<IncludeSymbols>true</IncludeSymbols>` in all of your projects and b) set the correct setting for the `<AddSymbols>` setting. The possible values are: "None", "Debug", "Release" or "Always".
+But if you want NuGet to create a symbol package then you need to a) add `<IncludeSymbols>true</IncludeSymbols>` in all of your projects and b) set the correct setting for the `<AddSymbols>` setting. The possible values for the `<AddSymbols>` setting are: "None", "Debug", "Release" or "Always".
 
 If you don't provide a value it defaults to "None".
 
+#### NoAutoPack - Turn off the call to `dotnet pack`
+
+By default the tool will create a .nuspec file and then call `dotnet pack` to create a NuGet package. If you don't want the tool to call `dotnet pack`, then set this to `false`.
+
+This can be useful if you want to hand-edit the created .nuspec file before you pack it.
+
 #### `<NuGetCachePath>` - override default cache path settings
 
-?????? !!!!!!!!!!!!!!!!!!!!!!!
+The U(pdate) command will replace all the `.dll`s/etc. files in the NuGet cache in the computer you are developing on. It uses the environment variables to get the default path to the NuGet cache (Windows/Linux/Mac). But if your system has a different path, then you should set this value.
 
 ## 2. The `MultiProjPack` tool options
 
-- `-h`, `--help`: 
-- `--CreateSettings`: 
-- `--source=..\MultiProjPackDifferentName.xml`: 
-- 
+### Help: i.e. `-h | --help`
+
+This is pretty obvious - it outputs a list of the commands and options.
+
+### Create `MultiProjPack.xml` settings file
+
+the ``--CreateSettings` command will create a `MultiProjPack.xml` setting file in the current directory. This xml file contains the typical settings you should need to set, but you can add other settings as required.
+
+### Set source for MultiProjPack setting file
+
+This tells the tool where to find the `MultiProjPack.xml` settings file, e.g. `--source=..\MultiProjPackDifferentName.xml`. You only need this if the MultiProjPack settings file has a non-standard name or is in another directory.
+
+### Override NuGet metadata settings
+
+The `-m:` command allows you to override any NuGet setting in the `<metadata>` part of the `MultiProjPack.xml` settings file, e.g.
+
+`-m:version=1.0.0.1-preview001`
+
+NOTE: Any NuGet settings that contain spaces must be wrapped in "", e.g. `-m:releaseNotes="This release fixes issues #1 and #2"`
+
+### Override tool settings
+
+The `-t:` command allows you to override any tools setting in the `<toolSettings>` part of the `MultiProjPack.xml` settings file, e.g.
+
+`-t:ExcludeProjects=Test,AnotherProject`
+
+[END]
