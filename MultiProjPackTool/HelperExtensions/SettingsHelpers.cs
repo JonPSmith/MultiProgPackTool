@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2021 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
+using System;
+using System.Reflection;
+using MultiProjPackTool.NuspecBuilder;
 using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool.HelperExtensions
@@ -43,6 +46,18 @@ namespace MultiProjPackTool.HelperExtensions
             }
 
             return null;  //no errors
+        }
+
+        public static void CopySettingMetadataIntoNuspec(this allsettings settings, package nuspec)
+        {
+            foreach (var settingsProp in typeof(allsettingsMetadata).GetProperties())
+            {
+                var nuspecProp = typeof(package).GetProperty(settingsProp.Name);
+                if (nuspecProp == null)
+                    throw new InvalidOperationException(
+                        $"Could not find the property {settingsProp.Name} in the nuspec package");
+                nuspecProp.SetValue(nuspec.metadata, settingsProp.GetValue(settings.metadata));
+            }
         }
     }
 }

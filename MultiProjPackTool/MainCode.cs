@@ -2,8 +2,11 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
+using MultiProjPackTool.NuspecBuilder;
 using MultiProjPackTool.ParseProjects;
+using MultiProjPackTool.ProcessHandler;
 using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool
@@ -13,9 +16,6 @@ namespace MultiProjPackTool
         private readonly IConfiguration _configuration;
         private readonly WriteToConsole _writeToConsoleOut;
 
-        //fields filled in by BuildNuGet method
-        private allsettings _settings;
-        private AppStructureInfo _appInfo;
 
         public MainCode(IConfiguration configuration)
         {
@@ -25,6 +25,21 @@ namespace MultiProjPackTool
 
         public void BuildNuGet(string[] args, string currentDirectory)
         {
+            var argsDecoded = new ArgsDecoded(args, _writeToConsoleOut);
+            var settingReader = new SetupSettings(_configuration, _writeToConsoleOut, currentDirectory);
+            var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
+
+            var appInfo = currentDirectory.ParseModularMonolithApp(settings, _writeToConsoleOut);
+
+            _writeToConsoleOut.LogMessage(appInfo.ToString(), LogLevel.Information);
+            var nuspcBuilder = new NuspecBuilder.NuspecBuilder(settings, argsDecoded, appInfo, _writeToConsoleOut);
+            nuspcBuilder.BuildNuspecFile(currentDirectory);
+
+            if (!settings.toolSettings.NoAutoPack)
+            {
+                var processRunner = new RunProcess(settings, argsDecoded, _writeToConsoleOut);
+                processRunner.RunPackEct(currentDirectory, appInfo);
+            }
         }
     }
 }

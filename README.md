@@ -190,7 +190,7 @@ This is pretty obvious - it outputs a list of the commands and options.
 
 ### Create `MultiProjPack.xml` settings file
 
-the ``--CreateSettings` command will create an example `MultiProjPack.xml` setting file in the current directory. This xml file contains the typical settings you should need to set, but you can add other settings as required.
+the `--CreateSettings` command will create an example `MultiProjPack.xml` setting file in the current directory. This xml file contains the typical settings you should need to set, but you can add other settings as required.
 
 ### Override NuGet metadata settings
 

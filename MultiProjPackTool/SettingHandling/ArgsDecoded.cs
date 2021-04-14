@@ -31,6 +31,8 @@ namespace MultiProjPackTool.SettingHandling
 
         public string DebugOrRelease => DebugMode ? "Debug" : "Release";
 
+        public string NuspecFilename => DebugMode ? "CreateNuGetDebug" : "CreateNuGetRelease";
+
         public bool UpdateNuGetCache { get; }
 
         public ArgsDecoded(string[] args, IWriteToConsole writeToConsole)
@@ -86,6 +88,15 @@ namespace MultiProjPackTool.SettingHandling
                 else
                     _writeToConsole.LogMessage($"I did not understand the option {_args[i]}", LogLevel.Error);
             }
+        }
+
+        public bool ShouldAddSymbols(allsettings settings)
+        {
+            return settings.toolSettings.AddSymbols == SetCheckSetting.AddSymbolsTypes.Always.ToString()
+                   || (DebugMode && settings.toolSettings.AddSymbols ==
+                       SetCheckSetting.AddSymbolsTypes.Debug.ToString())
+                   || (!DebugMode && settings.toolSettings.AddSymbols ==
+                       SetCheckSetting.AddSymbolsTypes.Release.ToString());
         }
 
         private void OverrideValue(string arg, allsettings settings)

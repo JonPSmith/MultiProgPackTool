@@ -13,7 +13,7 @@ namespace MultiProjPackTool.SettingHandling
     public class SetCheckSetting
     {
         private const string CopyNuGetToVariableName = "CopyNuGetTo";
-        private enum AddSymbolsTypes { None, Debug, Release, Always}
+        public enum AddSymbolsTypes { None, Debug, Release, Always}
 
         private static readonly List<SetCheckSetting> CheckDefaultSettings = new List<SetCheckSetting>
         {
