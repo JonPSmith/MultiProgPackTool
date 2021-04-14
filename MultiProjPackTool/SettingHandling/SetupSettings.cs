@@ -3,6 +3,7 @@
 
 using System.IO;
 using System.Xml.Serialization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 
@@ -11,11 +12,13 @@ namespace MultiProjPackTool.SettingHandling
     public class SetupSettings
     {
         public const string MultiProjPackFileName = "MultiProjPack.xml";
+        private readonly IConfiguration _configuration;
         private readonly IWriteToConsole _writeToConsoleOut;
         private readonly string _currentDirectory;
 
-        public SetupSettings(IWriteToConsole writeToConsoleOut, string currentDirectory)
+        public SetupSettings(IConfiguration configuration, IWriteToConsole writeToConsoleOut, string currentDirectory)
         {
+            _configuration = configuration;
             _writeToConsoleOut = writeToConsoleOut;
             _currentDirectory = currentDirectory;
         }
@@ -48,7 +51,7 @@ namespace MultiProjPackTool.SettingHandling
             //Apply args updates
             argsDecoded.OverrideSettings(settings);
             //Check/SetDefault settings
-            SetCheckSetting.CheckUpdateAllSettings(settings, _writeToConsoleOut);
+            SetCheckSetting.CheckUpdateAllSettings(settings, _configuration, _writeToConsoleOut);
 
             if (argsDecoded.WhatAction == ToolActions.CreateNuGet)
             {

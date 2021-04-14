@@ -13,14 +13,14 @@ namespace MultiProjPackTool.HelperExtensions
             {
                 var settingProp = typeof(allsettingsMetadata).GetProperty(variableName);
                 if (settingProp == null)
-                    return $"The variable name '{variableName}' isn't a valid metadata setting";
+                    return null;
                 return (string)settingProp.GetValue(settings.metadata);
             }
             else
             {
                 var settingProp = typeof(allsettingsToolSettings).GetProperty(variableName);
                 if (settingProp == null)
-                    return $"The variable name '{variableName}' isn't a valid tool setting";
+                    return null;
                 return (string)settingProp.GetValue(settings.toolSettings);
             }
         }

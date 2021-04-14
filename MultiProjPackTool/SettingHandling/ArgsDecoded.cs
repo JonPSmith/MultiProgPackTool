@@ -107,15 +107,22 @@ namespace MultiProjPackTool.SettingHandling
         {
             var messages = new string[]
             {
-                "Usage: MultiProjPack <D/R/U> [[--] <additional arguments>...]]",
+                "Usage: MultiProjPack <D/R/U> [[--] <additional options>...]]",
                 "",
                 "First parameter:  " +
-                "  - D(ebug): This creates a NuGet package using the Debug version of the code",
+                "  - D(ebug):   This creates a NuGet package using the Debug version of the code",
                 "  - R(elease): This creates a NuGet package using the Release version of the code",
-                "  - U(pdate): This builds a NuGet package using the Debug code, but also updates the `.dll`s in the NuGet cache",
+                "  - U(pdate):  This builds a NuGet package using the Debug code, but also updates the `.dll`s in the NuGet cache",
+                "  --help|-h:   Lists the features in this tool",
+                "  --CreateSettings: Creates an empty MultiProjPack.xml file for you to fill in",
+                "",
                 "Options:",
-
-
+                "  -m: This allows you to override a setting in the NuGet <metadata> section",
+                "      e.g. -m:version=1.0.0-preview001",
+                "      NOTE: if overriding text you need to put text in quotes, e.g. -m:releaseNotes=\"The release notes\"",
+                "  -t: This allows you to override a setting in the <toolSettings> section",
+                "      e.g. -t:CopyNuGetTo=C:\\MyDir\\MyNuGets\"",
+                "see https://github.com/JonPSmith/MultiProgPackTool for more information"
             };
 
             foreach (var message in messages)

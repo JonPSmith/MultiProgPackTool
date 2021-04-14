@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using MultiProjPackTool.SettingHandling;
 using Test.Stubs;
 using TestSupport.Helpers;
@@ -12,9 +14,20 @@ namespace Test
     {
         private readonly ITestOutputHelper _output;
 
+        readonly Dictionary<string, string> _myConfiguration = new Dictionary<string, string>
+        {
+            {"OS", "Windows"},
+            {"USERPROFILE", @"C:\Users\Me"},
+        };
+
+        private readonly IConfiguration _configuration;
+
         public TestArgsAndSettings(ITestOutputHelper output)
         {
             _output = output;
+            _configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(_myConfiguration)
+                .Build();
         }
 
 
@@ -65,7 +78,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             try
             {
                 var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
@@ -91,7 +104,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "--CreateSettings" }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -111,7 +124,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] {"D"}, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -120,7 +133,7 @@ namespace Test
         }
 
         [Fact]
-        public void TestReadSettingsWithOverridesAndChecks_AbsoluteMinimalDataProvided()
+        public void TestReadSettingsWithOverridesAndChecks_CheckSettingDefaults()
         {
             //SETUP
             var stubWriter = new StubWriteToConsole();
@@ -129,12 +142,36 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
-            settings.metadata.id.ShouldEqual("BookApp.Books");
-            settings.toolSettings.ShouldBeNull();
+            //settings that are filled in if empty
+            settings.toolSettings.NamespacePrefix.ShouldEqual("BookApp.Books");
+            settings.toolSettings.LogLevel.ShouldEqual("Information");
+            settings.toolSettings.AddSymbols.ShouldEqual("None");
+            settings.toolSettings.NuGetCachePath.ShouldEqual(@"C:\Users\Me\.nuget\packages");
+            //settings that aren't filled in if empty
+            settings.toolSettings.ExcludeProjects.ShouldBeNull();
+            settings.toolSettings.CopyNuGetTo.ShouldBeNull();
+            settings.toolSettings.NoAutoPack.ShouldBeFalse();
+        }
+
+        [Fact]
+        public void TestReadSettingsWithOverridesAndChecks_CopyNuGetToUserProfile()
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole();
+            var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
+
+            var argsDecoded = new ArgsDecoded(new[] { "D", "-t:CopyNuGetTo={USERPROFILE}\\LocalNuGet" }, stubWriter);
+
+            //ATTEMPT
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
+
+            //VERIFY
+            settings.toolSettings.CopyNuGetTo.ShouldEqual(@"C:\Users\Me\LocalNuGet");
         }
 
         [Theory]
@@ -149,7 +186,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -169,7 +206,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -191,7 +228,7 @@ namespace Test
 
 
             //ATTEMPT
-            var settingReader = new SetupSettings(stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             try
             {
                 var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);

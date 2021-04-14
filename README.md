@@ -96,6 +96,8 @@ The `MultiProjPack` tool does the following:
 3. Calls `dotnet pack` to create the NuGet package
 4. Optionally it copies it to a local NuGet package server directory.
 
+*NOTE: You can override settings in the `MultiProjPack.xml` file via the `-m:name=value` (NuGet metadata settings) or `-t:name=value` (toolSettings). See section ??? for more*
+
 ### 5. Use the generated NuGet package
 
 At this point you have a new or updated NuGet package. You can use the package locally to check it works with the main application, or push it to a private NuGet server for others to use.
@@ -196,7 +198,7 @@ The `-m:` command allows you to override any NuGet setting in the `<metadata>` p
 
 `-m:version=1.0.0.1-preview001`
 
-NOTE: Any NuGet settings that contain spaces must be wrapped in "", e.g. `-m:releaseNotes="This release fixes issues #1 and #2"`
+NOTE: Any NuGet settings that contain spaces must be wrapped in a string, e.g. `-m:releaseNotes="This release fixes issues #1 and #2"`
 
 ### Override tool settings
 

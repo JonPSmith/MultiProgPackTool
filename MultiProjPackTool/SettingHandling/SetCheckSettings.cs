@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Schema;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 
@@ -12,6 +12,7 @@ namespace MultiProjPackTool.SettingHandling
 {
     public class SetCheckSetting
     {
+        private const string CopyNuGetToVariableName = "CopyNuGetTo";
         private enum AddSymbolsTypes { None, Debug, Release, Always}
 
         private static readonly List<SetCheckSetting> CheckDefaultSettings = new List<SetCheckSetting>
@@ -21,17 +22,28 @@ namespace MultiProjPackTool.SettingHandling
             new SetCheckSetting(true) {PropertyName = "version"},
             //Set defaults (some with tests)
             new SetCheckSetting(false)
-                {PropertyName = "NamespacePrefix", GetDefaultValue = settings => settings.metadata.id},
+            {
+                PropertyName = "NamespacePrefix",
+                GetDefaultValue = (settings, _) => settings.metadata.id
+            },
             new SetCheckSetting(false)
             {
                 PropertyName = "LogLevel", EnumNames = typeof(LogLevel),
-                GetDefaultValue = settings => LogLevel.Information.ToString()
+                GetDefaultValue = (_,_) => LogLevel.Information.ToString()
             },
             new SetCheckSetting(false)
             {
                 PropertyName = "AddSymbols", EnumNames = typeof(AddSymbolsTypes),
-                GetDefaultValue = settings => AddSymbolsTypes.None.ToString()
-            }
+                GetDefaultValue = (_,_) => AddSymbolsTypes.None.ToString()
+            },
+            new SetCheckSetting(false)
+            {
+                PropertyName = "NuGetCachePath",
+                GetDefaultValue = (_,configuration) => configuration["OS"].Contains("Windows")
+                    ? $"{configuration["USERPROFILE"]}\\.nuget\\packages"
+                    : "~/.nuget/packages"
+    },
+
         };
 
         public SetCheckSetting(bool inNuGetSettings)
@@ -43,13 +55,13 @@ namespace MultiProjPackTool.SettingHandling
         public string PropertyName { get; set; }
 
         //NOTE: if null then it must not be null
-        public Func<allsettings, string> GetDefaultValue { get; set; }
+        public Func<allsettings, IConfiguration, string> GetDefaultValue { get; set; }
 
         public Type EnumNames { get; set; }
 
-        public static void CheckUpdateAllSettings(allsettings settings, IWriteToConsole consoleOut)
+        public static void CheckUpdateAllSettings(allsettings settings, IConfiguration configuration, IWriteToConsole consoleOut)
         {
-            var results = CheckDefaultSettings.Select(x => x.CheckUpdateSetting(settings))
+            var results = CheckDefaultSettings.Select(x => x.CheckUpdateSetting(settings, configuration))
                 .Where(result => result != null).ToList();
             if (results.Any())
             {
@@ -57,8 +69,17 @@ namespace MultiProjPackTool.SettingHandling
                 {
                     consoleOut.LogMessage(error, LogLevel.Warning);
                 }
-                consoleOut.LogMessage($"There were {results.Count} errors on the settings, so cannot continue.", LogLevel.Warning);
+                consoleOut.LogMessage($"There were {results.Count} errors on the settings, so cannot continue.", LogLevel.Error);
             }
+
+            //special case: handling {USERPROFILE}
+            var copyNuGetTo = settings.GetSetting(false, CopyNuGetToVariableName);
+            if (copyNuGetTo?.StartsWith("{USERPROFILE}") == true)
+            {
+                var updatedValue = configuration["USERPROFILE"] + copyNuGetTo.Substring(CopyNuGetToVariableName.Length+2);
+                settings.SetSetting(false, "CopyNuGetTo", updatedValue);
+            }
+
         }
 
 
@@ -66,8 +87,9 @@ namespace MultiProjPackTool.SettingHandling
         /// Checks settings and also sets a default values if a value is null
         /// </summary>
         /// <param name="settings"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
-        private string CheckUpdateSetting(allsettings settings)
+        private string CheckUpdateSetting(allsettings settings, IConfiguration configuration)
         {
             string SettingSection()
             {
@@ -80,7 +102,7 @@ namespace MultiProjPackTool.SettingHandling
                 if (GetDefaultValue == null)
                     return $"The setting {PropertyName} in {SettingSection()} must be set to a value";
 
-                return settings.SetSetting(InNuGetSettings, PropertyName, GetDefaultValue(settings));
+                return settings.SetSetting(InNuGetSettings, PropertyName, GetDefaultValue(settings, configuration));
             }
 
             if (EnumNames != null)
