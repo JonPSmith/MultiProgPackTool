@@ -55,6 +55,8 @@ namespace MultiProjPackTool.ProcessHandler
                 }
             }
 
+            _consoleOut.OutputErrorIfAnyWarnings();
+
             if (_argsDecoded.UpdateNuGetCache)
             {
                 //Replace the over all the dlls to the 

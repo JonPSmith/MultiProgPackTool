@@ -23,8 +23,18 @@ namespace Test.Stubs
         public LogLevel LastLogLevel { get; private set; }
 
         public LogLevel DefaultLogLevel { get; set; }
-        public void LogMessage(string message, LogLevel level)
+        public int NumWarnings { get; private set; }
+        public void OutputErrorIfAnyWarnings()
         {
+            if (NumWarnings > 0)
+                LogMessage($"There were {NumWarnings} warnings. The process will not continue.", LogLevel.Error);
+        }
+
+        public void LogMessage(string message, LogLevel level, bool warningDoesNotStop = false)
+        {
+            if (level == LogLevel.Warning && !warningDoesNotStop)
+                NumWarnings++;
+
             if (level >= _minLevel)
                 _output?.WriteLine($"{level}: {message}");
             LastMessage = message;

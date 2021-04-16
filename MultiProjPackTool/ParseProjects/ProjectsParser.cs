@@ -19,16 +19,9 @@ namespace MultiProjPackTool.ParseProjects
                     .SelectMany(dir =>
                 Directory.GetFiles(dir, "*.csproj")).ToList();
 
-            var folderNotSame = projFilePaths.Where(x =>
-                !x.Contains(Path.GetFileNameWithoutExtension(x))).ToList();
-            if (folderNotSame.Any())
-            {
-                foreach (var path in folderNotSame)
-                {
-                    writeToConsoleOut.LogMessage($"the project {Path.GetFileName(path)} isn't in a folder of the same name", LogLevel.Warning);
-                }
-                writeToConsoleOut.LogMessage($"This code relies on the project file to be in a folder of the same name.", LogLevel.Error);
-            }
+            projFilePaths.Where(x => !x.Contains(Path.GetFileNameWithoutExtension(x))).ToList()
+                .ForEach(path => writeToConsoleOut.LogMessage(
+                    $"the project {Path.GetFileName(path)} isn't in a folder of the same name", LogLevel.Warning));
 
             var excludedProjectNames = settings.toolSettings.ExcludeProjects?.Split(',')
                 .Select(x => $"{settings.toolSettings.NamespacePrefix}.{x.Trim()}").ToList() ?? new List<string>();
@@ -38,7 +31,7 @@ namespace MultiProjPackTool.ParseProjects
                     projFilePaths.SingleOrDefault(x => Path.GetFileNameWithoutExtension(x) == projectName);
                 if (excludedPath != null)
                 {
-                    var didRemove = projFilePaths.Remove(excludedPath);
+                    projFilePaths.Remove(excludedPath);
                     writeToConsoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
                 }
                 else

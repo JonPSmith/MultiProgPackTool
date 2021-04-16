@@ -63,16 +63,9 @@ namespace MultiProjPackTool.SettingHandling
 
         public static void CheckUpdateAllSettings(allsettings settings, IConfiguration configuration, IWriteToConsole consoleOut)
         {
-            var results = CheckDefaultSettings.Select(x => x.CheckUpdateSetting(settings, configuration))
-                .Where(result => result != null).ToList();
-            if (results.Any())
-            {
-                foreach (var error in results)
-                {
-                    consoleOut.LogMessage(error, LogLevel.Warning);
-                }
-                consoleOut.LogMessage($"There were {results.Count} errors on the settings, so cannot continue.", LogLevel.Error);
-            }
+            CheckDefaultSettings.Select(x => x.CheckUpdateSetting(settings, configuration))
+                .Where(result => result != null).ToList()
+                .ForEach(error => consoleOut.LogMessage(error, LogLevel.Warning));
 
             //special case: handling {USERPROFILE}
             var copyNuGetTo = settings.GetSetting(false, CopyNuGetToVariableName);
@@ -81,7 +74,6 @@ namespace MultiProjPackTool.SettingHandling
                 var updatedValue = copyNuGetTo.Replace("{USERPROFILE}", configuration["USERPROFILE"]);
                 settings.SetSetting(false, "CopyNuGetTo", updatedValue);
             }
-
         }
 
 

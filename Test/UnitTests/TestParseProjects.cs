@@ -60,6 +60,24 @@ namespace Test.UnitTests
         }
 
         [Fact]
+        public void ParseModularMonolithApp_Group1_Exclude_Bad()
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole(_output);
+            var settings = SettingHelpers.GetMinimalSettings();
+            settings.toolSettings.NamespacePrefix = "Group1";
+            settings.toolSettings.ExcludeProjects = "Project1,BAD";
+
+            //ATTEMPT
+            var dirToScan = "Group1".GetPathToTestProjectGroups();
+            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+
+            //VERIFY
+            appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group1.Project2", "Group1.Project3" });
+            stubWriter.NumWarnings.ShouldEqual(1);
+        }
+
+        [Fact]
         public void ParseModularMonolithApp_Group2()
         {
             //SETUP

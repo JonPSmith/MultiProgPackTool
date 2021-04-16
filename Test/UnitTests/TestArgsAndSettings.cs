@@ -1,7 +1,10 @@
 using System;
+using Microsoft.Extensions.Logging;
+using MultiProjPackTool.HelperExtensions;
 using MultiProjPackTool.SettingHandling;
 using Test.Helpers;
 using Test.Stubs;
+using TestSupport.Attributes;
 using TestSupport.Helpers;
 using Xunit;
 using Xunit.Abstractions;
@@ -18,6 +21,18 @@ namespace Test.UnitTests
             _output = output;
         }
 
+        [RunnableInDebugOnly] //Should show aborted
+        public void TestWriteToConsole_Warnings()
+        {
+            //SETUP
+            var consoleWriter = new WriteToConsole();
+
+            //ATTEMPT
+            consoleWriter.LogMessage("test", LogLevel.Warning);
+            consoleWriter.OutputErrorIfAnyWarnings();
+
+            //VERIFY
+        }
 
         [Theory]
         [InlineData(null, true, false)]

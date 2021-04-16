@@ -9,15 +9,22 @@ namespace MultiProjPackTool.HelperExtensions
     public interface IWriteToConsole
     {
         LogLevel DefaultLogLevel { get; set; }
-        void LogMessage(string message, LogLevel level);
+        int NumWarnings { get; }
+        void LogMessage(string message, LogLevel level, bool warningDoesNotStop = false);
+        void OutputErrorIfAnyWarnings();
     }
 
     public class WriteToConsole : IWriteToConsole
     {
         public LogLevel DefaultLogLevel { get; set; } = LogLevel.Information;
 
-        public void LogMessage(string message, LogLevel level)
+        public int NumWarnings { get; private set; }
+
+        public void LogMessage(string message, LogLevel level, bool warningDoesNotStop = false)
         {
+            if (level == LogLevel.Warning && !warningDoesNotStop)
+                NumWarnings++;
+
             if (level >= DefaultLogLevel)
             {
                 var originalColor = Console.ForegroundColor;
@@ -31,6 +38,12 @@ namespace MultiProjPackTool.HelperExtensions
 
             if (level >= LogLevel.Error)
                 Environment.Exit(1);
+        }
+
+        public void OutputErrorIfAnyWarnings()
+        {
+            if (NumWarnings > 0)
+                LogMessage($"There were {NumWarnings} warnings. The process will not continue.", LogLevel.Error);
         }
 
         private ConsoleColor GetColorForLevel(LogLevel level)

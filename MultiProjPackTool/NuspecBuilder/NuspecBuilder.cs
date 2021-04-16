@@ -52,11 +52,11 @@ namespace MultiProjPackTool.NuspecBuilder
             var diffFrameworks = _appInfo.AllProjects.Select(x => x.TargetFramework).Distinct().ToList();
             if (diffFrameworks.Count() > 1)
                 _consoleOut.LogMessage($"The projects use multiple frameworks ({(string.Join(", ", diffFrameworks))}).\n" +
-                                      $"That usually has problems unless the project that uses this uses multiple frameworks too.", LogLevel.Warning);
+                                      $"That usually has problems unless the project that uses this uses multiple frameworks too.",
+                    LogLevel.Warning, true); //it can continue with this warning
 
             package.files = _appInfo.AllProjects.SelectMany(x =>
             {
-
                 var pathToDir = Path.GetDirectoryName(x.ProjectPath)
                     .GetCorrectAssemblyPath(_argsDecoded.DebugOrRelease, x.TargetFramework);
 
@@ -104,6 +104,9 @@ namespace MultiProjPackTool.NuspecBuilder
 
             }).ToArray();
 
+
+            //only continue if there are no warnings
+            _consoleOut.OutputErrorIfAnyWarnings();
 
             //Create/update Nuspec file
             var filename = $"CreateNuGet{_argsDecoded.DebugOrRelease}.nuspec";
