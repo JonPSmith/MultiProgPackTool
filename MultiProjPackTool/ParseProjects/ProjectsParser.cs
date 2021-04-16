@@ -12,7 +12,7 @@ namespace MultiProjPackTool.ParseProjects
 {
     public static class ProjectsParser
     {
-        public static AppStructureInfo ParseModularMonolithApp(this string solutionDir, allsettings settings, WriteToConsole writeToConsoleOut)
+        public static AppStructureInfo ParseModularMonolithApp(this string directoryToScan, allsettings settings, IWriteToConsole writeToConsoleOut)
         {
             string FormProjectName(string partialName)
             {
@@ -21,7 +21,7 @@ namespace MultiProjPackTool.ParseProjects
                     : partialName;
             }
 
-            var projFilePaths = Directory.GetDirectories(solutionDir)
+            var projFilePaths = Directory.GetDirectories(directoryToScan)
                     .Where(dir => Path.GetFileNameWithoutExtension(dir).StartsWith(settings.toolSettings.NamespacePrefix))
                     .SelectMany(dir =>
                 Directory.GetFiles(dir, "*.csproj")).ToList();

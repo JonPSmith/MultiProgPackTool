@@ -10,7 +10,7 @@ namespace MultiProjPackTool.ParseProjects
 {
     public class AppStructureInfo
     {
-        public AppStructureInfo(string namespacePrefix, Dictionary<string, ProjectInfo> allProjects, WriteToConsole writeToConsoleOut)
+        public AppStructureInfo(string namespacePrefix, Dictionary<string, ProjectInfo> allProjects, IWriteToConsole writeToConsoleOut)
         {
             NamespacePrefix = namespacePrefix;
             AllProjects = allProjects.Values.ToList();
@@ -37,7 +37,7 @@ namespace MultiProjPackTool.ParseProjects
 
         public Dictionary<string, List<NuGetInfo>> NuGetInfosDistinctByFramework { get; private set; }
 
-        private void SetupAllNuGetInfosDistinctWithChecks(WriteToConsole writeToConsoleOut)
+        private void SetupAllNuGetInfosDistinctWithChecks(IWriteToConsole writeToConsoleOut)
         {
             var projectsByFramework = AllProjects.GroupBy(x => x.TargetFramework);
             NuGetInfosDistinctByFramework = new Dictionary<string, List<NuGetInfo>>();

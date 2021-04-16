@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
 using MultiProjPackTool.SettingHandling;
+using Test.Helpers;
 using Test.Stubs;
 using TestSupport.Helpers;
 using Xunit;
@@ -14,20 +13,9 @@ namespace Test
     {
         private readonly ITestOutputHelper _output;
 
-        readonly Dictionary<string, string> _myConfiguration = new Dictionary<string, string>
-        {
-            {"OS", "Windows"},
-            {"USERPROFILE", @"C:\Users\Me"},
-        };
-
-        private readonly IConfiguration _configuration;
-
         public TestArgsAndSettings(ITestOutputHelper output)
         {
             _output = output;
-            _configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(_myConfiguration)
-                .Build();
         }
 
 
@@ -78,7 +66,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             try
             {
                 var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
@@ -104,7 +92,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "--CreateSettings" }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -124,7 +112,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] {"D"}, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -142,7 +130,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -167,7 +155,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D", "-t:CopyNuGetTo={USERPROFILE}\\MyNuGets" }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -186,7 +174,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -206,7 +194,7 @@ namespace Test
             var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
@@ -228,7 +216,7 @@ namespace Test
 
 
             //ATTEMPT
-            var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
             try
             {
                 var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
