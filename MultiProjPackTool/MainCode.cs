@@ -25,7 +25,12 @@ namespace MultiProjPackTool
 
         public void BuildNuGet(string[] args, string currentDirectory)
         {
-            var argsDecoded = new ArgsDecoded(args, _writeToConsoleOut);
+            var argsDecoded = new ArgsDecoded(args, currentDirectory, _writeToConsoleOut);
+
+            if (argsDecoded.WhatAction != ToolActions.CreateNuGet)
+                //Stop if not creating a Nuspec etc.
+                return;
+
             var settingReader = new SetupSettings(_configuration, _writeToConsoleOut, currentDirectory);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 

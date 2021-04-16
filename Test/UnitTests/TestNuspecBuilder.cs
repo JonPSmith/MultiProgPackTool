@@ -34,7 +34,7 @@ namespace Test.UnitTests
             dirToScan.EnsureNuspecFileDeleted();
 
             var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
-            var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);
 
             //ATTEMPT
             var builder = new NuspecBuilder(settings, argsDecoded, appInfo, stubWriter);
@@ -55,7 +55,7 @@ namespace Test.UnitTests
             dirToScan.EnsureNuspecFileDeleted();
 
             var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
-            var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);
 
             //ATTEMPT
             var builder = new NuspecBuilder(settings, argsDecoded, appInfo, stubWriter);
@@ -81,7 +81,7 @@ namespace Test.UnitTests
             dirToScan.EnsureNuspecFileDeleted();
 
             var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
-            var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);
 
             settings.toolSettings.AddSymbols = "Debug";
 
@@ -105,7 +105,7 @@ namespace Test.UnitTests
             dirToScan.EnsureNuspecFileDeleted();
 
             var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
-            var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);
 
             //ATTEMPT
             var builder = new NuspecBuilder(settings, argsDecoded, appInfo, stubWriter);

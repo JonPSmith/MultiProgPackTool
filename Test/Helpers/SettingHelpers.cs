@@ -21,7 +21,7 @@ namespace Test.Helpers
             var stubWriter = new StubWriteToConsole();
             if (args.Length == 0)
                 args = new[] {"D"};
-            var argsDecoded = new ArgsDecoded(args, stubWriter);
+            var argsDecoded = new ArgsDecoded(args, pathToSettings, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(GetTestConfiguration(), stubWriter, pathToSettings);

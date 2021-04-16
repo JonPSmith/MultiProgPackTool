@@ -29,48 +29,21 @@ namespace MultiProjPackTool.SettingHandling
         {
            var filepath = Path.Combine(_currentDirectory, MultiProjPackFileName);
 
-            if (argsDecoded.WhatAction == ToolActions.CreateSettingsFile)
-            {
-                if (File.Exists(filepath))
-                    _writeToConsoleOut.LogMessage($"A {MultiProjPackFileName} already exists in this folder. I won't overwrite it",
-                        LogLevel.Error);
-
-                const string fromFilepath = "SettingHandling\\TypicalMultiProjPack.xml";
-                File.Copy(fromFilepath, filepath, true);
-                _writeToConsoleOut.LogMessage($"Now fill in the {MultiProjPackFileName} with your information.",
-                    LogLevel.Information);
-                return null;
-            }
-
-            if (!File.Exists(filepath))
+           if (!File.Exists(filepath))
                 _writeToConsoleOut.LogMessage($"Could not find the {MultiProjPackFileName} in the current directory. Use --CreateSettings to create a empty file",
                     LogLevel.Error);
 
-            var settings = ReadAllSettingsFromXmlFile(filepath);
+           var settings = ReadAllSettingsFromXmlFile(filepath);
 
-            //Apply args updates
-            argsDecoded.OverrideSettings(settings);
-            //Check/SetDefault settings
-            SetCheckSetting.CheckUpdateAllSettings(settings, _configuration, _writeToConsoleOut);
+           //Apply args updates
+           argsDecoded.OverrideSettings(settings);
+           //Check/SetDefault settings
+           SetCheckSetting.CheckUpdateAllSettings(settings, _configuration, _writeToConsoleOut);
 
-            if (argsDecoded.WhatAction == ToolActions.CreateNuGet)
-            {
-                if (CheckSetDefaultIfPropertyIsNull(settings))
-                    _writeToConsoleOut.LogMessage("I have stopped because there were errors in your settings.", LogLevel.Error);
-
-                return settings;
-            }
-
-            return null;
+           return settings;
         }
 
 
-        private bool CheckSetDefaultIfPropertyIsNull(allsettings settings)
-        {
-            bool hasErrors = false;
-
-            return hasErrors;
-        }
 
         private allsettings ReadAllSettingsFromXmlFile(string filepath)
         {

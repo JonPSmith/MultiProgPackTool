@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 using MultiProjPackTool.SettingHandling;
@@ -46,7 +47,7 @@ namespace Test.UnitTests
             var args = param == null ? new string[0] : new[] { param };
 
             //ATTEMPT
-            var argsDecoded = new ArgsDecoded(args, stubWriter);
+            var argsDecoded = new ArgsDecoded(args, null, stubWriter);
 
             //VERIFY
             argsDecoded.WhatAction.ShouldEqual(ToolActions.CreateNuGet);
@@ -57,17 +58,17 @@ namespace Test.UnitTests
         [Theory]
         [InlineData("-h", ToolActions.ListHelp)]
         [InlineData("--help", ToolActions.ListHelp)]
-        [InlineData("--CreateSettings", ToolActions.CreateSettingsFile)]
-        public void TestArgsOtherActions(string param, ToolActions whatActions)
+        public void TestArgsHelp(string param, ToolActions whatActions)
         {
             //SETUP
             var stubWriter = new StubWriteToConsole();
 
             //ATTEMPT
-            var argsDecoded = new ArgsDecoded(new[] { param }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { param }, null, stubWriter);
 
             //VERIFY
             argsDecoded.WhatAction.ShouldEqual(whatActions);
+            stubWriter.LastMessage.ShouldEqual("see https://github.com/JonPSmith/MultiProgPackTool for more information");
         }
 
         [Fact]
@@ -78,7 +79,7 @@ namespace Test.UnitTests
             TestData.EnsureFileDeleted(SetupSettings.MultiProjPackFileName);
             var pathToSettings = TestData.GetTestDataDir();
 
-            var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, pathToSettings, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
@@ -104,17 +105,13 @@ namespace Test.UnitTests
             TestData.EnsureFileDeleted(SetupSettings.MultiProjPackFileName);
             var pathToSettings = TestData.GetTestDataDir();
 
-            var argsDecoded = new ArgsDecoded(new[] { "--CreateSettings" }, stubWriter);
-
             //ATTEMPT
-            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
-            var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
+            var argsDecoded = new ArgsDecoded(new[] { "--CreateSettings" }, pathToSettings, stubWriter);
 
             //VERIFY
             var filePath = TestData.GetFilePath(SetupSettings.MultiProjPackFileName);
             filePath.ShouldNotBeNull();
             argsDecoded.WhatAction.ShouldEqual(ToolActions.CreateSettingsFile);
-            settings.ShouldBeNull();
         }
 
         [Fact]
@@ -124,7 +121,7 @@ namespace Test.UnitTests
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir()+"\\FullSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] {"D"}, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] {"D"}, pathToSettings, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
@@ -142,7 +139,7 @@ namespace Test.UnitTests
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, pathToSettings, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
@@ -161,13 +158,30 @@ namespace Test.UnitTests
         }
 
         [Fact]
+        public void TestReadSettingsWithOverridesAndChecks_CheckMissingNuGetSettings()
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole(_output);
+            var pathToSettings = TestData.GetTestDataDir() + "\\MissingSettings\\";
+
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, pathToSettings, stubWriter);
+
+            //ATTEMPT
+            var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
+            var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
+
+            //VERIFY
+            stubWriter.NumWarnings.ShouldEqual(4);
+        }
+
+        [Fact]
         public void TestReadSettingsWithOverridesAndChecks_CopyNuGetToUserProfile()
         {
             //SETUP
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { "D", "-t:CopyNuGetTo={USERPROFILE}\\MyNuGets" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D", "-t:CopyNuGetTo={USERPROFILE}\\MyNuGets" }, pathToSettings, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
@@ -186,7 +200,7 @@ namespace Test.UnitTests
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D", option }, pathToSettings, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
@@ -206,7 +220,7 @@ namespace Test.UnitTests
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D", option }, pathToSettings, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(SettingHelpers.GetTestConfiguration(), stubWriter, pathToSettings);
@@ -227,7 +241,7 @@ namespace Test.UnitTests
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { "D", option }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D", option }, pathToSettings, stubWriter);
 
 
             //ATTEMPT

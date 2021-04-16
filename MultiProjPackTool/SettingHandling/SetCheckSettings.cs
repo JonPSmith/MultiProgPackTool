@@ -82,7 +82,7 @@ namespace MultiProjPackTool.SettingHandling
         /// </summary>
         /// <param name="settings"></param>
         /// <param name="configuration"></param>
-        /// <returns></returns>
+        /// <returns>null if OK, otherwise error message</returns>
         private string CheckUpdateSetting(allsettings settings, IConfiguration configuration)
         {
             string SettingSection()
@@ -94,7 +94,7 @@ namespace MultiProjPackTool.SettingHandling
             if (existingValue == null)
             {
                 if (GetDefaultValue == null)
-                    return $"The setting {PropertyName} in {SettingSection()} must be set to a value";
+                    return $"The setting <{PropertyName}> in {SettingSection()} must be set to a value";
 
                 return settings.SetSetting(InNuGetSettings, PropertyName, GetDefaultValue(settings, configuration));
             }

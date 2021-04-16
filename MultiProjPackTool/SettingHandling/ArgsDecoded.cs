@@ -3,6 +3,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace MultiProjPackTool.SettingHandling
 
         public bool UpdateNuGetCache { get; }
 
-        public ArgsDecoded(string[] args, IWriteToConsole writeToConsole)
+        public ArgsDecoded(string[] args, string currentDirectory, IWriteToConsole writeToConsole)
         {
             _args = args;
             _writeToConsole = writeToConsole;
@@ -75,7 +76,8 @@ namespace MultiProjPackTool.SettingHandling
             }
             else if (WhatAction == ToolActions.ListHelp)
                 OutputHelpText();
-
+            else if (WhatAction == ToolActions.CreateSettingsFile)
+                CreateNewMultiProjPackFile(currentDirectory);
             //else other section has to handle the creating of an empty xml settings file
         }
 
@@ -94,6 +96,24 @@ namespace MultiProjPackTool.SettingHandling
         {
             return settings.toolSettings.AddSymbols == SetCheckSetting.AddSymbolsTypes.Always.ToString()
                    || (DebugOrRelease == settings.toolSettings.AddSymbols);
+        }
+
+        //--------------------------------------------------------
+        //private methods
+
+        private void CreateNewMultiProjPackFile(string currentDirectory)
+        {
+            var filepath = Path.Combine(currentDirectory, SetupSettings.MultiProjPackFileName);
+
+            if (File.Exists(filepath))
+                _writeToConsole.LogMessage(
+                    $"A {SetupSettings.MultiProjPackFileName} already exists in this folder. I won't overwrite it",
+                    LogLevel.Error);
+
+            const string fromFilepath = "SettingHandling\\TypicalMultiProjPack.xml";
+            File.Copy(fromFilepath, filepath, true);
+            _writeToConsole.LogMessage($"Now fill in the {SetupSettings.MultiProjPackFileName} with your information.",
+                LogLevel.Information);
         }
 
         private void OverrideValue(string arg, allsettings settings)
