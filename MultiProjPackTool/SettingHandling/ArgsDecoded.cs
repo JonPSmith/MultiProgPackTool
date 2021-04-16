@@ -93,10 +93,7 @@ namespace MultiProjPackTool.SettingHandling
         public bool ShouldAddSymbols(allsettings settings)
         {
             return settings.toolSettings.AddSymbols == SetCheckSetting.AddSymbolsTypes.Always.ToString()
-                   || (DebugMode && settings.toolSettings.AddSymbols ==
-                       SetCheckSetting.AddSymbolsTypes.Debug.ToString())
-                   || (!DebugMode && settings.toolSettings.AddSymbols ==
-                       SetCheckSetting.AddSymbolsTypes.Release.ToString());
+                   || (DebugOrRelease == settings.toolSettings.AddSymbols);
         }
 
         private void OverrideValue(string arg, allsettings settings)

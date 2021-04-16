@@ -20,6 +20,8 @@ namespace MultiProjPackTool.SettingHandling
             //Check not null - <metadata> first
             new SetCheckSetting(true) {PropertyName = "id"},
             new SetCheckSetting(true) {PropertyName = "version"},
+            new SetCheckSetting(true) {PropertyName = "authors"},
+            new SetCheckSetting(true) {PropertyName = "description"},
             //Set defaults (some with tests)
             new SetCheckSetting(false)
             {

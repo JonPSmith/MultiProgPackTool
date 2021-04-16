@@ -17,7 +17,7 @@
     <description>description of this NuGet package</description>
     <releaseNotes>Description of what is changed in this release</releaseNotes>
     <license >MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile> <!-- license must be in a project -->
+    <packageLicenseFile>LICENSE.txt</packageLicenseFile> <!-- license must be in a project -->
     <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
     <iconUrl>https://github.com/NuGet/someicon.png</iconUrl>
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev" commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />

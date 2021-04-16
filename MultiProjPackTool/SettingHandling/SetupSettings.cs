@@ -76,7 +76,7 @@ namespace MultiProjPackTool.SettingHandling
         {
             //see https://docs.microsoft.com/en-us/dotnet/standard/serialization/how-to-deserialize-an-object#to-deserialize-an-object
             XmlSerializer serializerObj = new XmlSerializer(typeof(allsettings));
-            FileStream readFileStream = new FileStream(filepath, FileMode.Open);
+            FileStream readFileStream = new FileStream(filepath, FileMode.Open, FileAccess.Read);
             // Load the object saved above by using the Deserialize function
             var settings = (allsettings) serializerObj.Deserialize(readFileStream);
             if (settings.metadata == null)

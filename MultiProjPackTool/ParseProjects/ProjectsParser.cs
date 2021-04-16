@@ -14,13 +14,6 @@ namespace MultiProjPackTool.ParseProjects
     {
         public static AppStructureInfo ParseModularMonolithApp(this string directoryToScan, allsettings settings, IWriteToConsole writeToConsoleOut)
         {
-            string FormProjectName(string partialName)
-            {
-                return partialName.StartsWith('.')
-                    ? settings.toolSettings.NamespacePrefix + partialName
-                    : partialName;
-            }
-
             var projFilePaths = Directory.GetDirectories(directoryToScan)
                     .Where(dir => Path.GetFileNameWithoutExtension(dir).StartsWith(settings.toolSettings.NamespacePrefix))
                     .SelectMany(dir =>
@@ -38,21 +31,19 @@ namespace MultiProjPackTool.ParseProjects
             }
 
             var excludedProjectNames = settings.toolSettings.ExcludeProjects?.Split(',')
-                .Select(x => FormProjectName(x.Trim())).ToList() ?? new List<string>();
+                .Select(x => $"{settings.toolSettings.NamespacePrefix}.{x.Trim()}").ToList() ?? new List<string>();
             foreach (var projectName in excludedProjectNames)
             {
                 var excludedPath =
                     projFilePaths.SingleOrDefault(x => Path.GetFileNameWithoutExtension(x) == projectName);
                 if (excludedPath != null)
                 {
-                    projFilePaths.Remove(excludedPath);
+                    var didRemove = projFilePaths.Remove(excludedPath);
                     writeToConsoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
                 }
                 else
                     writeToConsoleOut.LogMessage($"Could not find a project called '{projectName}' to exclude", LogLevel.Warning);
             }
-
-
 
             var pInfo = projFilePaths
                 .Select(path => new ProjectInfo(path))

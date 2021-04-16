@@ -1,20 +1,15 @@
 ﻿// Copyright (c) 2021 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
 using MultiProjPackTool.ParseProjects;
-using MultiProjPackTool.SettingHandling;
 using Test.Helpers;
 using Test.Stubs;
-using TestSupport.Helpers;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Extensions.AssertExtensions;
 
-namespace Test
+namespace Test.UnitTests
 {
     public class TestParseProjects
     {
@@ -42,6 +37,26 @@ namespace Test
             appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new []{ "net5.0" });
             appInfo.NuGetInfosDistinctByFramework.Values.Single().Select(x => x.NuGetId)
                 .ShouldEqual(new []{ "Microsoft.Extensions.Logging", "Newtonsoft.Json" });
+        }
+
+        [Fact]
+        public void ParseModularMonolithApp_Group1_Exclude()
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole(_output);
+            var settings = SettingHelpers.GetMinimalSettings();
+            settings.toolSettings.NamespacePrefix = "Group1"; 
+            settings.toolSettings.ExcludeProjects = "Project1,Project3";
+
+            //ATTEMPT
+            var dirToScan = "Group1".GetPathToTestProjectGroups();
+            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+
+            //VERIFY
+            appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group1.Project2" });
+            appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new[] { "net5.0" });
+            appInfo.NuGetInfosDistinctByFramework.Values.Single().Select(x => x.NuGetId)
+                .ShouldEqual(new[] { "Newtonsoft.Json" });
         }
 
         [Fact]

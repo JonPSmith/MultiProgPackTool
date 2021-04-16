@@ -233,7 +233,7 @@ namespace MultiProjPackTool.NuspecBuilder
         }
 
         /// <remarks/>
-        public string PackageLicenseFile
+        public string packageLicenseFile
         {
             get
             {

@@ -49,9 +49,9 @@ namespace MultiProjPackTool.NuspecBuilder
                         }).ToArray()
                 }).ToArray();
 
-            var diffFrameworks = _appInfo.AllProjects.Select(x => x.TargetFramework).Distinct();
+            var diffFrameworks = _appInfo.AllProjects.Select(x => x.TargetFramework).Distinct().ToList();
             if (diffFrameworks.Count() > 1)
-                _consoleOut.LogMessage($"The projects use multiple frameworks ({(string.Join(", ", diffFrameworks))}.\n" +
+                _consoleOut.LogMessage($"The projects use multiple frameworks ({(string.Join(", ", diffFrameworks))}).\n" +
                                       $"That usually has problems unless the project that uses this uses multiple frameworks too.", LogLevel.Warning);
 
             package.files = _appInfo.AllProjects.SelectMany(x =>

@@ -51,7 +51,7 @@ namespace MultiProjPackTool.HelperExtensions
         {
             foreach (var settingsProp in typeof(allsettingsMetadata).GetProperties())
             {
-                var nuspecProp = typeof(package).GetProperty(settingsProp.Name);
+                var nuspecProp = typeof(packageMetadata).GetProperty(settingsProp.Name);
                 if (nuspecProp == null)
                     throw new InvalidOperationException(
                         $"Could not find the property {settingsProp.Name} in the nuspec package");

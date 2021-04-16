@@ -3,5 +3,7 @@
   <metadata>
     <id>BookApp.Books</id>
     <version>1.0.0-preview001</version>
+    <authors>The authors</authors>
+    <description>description of this NuGet package</description>
   </metadata>
 </allsettings>
