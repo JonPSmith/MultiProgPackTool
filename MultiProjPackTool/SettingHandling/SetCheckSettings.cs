@@ -76,7 +76,7 @@ namespace MultiProjPackTool.SettingHandling
             var copyNuGetTo = settings.GetSetting(false, CopyNuGetToVariableName);
             if (copyNuGetTo?.StartsWith("{USERPROFILE}") == true)
             {
-                var updatedValue = configuration["USERPROFILE"] + copyNuGetTo.Substring(CopyNuGetToVariableName.Length+2);
+                var updatedValue = copyNuGetTo.Replace("{USERPROFILE}", configuration["USERPROFILE"]);
                 settings.SetSetting(false, "CopyNuGetTo", updatedValue);
             }
 

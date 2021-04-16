@@ -129,7 +129,7 @@ namespace Test
 
             //VERIFY
             settings.metadata.id.ShouldEqual("BookApp.Books");
-            settings.toolSettings.CopyNuGetTo.ShouldEqual("{USERPROFILE}\\LocalNuGet");
+            settings.toolSettings.CopyNuGetTo.ShouldEqual(@"C:\Users\Me\LocalNuGet");
         }
 
         [Fact]
@@ -164,14 +164,14 @@ namespace Test
             var stubWriter = new StubWriteToConsole();
             var pathToSettings = TestData.GetTestDataDir() + "\\MinimalSettings\\";
 
-            var argsDecoded = new ArgsDecoded(new[] { "D", "-t:CopyNuGetTo={USERPROFILE}\\LocalNuGet" }, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D", "-t:CopyNuGetTo={USERPROFILE}\\MyNuGets" }, stubWriter);
 
             //ATTEMPT
             var settingReader = new SetupSettings(_configuration, stubWriter, pathToSettings);
             var settings = settingReader.ReadSettingsWithOverridesAndChecks(argsDecoded);
 
             //VERIFY
-            settings.toolSettings.CopyNuGetTo.ShouldEqual(@"C:\Users\Me\LocalNuGet");
+            settings.toolSettings.CopyNuGetTo.ShouldEqual(@"C:\Users\Me\MyNuGets");
         }
 
         [Theory]
