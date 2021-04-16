@@ -22,7 +22,7 @@ namespace Test.UnitTests
         }
 
         [RunnableInDebugOnly] //Should show aborted
-        public void TestWriteToConsole_Warnings()
+        public void TestWriteToConsole_Warnings_Abort()
         {
             //SETUP
             var consoleWriter = new WriteToConsole();

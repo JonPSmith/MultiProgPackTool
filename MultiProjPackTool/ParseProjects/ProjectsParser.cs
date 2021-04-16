@@ -12,7 +12,7 @@ namespace MultiProjPackTool.ParseProjects
 {
     public static class ProjectsParser
     {
-        public static AppStructureInfo ParseModularMonolithApp(this string directoryToScan, allsettings settings, IWriteToConsole writeToConsoleOut)
+        public static AppStructureInfo ScanForProjects(this string directoryToScan, allsettings settings, IWriteToConsole consoleOut)
         {
             var projFilePaths = Directory.GetDirectories(directoryToScan)
                     .Where(dir => Path.GetFileNameWithoutExtension(dir).StartsWith(settings.toolSettings.NamespacePrefix))
@@ -20,7 +20,7 @@ namespace MultiProjPackTool.ParseProjects
                 Directory.GetFiles(dir, "*.csproj")).ToList();
 
             projFilePaths.Where(x => !x.Contains(Path.GetFileNameWithoutExtension(x))).ToList()
-                .ForEach(path => writeToConsoleOut.LogMessage(
+                .ForEach(path => consoleOut.LogMessage(
                     $"the project {Path.GetFileName(path)} isn't in a folder of the same name", LogLevel.Warning));
 
             var excludedProjectNames = settings.toolSettings.ExcludeProjects?.Split(',')
@@ -32,10 +32,10 @@ namespace MultiProjPackTool.ParseProjects
                 if (excludedPath != null)
                 {
                     projFilePaths.Remove(excludedPath);
-                    writeToConsoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
+                    consoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
                 }
                 else
-                    writeToConsoleOut.LogMessage($"Could not find a project called '{projectName}' to exclude", LogLevel.Warning);
+                    consoleOut.LogMessage($"Could not find a project called '{projectName}' to exclude", LogLevel.Warning);
             }
 
             var pInfo = projFilePaths
@@ -72,7 +72,7 @@ namespace MultiProjPackTool.ParseProjects
                     .ToList() ?? new List<ProjectInfo>();
             }
 
-            return new AppStructureInfo(settings.toolSettings.NamespacePrefix, pInfo, writeToConsoleOut);
+            return new AppStructureInfo(settings.toolSettings.NamespacePrefix, pInfo, consoleOut);
         }
 
         private static T DeserializeToObject<T>(this string filepath) where T : class

@@ -5,13 +5,13 @@
   <nugetSettings>
     <id>BookApp.Books</id>
     <version>1.0.0-preview001</version>
-    <authors>The authors</authors>
-    <description>description of this NuGet package</description>
-    <releaseNotes>what is changed in this release</releaseNotes>
+    <authors>you must give a list of author(s)</authors>
+    <description>you must provide a description of the NuGet</description>
+    <releaseNotes>optional: what is changed in this release?</releaseNotes>
   </nugetSettings>
   <toolSettings>
-    <NamespacePrefix>BookApp.Books</NamespacePrefix> <!-- This used used to find projects with names starting with this. If null then uses NuGet id -->
-    <ExcludeProjects>Test</ExcludeProjects> <!-- excludes named projects (comma separated). Assumes NamespacePrefix is prefixed to every name -->
-    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo> <!-- worth filling in with your local NuGet Package Source folder. See docs about this -->
+    <NamespacePrefix></NamespacePrefix> <!-- This used used to find projects with names starting with this. If null then uses NuGet id -->
+    <ExcludeProjects></ExcludeProjects> <!-- excludes named projects (comma separated). Assumes NamespacePrefix is prefixed to every name -->
+    <CopyNuGetTo></CopyNuGetTo> <!-- worth filling in with your local NuGet Package Source folder. See docs about using {USERPROFILE} in string -->
   </toolSettings>
 </allsettings>

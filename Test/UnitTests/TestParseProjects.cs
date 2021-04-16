@@ -30,7 +30,7 @@ namespace Test.UnitTests
 
             //ATTEMPT
             var dirToScan = "Group1".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new []{ "Group1.Project1", "Group1.Project2", "Group1.Project3" });
@@ -50,7 +50,7 @@ namespace Test.UnitTests
 
             //ATTEMPT
             var dirToScan = "Group1".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group1.Project2" });
@@ -70,7 +70,7 @@ namespace Test.UnitTests
 
             //ATTEMPT
             var dirToScan = "Group1".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group1.Project2", "Group1.Project3" });
@@ -87,7 +87,7 @@ namespace Test.UnitTests
 
             //ATTEMPT
             var dirToScan = "Group2".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group2.Project1", "Group2.Project2" });

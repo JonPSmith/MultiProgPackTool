@@ -63,7 +63,7 @@ namespace MultiProjPackTool.NuspecBuilder
                 var dllPath = pathToDir + $"{x.ProjectName}.dll";
 
                 if (!File.Exists(dllPath))
-                    _consoleOut.LogMessage($"The project {x.ProjectName} doesn't have a .dll file", LogLevel.Error);
+                    _consoleOut.LogMessage($"The project {x.ProjectName} doesn't have a .dll file", LogLevel.Warning);
 
                 var result = new List<packageFile>
                 {

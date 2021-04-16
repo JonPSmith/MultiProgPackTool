@@ -23,7 +23,7 @@ namespace MultiProjPackTool.ProcessHandler
             _consoleOut = consoleOut;
         }
 
-        public void RunPackEct(string currentDirectory, AppStructureInfo appInfo)
+        public void RunPackAnyCopy(string currentDirectory, AppStructureInfo appInfo)
         {
             var process = new Process();
             var startInfo = new ProcessStartInfo
@@ -55,16 +55,14 @@ namespace MultiProjPackTool.ProcessHandler
                 }
             }
 
-            _consoleOut.OutputErrorIfAnyWarnings();
-
-            if (_argsDecoded.UpdateNuGetCache)
+            if (_argsDecoded.UpdateNuGetCache && _consoleOut.NumWarnings == 0)
             {
                 //Replace the over all the dlls to the 
 
                 var pathToNuGetFolderInCache = Path.Combine(_settings.toolSettings.NuGetCachePath, _settings.metadata.id.ToLower(), _settings.metadata.version);
                 //Check that the NuGet is there 
                 if (!Directory.Exists(pathToNuGetFolderInCache))
-                    _consoleOut.LogMessage("Could not update NuGet as not in the cache. Have you added it yet?.", LogLevel.Warning);
+                    _consoleOut.LogMessage("Could not update NuGet as not in the cache. Have you added it yet?.", LogLevel.Error);
                 else
                 {
                     foreach (var projectInfo in appInfo.AllProjects)

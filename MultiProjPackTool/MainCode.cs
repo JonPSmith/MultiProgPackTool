@@ -32,7 +32,7 @@ namespace MultiProjPackTool
             //stop if any warnings
             _writeToConsoleOut.OutputErrorIfAnyWarnings();
 
-            var appInfo = currentDirectory.ParseModularMonolithApp(settings, _writeToConsoleOut);
+            var appInfo = currentDirectory.ScanForProjects(settings, _writeToConsoleOut);
 
             //stop if any warnings
             _writeToConsoleOut.OutputErrorIfAnyWarnings();
@@ -47,7 +47,7 @@ namespace MultiProjPackTool
             if (!settings.toolSettings.NoAutoPack)
             {
                 var processRunner = new RunProcess(settings, argsDecoded, _writeToConsoleOut);
-                processRunner.RunPackEct(currentDirectory, appInfo);
+                processRunner.RunPackAnyCopy(currentDirectory, appInfo);
             }
         }
     }

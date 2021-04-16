@@ -33,7 +33,7 @@ namespace Test.UnitTests
             var dirToScan = "Group1".GetPathToTestProjectGroups();
             dirToScan.EnsureNuspecFileDeleted();
 
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             //ATTEMPT
@@ -54,7 +54,7 @@ namespace Test.UnitTests
             var dirToScan = "Group1".GetPathToTestProjectGroups();
             dirToScan.EnsureNuspecFileDeleted();
 
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             //ATTEMPT
@@ -80,7 +80,7 @@ namespace Test.UnitTests
             settings.toolSettings.NamespacePrefix = "Group1";
             dirToScan.EnsureNuspecFileDeleted();
 
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             settings.toolSettings.AddSymbols = "Debug";
@@ -90,6 +90,7 @@ namespace Test.UnitTests
             builder.BuildNuspecFile(dirToScan);
 
             //VERIFY
+            stubWriter.NumWarnings.ShouldEqual(0);
             dirToScan.NuspecFileExists().ShouldBeTrue();
         }
 
@@ -103,7 +104,7 @@ namespace Test.UnitTests
             var dirToScan = "Group2".GetPathToTestProjectGroups();
             dirToScan.EnsureNuspecFileDeleted();
 
-            var appInfo = dirToScan.ParseModularMonolithApp(settings, stubWriter);
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
             var argsDecoded = new ArgsDecoded(new[] { "D" }, stubWriter);
 
             //ATTEMPT
