@@ -2,9 +2,11 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>BookApp.Books</id>
-    <version>1.0.0-preview001</version>
-    <authors>The authors</authors>
-    <description>description of this NuGet package</description>
+    <version>1.0.1-preview002</version>
+    <releaseNotes>Now BookApp.Books namespace</releaseNotes>
+    <authors>Jon P Smith</authors>
+    <owners>Selective Analytics</owners>
+    <description>Books bounded context in the example evolving Modular Monolith series</description>
     <dependencies>
       <group targetFramework="net5.0">
         <dependency id="Microsoft.Extensions.Logging" version="5.0.0" />
