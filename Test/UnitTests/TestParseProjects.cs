@@ -1,10 +1,12 @@
 ﻿// Copyright (c) 2021 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
+using System.IO;
 using System.Linq;
 using MultiProjPackTool.ParseProjects;
 using Test.Helpers;
 using Test.Stubs;
+using TestSupport.Helpers;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Extensions.AssertExtensions;
@@ -29,8 +31,8 @@ namespace Test.UnitTests
             settings.toolSettings.NamespacePrefix = "Group1";
 
             //ATTEMPT
-            var dirToScan = "Group1".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
+            var pathToProjects = Path.GetFullPath(Path.Combine(TestData.GetCallingAssemblyTopLevelDir() + "\\..\\"));
+            var appInfo = pathToProjects.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new []{ "Group1.Project1", "Group1.Project2", "Group1.Project3" });
@@ -49,8 +51,8 @@ namespace Test.UnitTests
             settings.toolSettings.ExcludeProjects = "Project1,Project3";
 
             //ATTEMPT
-            var dirToScan = "Group1".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
+            var pathToProjects = Path.GetFullPath(Path.Combine(TestData.GetCallingAssemblyTopLevelDir() + $"\\..\\"));
+            var appInfo = pathToProjects.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group1.Project2" });
@@ -69,8 +71,8 @@ namespace Test.UnitTests
             settings.toolSettings.ExcludeProjects = "Project1,BAD";
 
             //ATTEMPT
-            var dirToScan = "Group1".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
+            var pathToProjects = Path.GetFullPath(Path.Combine(TestData.GetCallingAssemblyTopLevelDir() + $"\\..\\"));
+            var appInfo = pathToProjects.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group1.Project2", "Group1.Project3" });
@@ -86,8 +88,8 @@ namespace Test.UnitTests
             settings.toolSettings.NamespacePrefix = "Group2";
 
             //ATTEMPT
-            var dirToScan = "Group2".GetPathToTestProjectGroups();
-            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
+            var pathToProjects = "Group2".GetPathToTestProjectGroups();
+            var appInfo = pathToProjects.ScanForProjects(settings, stubWriter);
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group2.Project1", "Group2.Project2" });

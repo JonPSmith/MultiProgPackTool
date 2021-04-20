@@ -10,7 +10,7 @@ namespace Test.Helpers
     {
         public static string GetPathToTestProjectGroups(this string groupDirName)
         {
-            return Path.GetFullPath(Path.Combine(TestData.GetCallingAssemblyTopLevelDir() + $"\\..\\{groupDirName}\\"));
+            return Path.GetFullPath(Path.Combine(TestData.GetCallingAssemblyTopLevelDir() + $"\\..\\"));
         }
     }
 }

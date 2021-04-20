@@ -15,7 +15,7 @@ namespace MultiProjPackTool.ParseProjects
         public static AppStructureInfo ScanForProjects(this string directoryToScan, allsettings settings, IWriteToConsole consoleOut)
         {
             var projFilePaths = Directory.GetDirectories(directoryToScan)
-                    .Where(dir => Path.GetFileNameWithoutExtension(dir).StartsWith(settings.toolSettings.NamespacePrefix))
+                    .Where(dir => Path.GetFileName(dir).StartsWith(settings.toolSettings.NamespacePrefix))
                     .SelectMany(dir =>
                 Directory.GetFiles(dir, "*.csproj")).ToList();
 

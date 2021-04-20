@@ -6,16 +6,15 @@
     <authors>The authors</authors>
     <description>description of this NuGet package</description>
     <dependencies>
-      <group targetFramework="netstandard2.1">
-        <dependency id="Newtonsoft.Json" version="13.0.1" />
-      </group>
       <group targetFramework="net5.0">
         <dependency id="Microsoft.Extensions.Logging" version="5.0.0" />
+        <dependency id="Newtonsoft.Json" version="13.0.1" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group2\Group2.Project1\bin\Debug\netstandard2.1\Group2.Project1.dll" target="lib\netstandard2.1" />
-    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group2\Group2.Project2\bin\Debug\net5.0\Group2.Project2.dll" target="lib\net5.0" />
+    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1.Project1\bin\Debug\net5.0\Group1.Project1.dll" target="lib\net5.0" />
+    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1.Project2\bin\Debug\net5.0\Group1.Project2.dll" target="lib\net5.0" />
+    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1.Project3\bin\Debug\net5.0\Group1.Project3.dll" target="lib\net5.0" />
   </files>
 </package>
