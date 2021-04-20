@@ -14,10 +14,7 @@
   </metadata>
   <files>
     <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1\Group1.Project1\bin\Debug\net5.0\Group1.Project1.dll" target="lib\net5.0" />
-    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1\Group1.Project1\bin\Debug\net5.0\Group1.Project1.pdb" target="lib\net5.0" />
     <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1\Group1.Project2\bin\Debug\net5.0\Group1.Project2.dll" target="lib\net5.0" />
-    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1\Group1.Project2\bin\Debug\net5.0\Group1.Project2.pdb" target="lib\net5.0" />
     <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1\Group1.Project3\bin\Debug\net5.0\Group1.Project3.dll" target="lib\net5.0" />
-    <file src="C:\Users\JonPSmith\source\repos\MultiProgPackTool\Group1\Group1.Project3\bin\Debug\net5.0\Group1.Project3.pdb" target="lib\net5.0" />
   </files>
 </package>

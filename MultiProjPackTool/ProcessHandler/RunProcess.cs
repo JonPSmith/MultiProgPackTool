@@ -23,12 +23,19 @@ namespace MultiProjPackTool.ProcessHandler
             _consoleOut = consoleOut;
         }
 
+        //Once you have build the NuSpecs you run then with the following commands 
+        // DEBUG:   dotnet pack -p:NuspecFile=CreateNuGetDebug.nuspec
+        // RELEASE: dotnet pack -c Release -p:NuspecFile=CreateNuGetRelease.nuspec
+        //
+        // With new symbols: dotnet pack -p:NuspecFile=CreateNuGetDebug.nuspec --include-symbols
+
         public void RunPackAnyCopy(string currentDirectory, AppStructureInfo appInfo)
         {
             var process = new Process();
             var startInfo = new ProcessStartInfo
             {
                 FileName = "dotnet.exe",
+                RedirectStandardError = true,
                 Arguments = FormPackCommand(currentDirectory),
                 WorkingDirectory = currentDirectory
             };

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<allsettings>
+  <metadata>
+    <id>BookApp.Books</id>
+    <version>1.0.0-preview001</version>
+    <authors>The authors</authors>
+    <description>description of this NuGet package</description>
+  </metadata>
+</allsettings>

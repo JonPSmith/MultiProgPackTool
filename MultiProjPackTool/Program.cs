@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using MultiProjPackTool.HelperExtensions;
 
 namespace MultiProjPackTool
 {
@@ -13,7 +14,9 @@ namespace MultiProjPackTool
             //see https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration#configure-console-apps
             using var host = CreateHostBuilder(args).Build();
 
-            var main = new MainCode(_configurationRoot);
+            var consoleOut = new WriteToConsole();
+
+            var main = new MainCode(_configurationRoot, consoleOut);
             main.BuildNuGet(args, Environment.CurrentDirectory);
 
         }
