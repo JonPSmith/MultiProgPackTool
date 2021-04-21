@@ -6,4 +6,8 @@
     <authors>The authors</authors>
     <description>description of this NuGet package</description>
   </metadata>
+  <toolSettings>
+    <NamespacePrefix>Group1.</NamespacePrefix> <!-- This used used to find projects with names starting with this. If null then uses NuGet id -->
+    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo>>
+  </toolSettings>
 </allsettings>

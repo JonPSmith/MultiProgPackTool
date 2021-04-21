@@ -28,7 +28,7 @@ namespace Test.UnitTests
             var stubWriter = new StubWriteToConsole(_output);
             var mainCode = new MainCode(SettingHelpers.GetTestConfiguration(), stubWriter);
 
-            var pathToProjects = Path.GetFullPath(Path.Combine(TestData.GetCallingAssemblyTopLevelDir(), "..\\"));
+            var pathToProjects = Path.GetFullPath(Path.Combine(TestData.GetCallingAssemblyTopLevelDir(), "..\\MultiProjectPackTool\\"));
             var args = new[] {"D", "-t:NamespacePrefix=Group1." };
 
             //ATTEMPT

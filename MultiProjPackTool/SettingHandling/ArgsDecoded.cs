@@ -161,7 +161,7 @@ namespace MultiProjPackTool.SettingHandling
 
         private ToolActions DecideWhatToDo(string[] args)
         {
-            foreach (var toolEnum in Enum.GetValues<ToolActions>())
+            foreach (var toolEnum in (ToolActions[])Enum.GetValues(typeof(ToolActions)))
             {
                 var displayAtt = typeof(ToolActions).GetMember(toolEnum.ToString())[0]
                     .GetCustomAttribute<DisplayAttribute>();

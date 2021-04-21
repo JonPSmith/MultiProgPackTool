@@ -31,12 +31,12 @@ namespace MultiProjPackTool.SettingHandling
             new SetCheckSetting(false)
             {
                 PropertyName = "LogLevel", EnumNames = typeof(LogLevel),
-                GetDefaultValue = (_,_) => LogLevel.Information.ToString()
+                GetDefaultValue = (x,y) => LogLevel.Information.ToString()
             },
             new SetCheckSetting(false)
             {
                 PropertyName = "AddSymbols", EnumNames = typeof(AddSymbolsTypes),
-                GetDefaultValue = (_,_) => AddSymbolsTypes.None.ToString()
+                GetDefaultValue = (x,y) => AddSymbolsTypes.None.ToString()
             },
             new SetCheckSetting(false)
             {
