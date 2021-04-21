@@ -2,9 +2,9 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>BookApp.Books</id>
-    <version>1.0.0-preview001</version>
+    <version>1.0.0-preview002</version>
     <authors>The authors</authors>
-    <description>At the outer solution folder level</description>
+    <description>Inside the MultiProjPackTool project</description>
     <dependencies>
       <group targetFramework="net5.0">
         <dependency id="Microsoft.Extensions.Logging" version="5.0.0" />
