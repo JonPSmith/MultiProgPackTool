@@ -10,8 +10,11 @@
     <releaseNotes>optional: what is changed in this release?</releaseNotes>
   </nugetSettings>
   <toolSettings>
-    <NamespacePrefix></NamespacePrefix> <!-- This used used to find projects with names starting with this. If null then uses NuGet id -->
-    <ExcludeProjects></ExcludeProjects> <!-- excludes named projects (comma separated). Assumes NamespacePrefix is prefixed to every name -->
-    <CopyNuGetTo></CopyNuGetTo> <!-- worth filling in with your local NuGet Package Source folder. See docs about using {USERPROFILE} in string -->
+    <!-- This is used to find projects with names starting with this. If null then uses NuGet id -->
+    <NamespacePrefix></NamespacePrefix>
+    <!-- excludes named projects (comma separated), e.g. "Test" would exclude a project starting with "BookApp.Books.Test" -->
+    <ExcludeProjects></ExcludeProjects>
+    <!-- worth filling in with your local NuGet Package Source folder. See docs about using {USERPROFILE} in string -->
+    <CopyNuGetTo></CopyNuGetTo> 
   </toolSettings>
 </allsettings>

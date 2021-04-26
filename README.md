@@ -32,10 +32,10 @@ The `MultiProjPack` tool is what is known as a [.NET tool](https://docs.microsof
 ### 1. Install the `MultiProjPack` tool
 
 ```console
-dotnet tool install -g JonPSmith.MultiProjPack
+dotnet tool install JonPSmith.MultiProjPack --global
 ```
 
-*NOTE: To update the `MultiProjPack` .NET tool you need to run the command `dotnet tool update JonPSmith.MultiProjPack --global`.*
+*NOTE: To update the `MultiProjPack` .NET tool you need to run the command `dotnet tool update JonPSmith.MultiProjPack --global`. Or to uninstall this tool you should use `dotnet tool uninstall JonPSmith.MultiProjPack –global` command*
 
 ### 2. Organize the your code by namespaces
 
