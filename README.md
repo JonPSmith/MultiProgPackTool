@@ -182,6 +182,8 @@ This can be useful if you want to hand-edit the created .nuspec file before you 
 
 The U(pdate) command will replace all the `.dll`s/etc. files in the NuGet cache in the computer you are developing on. It uses the environment variables to get the default path to the NuGet cache (Windows/Linux/Mac). But if your system has a different path, then you should set this value.
 
+*NOTE: THis does NOT use the `NUGET_PACKAGES` enviroment value. If you have changes the default cache path, then you must set this setting.*
+
 ## 2. The `MultiProjPack` tool options
 
 ### Help: i.e. `-h | --help`

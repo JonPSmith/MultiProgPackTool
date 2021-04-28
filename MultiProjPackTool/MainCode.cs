@@ -1,11 +1,11 @@
 ﻿// Copyright (c) 2021 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
+using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
-using MultiProjPackTool.NuspecBuilder;
 using MultiProjPackTool.ParseProjects;
 using MultiProjPackTool.ProcessHandler;
 using MultiProjPackTool.SettingHandling;
@@ -26,6 +26,13 @@ namespace MultiProjPackTool
 
         public void BuildNuGet(string[] args, string currentDirectory)
         {
+#if DEBUG
+            //This allows me to run the console app using F5
+            ProjectHelpers.FixDirWhenRunningInDebugMode(ref currentDirectory);
+#endif
+
+            CheckFolderHasProject(currentDirectory);
+
             var argsDecoded = new ArgsDecoded(args, currentDirectory, _consoleOut);
 
             if (argsDecoded.WhatAction != ToolActions.CreateNuGet)
@@ -38,7 +45,8 @@ namespace MultiProjPackTool
             //stop if any warnings
             _consoleOut.OutputErrorIfAnyWarnings();
 
-            var appInfo = currentDirectory.ScanForProjects(settings, _consoleOut);
+            var upOneLevel = Path.GetFullPath(Path.Combine(currentDirectory + "\\..\\"));
+            var appInfo = upOneLevel.ScanForProjects(settings, _consoleOut);
 
             //stop if any warnings
             _consoleOut.OutputErrorIfAnyWarnings();
@@ -58,6 +66,12 @@ namespace MultiProjPackTool
                 var processRunner = new RunProcess(settings, argsDecoded, _consoleOut);
                 processRunner.RunPackAnyCopy(currentDirectory, appInfo);
             }
+        }
+
+        private void CheckFolderHasProject(string currentDirectory)
+        {
+            if (!Directory.GetFiles(currentDirectory).Any(x => x.EndsWith(".csproj")))
+                _consoleOut.LogMessage("You need to run this tool in a folder containing a .csproj file", LogLevel.Error);
         }
     }
 }

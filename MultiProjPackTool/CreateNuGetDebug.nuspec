@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>BookApp.Books</id>
-    <version>1.0.0-preview002</version>
-    <authors>The authors</authors>
-    <description>Inside the MultiProjPackTool project</description>
+    <id>Group1.Test</id>
+    <version>1.0.0-preview001</version>
+    <authors>you must give a list of author(s)</authors>
+    <description>you must provide a description of the NuGet</description>
+    <releaseNotes>optional: what is changed in this release?</releaseNotes>
     <dependencies>
       <group targetFramework="net5.0">
         <dependency id="Microsoft.Extensions.Logging" version="5.0.0" />

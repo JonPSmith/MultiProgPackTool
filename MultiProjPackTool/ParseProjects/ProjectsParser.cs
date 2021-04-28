@@ -23,19 +23,22 @@ namespace MultiProjPackTool.ParseProjects
                 .ForEach(path => consoleOut.LogMessage(
                     $"the project {Path.GetFileName(path)} isn't in a folder of the same name", LogLevel.Warning));
 
-            var excludedProjectNames = settings.toolSettings.ExcludeProjects?.Split(',')
-                .Select(x => $"{settings.toolSettings.NamespacePrefix}.{x.Trim()}").ToList() ?? new List<string>();
-            foreach (var projectName in excludedProjectNames)
+            if (!string.IsNullOrEmpty(settings.toolSettings.ExcludeProjects))
             {
-                var excludedPath =
-                    projFilePaths.SingleOrDefault(x => Path.GetFileNameWithoutExtension(x) == projectName);
-                if (excludedPath != null)
+                var excludedProjectNames = settings.toolSettings.ExcludeProjects.Split(',')
+                    .Select(x => $"{settings.toolSettings.NamespacePrefix}.{x.Trim()}").ToList() ?? new List<string>();
+                foreach (var projectName in excludedProjectNames)
                 {
-                    projFilePaths.Remove(excludedPath);
-                    consoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
+                    var excludedPath =
+                        projFilePaths.SingleOrDefault(x => Path.GetFileNameWithoutExtension(x) == projectName);
+                    if (excludedPath != null)
+                    {
+                        projFilePaths.Remove(excludedPath);
+                        consoleOut.LogMessage($"Excluded project '{projectName}'", LogLevel.Information);
+                    }
+                    else
+                        consoleOut.LogMessage($"Could not find a project called '{projectName}' to exclude", LogLevel.Warning);
                 }
-                else
-                    consoleOut.LogMessage($"Could not find a project called '{projectName}' to exclude", LogLevel.Warning);
             }
 
             var pInfo = projFilePaths

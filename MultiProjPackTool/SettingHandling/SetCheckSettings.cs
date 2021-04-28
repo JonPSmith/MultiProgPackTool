@@ -69,7 +69,7 @@ namespace MultiProjPackTool.SettingHandling
 
             //special case: handling {USERPROFILE}
             var copyNuGetTo = settings.GetSetting(false, CopyNuGetToVariableName);
-            if (copyNuGetTo?.StartsWith("{USERPROFILE}") == true)
+            if (!string.IsNullOrEmpty(copyNuGetTo) && copyNuGetTo.StartsWith("{USERPROFILE}"))
             {
                 var updatedValue = copyNuGetTo.Replace("{USERPROFILE}", configuration["USERPROFILE"]);
                 settings.SetSetting(false, "CopyNuGetTo", updatedValue);
@@ -91,8 +91,8 @@ namespace MultiProjPackTool.SettingHandling
             }
 
             var existingValue = settings.GetSetting(InNuGetSettings, PropertyName);
-            if (existingValue == null)
-            {
+            if (string.IsNullOrEmpty(existingValue))
+            { 
                 if (GetDefaultValue == null)
                     return $"The setting <{PropertyName}> in {SettingSection()} must be set to a value";
 
