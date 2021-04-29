@@ -12,7 +12,7 @@ using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool
 {
-    //Commands to install update and uninstall
+    //Commands to install update and uninstall locally
     //To install:   dotnet tool install JonPSmith.MultiProjPack -g --add-source C:\Users\JonPSmith\source\repos\MultiProgPackTool\MultiProjPackTool\nupkg  
     //To update:    dotnet tool update  JonPSmith.MultiProjPack -g --add-source C:\Users\JonPSmith\source\repos\MultiProgPackTool\MultiProjPackTool\nupkg
     //To uninstall: dotnet tool uninstall JonPSmith.MultiProjPack -g
