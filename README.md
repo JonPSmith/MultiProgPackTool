@@ -2,6 +2,8 @@
 
 This `MultiProjPack` tool is designed to turn a significant section of code from an application into NuGet package. This allows you to break up a large application into sub-application based on the Domain-Driven Design (DDD)'s [bounded context](https://martinfowler.com/bliki/BoundedContext.html) approach, and turn them into NuGet packages.
 
+This tool will scan your code to create a .nuspec file, which it will then use to create a NuGet package containing multiple projects. It has a number of features than improve the development process by using a local NuGet package source.
+
 *NOTE: I cover this bounded context sub-application approach in [part 2 of my evolving modular monolith](#) series.*
 
 This modular approach has three benefits:

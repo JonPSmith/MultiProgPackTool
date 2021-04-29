@@ -21,7 +21,7 @@
     <Authors>Jon P Smith</Authors>
     <PackageId>JonPSmith.MultiProjPack</PackageId>
     <Product>JonPSmith.MultiProjPack</Product>
-    <Description>A tool to combine mutiple projects with a similar starting name</Description>
+    <Description>A tool to combine mutiple projects with a similar starting name. Used with mondular monolith design</Description>
     <Copyright>Copyright (c) 2021 Jon P Smith</Copyright>
     <PackageProjectUrl>https://github.com/JonPSmith/MultiProgPackTool</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JonPSmith/MultiProgPackTool</RepositoryUrl>
