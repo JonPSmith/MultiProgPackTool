@@ -69,7 +69,7 @@ namespace MultiProjPackTool.NuspecBuilder
                 {
                     new packageFile
                     {
-                        src = dllPath,
+                        src = dllPath.GoUpOneLevelUsingRelativePath(currentDirectory),
                         target = $"lib\\{x.TargetFramework}"
                     }
                 };
@@ -79,7 +79,7 @@ namespace MultiProjPackTool.NuspecBuilder
                 {
                     result.Add(new packageFile
                     {
-                        src = xmlPath,
+                        src = xmlPath.GoUpOneLevelUsingRelativePath(currentDirectory),
                         target = $"lib\\{x.TargetFramework}"
                     });
                     _consoleOut.LogMessage($"Added {x.ProjectName}.xml file to NuGet files", LogLevel.Debug);
@@ -94,7 +94,7 @@ namespace MultiProjPackTool.NuspecBuilder
                     {
                         result.Add(new packageFile
                         {
-                            src = pathToDir + $"{x.ProjectName}.pdb",
+                            src = pathToDir.GoUpOneLevelUsingRelativePath(currentDirectory) + $"{x.ProjectName}.pdb",
                             target = $"lib\\{x.TargetFramework}"
                         });
                     }

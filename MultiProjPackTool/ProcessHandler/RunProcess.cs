@@ -3,7 +3,6 @@
 
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 using MultiProjPackTool.ParseProjects;
@@ -13,6 +12,8 @@ namespace MultiProjPackTool.ProcessHandler
 {
     public class RunProcess
     {
+        private const string SubDirectoryWhereNuspecIsIn = "./nupkg";
+
         private readonly allsettings _settings;
         private readonly ArgsDecoded _argsDecoded;
         private readonly IWriteToConsole _consoleOut;
@@ -49,13 +50,13 @@ namespace MultiProjPackTool.ProcessHandler
                 _consoleOut.LogMessage("dotnet pack failed", LogLevel.Error);
             }
             _consoleOut.LogMessage("Finished dotnet pack...", LogLevel.Information);
-            var nuGetToPath = Path.Combine(_settings.toolSettings.CopyNuGetTo, _settings.toolSettings.CopyNuGetTo + ".nupkg");
+            var nuGetFromPath = Path.Combine(currentDirectory, SubDirectoryWhereNuspecIsIn, _settings.FormNupkgFilename());
             if (!string.IsNullOrEmpty(_settings.toolSettings.CopyNuGetTo))
             {
-                var nuGetFromPath = Path.Combine(currentDirectory, _argsDecoded.NuspecFilename + ".nupkg");
+                var nuGetToPath = Path.Combine(_settings.toolSettings.CopyNuGetTo, _settings.FormNupkgFilename());
                 var fileIsOverwritten = File.Exists(nuGetToPath);
                 if (fileIsOverwritten && !_argsDecoded.UpdateNuGetCache)
-                    _consoleOut.LogMessage("NuGet package NOT copied local NuGet server because package with that version already exists.", LogLevel.Warning);
+                    _consoleOut.LogMessage("NuGet package NOT copied to local NuGet server because package with that version already exists.", LogLevel.Warning);
                 else
                 {
                     File.Copy(nuGetFromPath, nuGetToPath, true);
@@ -70,11 +71,11 @@ namespace MultiProjPackTool.ProcessHandler
                 var pathToNuGetFolderInCache = Path.Combine(_settings.toolSettings.NuGetCachePath, _settings.metadata.id.ToLower(), _settings.metadata.version);
                 //Check that the NuGet is there 
                 if (!Directory.Exists(pathToNuGetFolderInCache))
-                    _consoleOut.LogMessage("Could not update NuGet as not in the cache. Have you added it yet?", LogLevel.Error);
+                    _consoleOut.LogMessage("Could not update NuGet as not in the cache. Have you added it yet?.", LogLevel.Error);
                 else
                 {
                     //Copy the actual .nupkg to the cache
-                    File.Copy(nuGetToPath, Path.Combine(pathToNuGetFolderInCache, Path.GetFileName(nuGetToPath)), true);
+                    File.Copy(nuGetFromPath, Path.Combine(pathToNuGetFolderInCache, Path.GetFileName(nuGetFromPath)), true);
 
                     //Now copy over all the .dlls
                     foreach (var projectInfo in appInfo.AllProjects)
@@ -103,8 +104,8 @@ namespace MultiProjPackTool.ProcessHandler
         private string FormPackCommand(string currentDirectory)
         {
             var command = _argsDecoded.DebugMode
-                ? $"pack -p:NuspecFile=CreateNuGetDebug.nuspec -o {currentDirectory}"
-                : $"pack -c Release -p:NuspecFile=CreateNuGetRelease.nuspec -o {currentDirectory}";
+                ? $"pack -p:NuspecFile=CreateNuGetDebug.nuspec -v q -o {SubDirectoryWhereNuspecIsIn}"
+                : $"pack -c Release -p:NuspecFile=CreateNuGetRelease.nuspec -v q -o {SubDirectoryWhereNuspecIsIn}";
 
             //command += " --no-build";
             if (_argsDecoded.ShouldAddSymbols(_settings))

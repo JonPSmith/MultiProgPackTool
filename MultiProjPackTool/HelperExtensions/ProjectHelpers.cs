@@ -19,6 +19,20 @@ namespace MultiProjPackTool.HelperExtensions
             return result;
         }
 
+        //Thanks to https://stackoverflow.com/questions/13266756/absolute-to-relative-path
+        public static string TurnAbsolutePathToRelativePath(this string absolutePath, string currentDirectory)
+        {
+            var fileUri = new Uri(absolutePath);
+            var referenceUri = new Uri(currentDirectory);
+            return Uri.UnescapeDataString(referenceUri.MakeRelativeUri(fileUri).ToString())
+                .Replace('/', Path.DirectorySeparatorChar);
+        }
+
+        public static string GoUpOneLevelUsingRelativePath(this string absolutePath, string currentDirectory)
+        {
+            return "..\\" + absolutePath.TurnAbsolutePathToRelativePath(currentDirectory);
+        }
+
         public static void FixDirWhenRunningInDebugMode(ref string currentDirectory)
         {
             var indexOfPart = currentDirectory.IndexOf(BinDir, StringComparison.OrdinalIgnoreCase);

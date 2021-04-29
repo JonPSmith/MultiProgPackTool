@@ -12,11 +12,17 @@ using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool
 {
+    //Commands to install update and uninstall
+    //To install:   dotnet tool install JonPSmith.MultiProjPack -g --add-source C:\Users\JonPSmith\source\repos\MultiProgPackTool\MultiProjPackTool\nupkg  
+    //To update:    dotnet tool update  JonPSmith.MultiProjPack -g --add-source C:\Users\JonPSmith\source\repos\MultiProgPackTool\MultiProjPackTool\nupkg
+    //To uninstall: dotnet tool uninstall JonPSmith.MultiProjPack -g
+    //
+    //NOTE: if is a preview you must the following on the end: --version 1.0.0-preview001
+
     public class MainCode
     {
         private readonly IConfiguration _configuration;
         private readonly IWriteToConsole _consoleOut;
-
 
         public MainCode(IConfiguration configuration, IWriteToConsole consoleOut)
         {

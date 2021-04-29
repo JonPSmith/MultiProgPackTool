@@ -15,6 +15,6 @@
     <!-- excludes named projects (comma separated), e.g. "Test" would exclude a project starting with "BookApp.Books.Test" -->
     <ExcludeProjects></ExcludeProjects>
     <!-- worth filling in with your local NuGet Package Source folder. See docs about using {USERPROFILE} in string -->
-    <CopyNuGetTo></CopyNuGetTo> 
+    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo> 
   </toolSettings>
 </allsettings>
