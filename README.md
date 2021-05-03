@@ -4,6 +4,8 @@ This `MultiProjPack` tool is designed to turn a significant section of code from
 
 This tool will scan your code to create a .nuspec file, which it will then use to create a NuGet package containing multiple projects. The tool also has a number of features than improve the development process by using a local NuGet package source.
 
+It uses `netcoreapp3.1` and it 
+
 *NOTE: I cover this bounded context sub-application approach in [part 2 of my evolving modular monolith](#) series.*
 
 This modular approach has three benefits:

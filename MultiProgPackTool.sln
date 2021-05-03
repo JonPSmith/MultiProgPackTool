@@ -9,19 +9,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiProjPackTool", "MultiP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2772204F-713F-454C-98B8-3AFA17E08365}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
 		README.md = README.md
 		ReleaseNotes.md = ReleaseNotes.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group1.Project1", "Group1.Project1\Group1.Project1.csproj", "{D52CD6A2-BA2F-424B-ADB5-907DBB6670E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group1.Project1", "Group1.Project1\Group1.Project1.csproj", "{D52CD6A2-BA2F-424B-ADB5-907DBB6670E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group1.Project2", "Group1.Project2\Group1.Project2.csproj", "{DE7D82D5-ADC0-42CD-9841-72CAEE6BAF7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group1.Project2", "Group1.Project2\Group1.Project2.csproj", "{DE7D82D5-ADC0-42CD-9841-72CAEE6BAF7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group1.Project3", "Group1.Project3\Group1.Project3.csproj", "{96E0697F-A13A-4F0C-A185-2B8020F7FAAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group1.Project3", "Group1.Project3\Group1.Project3.csproj", "{96E0697F-A13A-4F0C-A185-2B8020F7FAAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group2.Project1", "Group2.Project1\Group2.Project1.csproj", "{9887F47A-52E0-4638-A47F-FBC78D8655DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group2.Project1", "Group2.Project1\Group2.Project1.csproj", "{9887F47A-52E0-4638-A47F-FBC78D8655DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Group2.Project2", "Group2.Project2\Group2.Project2.csproj", "{8EB87006-1953-4743-BB8D-0F93E031A757}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group2.Project2", "Group2.Project2\Group2.Project2.csproj", "{8EB87006-1953-4743-BB8D-0F93E031A757}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

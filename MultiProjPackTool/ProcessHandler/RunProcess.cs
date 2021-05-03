@@ -88,12 +88,16 @@ namespace MultiProjPackTool.ProcessHandler
                             Path.Combine(pathToDir, dllFilename), true);
                         _consoleOut.LogMessage($"Updated {dllFilename} in nuget cache.", LogLevel.Debug);
 
-                        var xmlFilename = projectInfo.ProjectName + ".xml";
-                        if (File.Exists(Path.Combine(pathFromDir, xmlFilename)))
+                        foreach (var fileType in new []{".xml", ".pdb" })
                         {
-                            File.Copy(Path.Combine(pathFromDir, xmlFilename),
-                                Path.Combine(pathToDir, xmlFilename), true);
-                            _consoleOut.LogMessage($"Updated {xmlFilename} in nuget cache.", LogLevel.Debug);
+                            
+                            var filename = projectInfo.ProjectName + fileType;
+                            if (File.Exists(Path.Combine(pathFromDir, filename)))
+                            {
+                                File.Copy(Path.Combine(pathFromDir, filename),
+                                    Path.Combine(pathToDir, filename), true);
+                                _consoleOut.LogMessage($"Updated {filename} in nuget cache.", LogLevel.Debug);
+                            }
                         }
                     }
                     _consoleOut.LogMessage("Have updated .dll files in NugGet cache. Use Rebuild Solution to update.", LogLevel.Information);

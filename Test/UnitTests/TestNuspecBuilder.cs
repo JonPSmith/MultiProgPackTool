@@ -114,5 +114,27 @@ namespace Test.UnitTests
             //VERIFY
             dirToScan.NuspecFileExists().ShouldBeTrue();
         }
+
+        [Fact]
+        public void NuspecBuilder_Group2_WithSymbols()
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole(_output);
+            var settings = SettingHelpers.GetMinimalSettings();
+            settings.toolSettings.NamespacePrefix = "Group2";
+            settings.toolSettings.AddSymbols = "Debug";
+            var dirToScan = "Group2".GetPathToTestProjectGroups();
+            dirToScan.EnsureNuspecFileDeleted();
+
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);
+
+            //ATTEMPT
+            var builder = new NuspecBuilder(settings, argsDecoded, appInfo, stubWriter);
+            builder.BuildNuspecFile(dirToScan);
+
+            //VERIFY
+            dirToScan.NuspecFileExists().ShouldBeTrue();
+        }
     }
 }
