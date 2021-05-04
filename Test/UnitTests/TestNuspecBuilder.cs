@@ -3,6 +3,7 @@
 
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using MultiProjPackTool.NuspecBuilder;
 using MultiProjPackTool.ParseProjects;
 using MultiProjPackTool.SettingHandling;
@@ -64,10 +65,10 @@ namespace Test.UnitTests
             //VERIFY
             dirToScan.NuspecFileExists().ShouldBeTrue();
             var nuspecData = dirToScan.DeserializeNuspecFile();
-            nuspecData.files.Length.ShouldEqual(3);
+            nuspecData.files.Length.ShouldEqual(5);
             nuspecData.files.All(x => x.target == "lib\\net5.0").ShouldBeTrue();
             nuspecData.files.Select(x => x.src.Substring(x.src.Length - "projectx.dll".Length))
-                .ShouldEqual(new[] { "Project1.dll", "Project2.dll", "Project3.dll" });
+                .ShouldEqual(new[] { "Project1.dll", "Project2.dll", "Project2.pdb", "Project3.dll", "Project3.pdb" });
         }
 
         [Fact]
@@ -85,6 +86,10 @@ namespace Test.UnitTests
 
             settings.toolSettings.AddSymbols = "Debug";
 
+            //ensure .pdb file is there
+            var pdbPath = Path.Combine(dirToScan, "Group1.Project1\\bin\\Debug\\net5.0\\Group1.Project1.pdb");
+            File.WriteAllText(pdbPath, "dummy content");
+
             //ATTEMPT
             var builder = new NuspecBuilder(settings, argsDecoded, appInfo, stubWriter);
             builder.BuildNuspecFile(dirToScan);
@@ -92,6 +97,35 @@ namespace Test.UnitTests
             //VERIFY
             stubWriter.NumWarnings.ShouldEqual(0);
             dirToScan.NuspecFileExists().ShouldBeTrue();
+        }
+
+        [Fact]
+        public void NuspecBuilder_Group1_Symbols_MissingSymbol()
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole(_output, false);
+            var settings = SettingHelpers.GetMinimalSettings();
+            var dirToScan = "Group1".GetPathToTestProjectGroups();
+            settings.toolSettings.NamespacePrefix = "Group1";
+            dirToScan.EnsureNuspecFileDeleted();
+
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);
+
+            settings.toolSettings.AddSymbols = "Debug";
+
+            //delete a .pdb file
+            var pdbPath = Path.Combine(dirToScan, "Group1.Project1\\bin\\Debug\\net5.0\\Group1.Project1.pdb");
+            File.Delete(pdbPath);
+
+            //ATTEMPT
+            var builder = new NuspecBuilder(settings, argsDecoded, appInfo, stubWriter);
+            builder.BuildNuspecFile(dirToScan);
+
+            //VERIFY
+            dirToScan.NuspecFileExists().ShouldBeTrue();
+            stubWriter.NumWarnings.ShouldEqual(1);
+            stubWriter.HighestLogLevel.ShouldEqual(LogLevel.Error);
         }
 
         [Fact]
@@ -122,9 +156,10 @@ namespace Test.UnitTests
             var stubWriter = new StubWriteToConsole(_output);
             var settings = SettingHelpers.GetMinimalSettings();
             settings.toolSettings.NamespacePrefix = "Group2";
-            settings.toolSettings.AddSymbols = "Debug";
             var dirToScan = "Group2".GetPathToTestProjectGroups();
             dirToScan.EnsureNuspecFileDeleted();
+
+            settings.toolSettings.AddSymbols = "Debug";
 
             var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
             var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);

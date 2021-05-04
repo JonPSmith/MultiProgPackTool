@@ -2,6 +2,7 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics.Eventing.Reader;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 using Xunit.Abstractions;
@@ -11,16 +12,17 @@ namespace Test.Stubs
     public class StubWriteToConsole : IWriteToConsole
     {
         private readonly ITestOutputHelper _output;
-        private readonly LogLevel _minLevel;
+        private readonly bool _throwExceptionOnErrors;
+        private readonly LogLevel _minLevel = LogLevel.Debug;
 
-        public StubWriteToConsole(ITestOutputHelper output = null, LogLevel minLevel = LogLevel.Debug)
+        public StubWriteToConsole(ITestOutputHelper output = null, bool throwExceptionOnErrors = true)
         {
             _output = output;
-            _minLevel = minLevel;
+            _throwExceptionOnErrors = throwExceptionOnErrors;
         }
 
         public string LastMessage { get; private set; }
-        public LogLevel LastLogLevel { get; private set; }
+        public LogLevel HighestLogLevel { get; private set; }
 
         public LogLevel DefaultLogLevel { get; set; }
         public int NumWarnings { get; private set; }
@@ -35,11 +37,14 @@ namespace Test.Stubs
             if (level == LogLevel.Warning && !warningDoesNotStop)
                 NumWarnings++;
 
+            if (level > HighestLogLevel)
+                HighestLogLevel = level;
+
             if (level >= _minLevel)
                 _output?.WriteLine($"{level}: {message}");
             LastMessage = message;
-            LastLogLevel = level;
-            if (level >= LogLevel.Error)
+
+            if (level >= LogLevel.Error && _throwExceptionOnErrors)
                 throw new Exception("ERROR: " + message);
         }
     }

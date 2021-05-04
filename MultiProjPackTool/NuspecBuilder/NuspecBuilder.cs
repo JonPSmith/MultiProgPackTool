@@ -74,32 +74,26 @@ namespace MultiProjPackTool.NuspecBuilder
                     }
                 };
                 _consoleOut.LogMessage($"Added {x.ProjectName}.dll file to NuGet files", LogLevel.Debug);
-                var xmlPath = pathToDir + $"{x.ProjectName}.xml";
-                if (File.Exists(xmlPath))
-                {
-                    result.Add(new packageFile
-                    {
-                        src = xmlPath.GoUpOneLevelUsingRelativePath(currentDirectory),
-                        target = $"lib\\{x.TargetFramework}"
-                    });
-                    _consoleOut.LogMessage($"Added {x.ProjectName}.xml file to NuGet files", LogLevel.Debug);
-                }
 
-                if (_argsDecoded.ShouldAddSymbols(_settings))
+
+                foreach (var fileType in new[] { ".xml", ".pdb" })
                 {
-                    var pdbPath = pathToDir + $"{x.ProjectName}.pdb";
-                    if (!File.Exists(pdbPath))
-                        _consoleOut.LogMessage($"You asked for symbols by {x.ProjectName} doesn't have a .pdb file", LogLevel.Warning);
-                    else
+                    var filePath = pathToDir + x.ProjectName + fileType;
+                    if (File.Exists(filePath))
                     {
                         result.Add(new packageFile
                         {
-                            src = pathToDir.GoUpOneLevelUsingRelativePath(currentDirectory) + $"{x.ProjectName}.pdb",
+                            src = filePath.GoUpOneLevelUsingRelativePath(currentDirectory),
                             target = $"lib\\{x.TargetFramework}"
                         });
+                        _consoleOut.LogMessage($"Added {x.ProjectName}{fileType} file to NuGet files", LogLevel.Debug);
                     }
-                    _consoleOut.LogMessage($"The project {x.ProjectName} symbols (.pdb) file", LogLevel.Debug);
+                    else if (_argsDecoded.ShouldAddSymbols(_settings) && fileType == ".pdb")
+                    {
+                        _consoleOut.LogMessage($"You asked for symbols but project {x.ProjectName} doesn't have a .pdb file", LogLevel.Warning);
+                    }
                 }
+
                 return result;
 
             }).ToArray();

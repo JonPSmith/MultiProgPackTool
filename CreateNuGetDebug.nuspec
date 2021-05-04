@@ -2,7 +2,7 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>BookApp.Books</id>
-    <version>2.0.0-preview001</version>
+    <version>1.0.0-preview001</version>
     <authors>The authors</authors>
     <description>description of this NuGet package</description>
     <dependencies>
