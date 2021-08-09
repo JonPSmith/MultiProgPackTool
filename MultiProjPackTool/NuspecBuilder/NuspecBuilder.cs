@@ -101,16 +101,14 @@ namespace MultiProjPackTool.NuspecBuilder
             //Now we handle the icon (if there)
             if (_settings.metadata.icon != null)
             {
-                var iconPath = _settings.toolSettings.IconPath == null
-                    ? currentDirectory
-                    : Path.Combine(currentDirectory, _settings.toolSettings.IconPath);
+                var iconFilePath = Path.Combine(currentDirectory, _settings.metadata.icon);
 
                 files.Add(new packageFile
                 {
-                    src = Path.Combine(iconPath, _settings.metadata.icon).GoUpOneLevelUsingRelativePath(currentDirectory),
+                    src = iconFilePath.GoUpOneLevelUsingRelativePath(currentDirectory),
                     target = "images\\"
                 });
-                _consoleOut.LogMessage($"Added icon file to NuGet files", LogLevel.Debug);
+                _consoleOut.LogMessage("Added icon file to NuGet files", LogLevel.Debug);
             }
 
             package.files = files.ToArray();

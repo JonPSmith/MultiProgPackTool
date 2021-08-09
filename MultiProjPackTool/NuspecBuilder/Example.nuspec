@@ -18,7 +18,7 @@
     <releaseNotes>Description of what is changed in this release</releaseNotes>
     <license type="expression">MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
     <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
-    <icon>someicon.png</icon>
+    <icon>images\someicon.png</icon>
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev" commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
     <tags>NuGet ModularMonolith</tags>
     <dependencies>

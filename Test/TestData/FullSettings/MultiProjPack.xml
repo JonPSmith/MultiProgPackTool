@@ -14,7 +14,7 @@
     <!-- Must use id from https://spdx.org/licenses/-->
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
-    <icon>icon.png</icon>
+    <icon>images\icon.png</icon>
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev"
                 commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
     <tags>NuGet ModularMonolith</tags>
@@ -27,6 +27,5 @@
     <AddSymbols>None</AddSymbols>
     <NoAutoPack>false</NoAutoPack>
     <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath>
-    <IconPath>images\</IconPath>
   </toolSettings>
 </allsettings>

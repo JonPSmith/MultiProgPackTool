@@ -405,8 +405,6 @@ public partial class allsettingsToolSettings
 
     private string nuGetCachePathField;
 
-    private string iconPathField;
-
     /// <remarks/>
     public string NamespacePrefix
     {
@@ -495,19 +493,6 @@ public partial class allsettingsToolSettings
         set
         {
             this.nuGetCachePathField = value;
-        }
-    }
-
-    /// <remarks/>
-    public string IconPath
-    {
-        get
-        {
-            return this.iconPathField;
-        }
-        set
-        {
-            this.iconPathField = value;
         }
     }
 }

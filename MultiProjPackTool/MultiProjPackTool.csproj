@@ -13,10 +13,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>1.1.0</PackageVersion>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <PackageVersion>1.1.1</PackageVersion>
+    <Version>1.1.1</Version>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
     <Company>Selective Analytics</Company>
     <Authors>Jon P Smith</Authors>
     <PackageId>JonPSmith.MultiProjPack</PackageId>
@@ -28,7 +28,7 @@
     <RepositoryType>GuHub</RepositoryType>
     <PackageTags>NuGet Architecture</PackageTags>
     <PackageReleaseNotes>
-      - Updated to the new `<icon>someicon.png</icon>` format
+      - Updated to the new `<icon>images\someicon.png</icon>` format
       - Updated to the new `<license type="expression">MIT</license>` format
       - NOTE: does not support `<license type="file">LICENSE.txt</license>` format
     </PackageReleaseNotes>

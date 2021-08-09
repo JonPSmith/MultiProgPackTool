@@ -13,7 +13,7 @@
     <releaseNotes>Description of what is changed in this release</releaseNotes>
     <license type="expression">MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
     <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
-    <icon>icon.png</icon>
+    <icon>images\icon.png</icon>
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev"
                 commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
     <tags>NuGet ModularMonolith</tags>
@@ -26,6 +26,5 @@
     <AddSymbols>None</AddSymbols> <!-- Can be "None", "Debug", "Release" or "Always", if null then is "None" -->
     <NoAutoPack>false</NoAutoPack> <!-- set to true if you don't want the the tool to automatically call "dotnet pack" -->
     <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> <!-- if null then set to default for type of dev computer. If your path is different then set this  -->
-    <IconPath>images\</IconPath> <!-- if null then icon is in the current directory, otherwise defines folder from the current directory -->
   </toolSettings>
 </allsettings>
