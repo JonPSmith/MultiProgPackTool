@@ -44,7 +44,7 @@ namespace MultiProjPackTool.SettingHandling
                 GetDefaultValue = (_,configuration) => configuration["OS"].Contains("Windows")
                     ? $"{configuration["USERPROFILE"]}\\.nuget\\packages"
                     : "~/.nuget/packages"
-    },
+            },
 
         };
 

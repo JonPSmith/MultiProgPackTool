@@ -46,6 +46,36 @@ namespace Test.UnitTests
         }
 
         [Fact]
+        public void NuspecBuilder_Group1_Works_FullSettings()
+        {
+            //SETUP
+            var stubWriter = new StubWriteToConsole(_output);
+            var settings = SettingHelpers.GetFullSettings();
+            settings.toolSettings.NamespacePrefix = "Group1";
+            var dirToScan = "Group1".GetPathToTestProjectGroups();
+            dirToScan.EnsureNuspecFileDeleted();
+
+            var appInfo = dirToScan.ScanForProjects(settings, stubWriter);
+            var argsDecoded = new ArgsDecoded(new[] { "D" }, dirToScan, stubWriter);
+
+            //ATTEMPT
+            var builder = new NuspecBuilder(settings, argsDecoded, appInfo, stubWriter);
+            builder.BuildNuspecFile(dirToScan);
+
+            //VERIFY
+            dirToScan.NuspecFileExists().ShouldBeTrue();
+            var nuspecData = dirToScan.DeserializeNuspecFile();
+            //Check icon
+            nuspecData.files.Single(x => x.target != "lib\\net5.0").src.ShouldEqual("..\\images\\icon.png");
+            nuspecData.files.Single(x => x.target != "lib\\net5.0").target.ShouldEqual("images\\");
+            //Check repository
+            nuspecData.metadata.repository.type.ShouldEqual("git");
+            nuspecData.metadata.repository.url.ShouldEqual("https://github.com/NuGet/NuGet.Client.git");
+            nuspecData.metadata.repository.branch.ShouldEqual("dev");
+            nuspecData.metadata.repository.commit.ShouldEqual("e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3");
+        }
+
+        [Fact]
         public void NuspecBuilder_Group1_CheckNuspec()
         {
             //SETUP

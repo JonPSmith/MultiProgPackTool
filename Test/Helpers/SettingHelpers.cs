@@ -16,6 +16,11 @@ namespace Test.Helpers
             return (TestData.GetTestDataDir() + "\\MinimalSettings\\").SetupSettings(args);
         }
 
+        public static allsettings GetFullSettings(params string[] args)
+        {
+            return (TestData.GetTestDataDir() + "\\FullSettings\\").SetupSettings(args);
+        }
+
         public static allsettings SetupSettings(this string pathToSettings, params string[] args)
         {
             var stubWriter = new StubWriteToConsole();

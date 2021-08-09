@@ -1,10 +1,16 @@
 # `MultiProjPack` Tool
 
-This `MultiProjPack` tool is designed to turn a significant section of code from an application into NuGet package. This allows you to break up a large application into sub-application based on the Domain-Driven Design (DDD)'s [bounded context](https://martinfowler.com/bliki/BoundedContext.html) approach, and turn them into NuGet packages.
+This `MultiProjPack` tool is designed to create a NuGet package that has multiple projects (assemblies) in it. I created this tool because (currently) you can't do that via NuGet settings in a .csproj file. The documenation for this `dotnet tool` are in this README file and the [Release Notes file](https://github.com/JonPSmith/MultiProgPackTool/blob/main/ReleaseNotes.md) tells you what has happened in each version.
+
+This is a open-source project under the MIT licence.
+
+## Why was this dotnet tool created
+
+This was created initially to allow you to break up a large application into sub-application based on the Domain-Driven Design (DDD)'s [bounded context](https://martinfowler.com/bliki/BoundedContext.html) approach, and turn them into NuGet packages.
+
+_NOTE: I have subsequently used this tool to manage other projects that needed multiple projects in the NuGet package._
 
 This tool will scan your code to create a .nuspec file, which it will then use to create a NuGet package containing multiple projects. The tool also has a number of features than improve the development process by using a local NuGet package source.
-
-It uses `netcoreapp3.1` and it 
 
 *NOTE: I cover this bounded context sub-application approach in [part 2 of my evolving modular monolith](#) series.*
 

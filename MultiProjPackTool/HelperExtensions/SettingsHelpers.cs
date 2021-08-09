@@ -2,8 +2,6 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using System;
-using MultiProjPackTool.NuspecBuilder;
-using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool.HelperExtensions
 {
@@ -55,7 +53,38 @@ namespace MultiProjPackTool.HelperExtensions
                 if (nuspecProp == null)
                     throw new InvalidOperationException(
                         $"Could not find the property {settingsProp.Name} in the nuspec package");
-                nuspecProp.SetValue(nuspec.metadata, settingsProp.GetValue(settings.metadata));
+
+                //Some properties have multiple parts
+                switch (settingsProp.Name)
+                {
+                    case "license":
+                        var getLicense = (allsettingsMetadataLicense)settingsProp.GetValue(settings.metadata);
+                        if (getLicense == null)
+                            continue;
+                        nuspec.metadata.license = new packageMetadataLicense
+                        {
+                            Value = getLicense.Value,
+                            type = getLicense.type
+                        };
+                        break;
+                    case "repository":
+                        var repository = (allsettingsMetadataRepository)settingsProp.GetValue(settings.metadata);
+                        if (repository == null)
+                            continue;
+                        nuspec.metadata.repository = new packageMetadataRepository
+                        {
+                            type = repository.type,
+                            url = repository.url,
+                            branch = repository.branch,
+                            commit = repository.commit,
+                        };
+                        break;
+                    default:
+                        nuspecProp.SetValue(nuspec.metadata, settingsProp.GetValue(settings.metadata));
+                        break;
+                }
+
+               
             }
         }
     }

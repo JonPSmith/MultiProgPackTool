@@ -16,10 +16,9 @@
     <copyright>My copyright string</copyright>
     <description>description of this NuGet package</description>
     <releaseNotes>Description of what is changed in this release</releaseNotes>
-    <license >MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
-    <packageLicenseFile>LICENSE.txt</packageLicenseFile> <!-- license must be in a project -->
+    <license type="expression">MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
     <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
-    <iconUrl>https://github.com/NuGet/someicon.png</iconUrl>
+    <icon>someicon.png</icon>
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev" commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
     <tags>NuGet ModularMonolith</tags>
     <dependencies>
@@ -35,6 +34,7 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="C:\Users\JonPSmith\source\repos\ModMon.Books\ModMon.Books.AppSetup\AuthPermissions.AspNetCore\someicon.png.png" />
     <file src="C:\Users\JonPSmith\source\repos\ModMon.Books\ModMon.Books.AppSetup\bin\\netstandard2.1\ModMon.Books.AppSetup.dll" target="lib\netstandard2.1" />
     <file src="C:\Users\JonPSmith\source\repos\ModMon.Books\ModMon.Books.Domain\bin\\netstandard2.1\ModMon.Books.Domain.dll" target="lib\netstandard2.1" />
     <file src="C:\Users\JonPSmith\source\repos\ModMon.Books\ModMon.Books.Infrastructure.CachedValues\bin\\netstandard2.1\ModMon.Books.Infrastructure.CachedValues.dll" target="lib\netstandard2.1" />

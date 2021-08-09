@@ -11,21 +11,22 @@
     <copyright>My copyright string</copyright>
     <description>description of this NuGet package</description>
     <releaseNotes>Description of what is changed in this release</releaseNotes>
-    <license>MIT</license> <!-- Must use id from https://spdx.org/licenses/-->
-    <packageLicenseFile>LICENSE.txt</packageLicenseFile> <!-- license must be in a project -->
+    <!-- Must use id from https://spdx.org/licenses/-->
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/JonPSmith/BookApp.Books</projectUrl>
-    <iconUrl>https://github.com/NuGet/someicon.png</iconUrl>
+    <icon>icon.png</icon>
     <repository type="git" url="https://github.com/NuGet/NuGet.Client.git" branch="dev"
                 commit="e1c65e4524cd70ee6e22abe33e6cb6ec73938cb3" />
     <tags>NuGet ModularMonolith</tags>
   </metadata>
   <toolSettings>
-    <NamespacePrefix>BookApp.Books</NamespacePrefix> 
-    <ExcludeProjects>.Test</ExcludeProjects> >
-    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo> 
-    <LogLevel>Information</LogLevel> 
-    <AddSymbols>None</AddSymbols> 
-    <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath> 
+    <NamespacePrefix>BookApp.Books</NamespacePrefix>
+    <ExcludeProjects>Project2</ExcludeProjects>
+    <CopyNuGetTo>{USERPROFILE}\LocalNuGet</CopyNuGetTo>
+    <LogLevel>Information</LogLevel>
+    <AddSymbols>None</AddSymbols>
     <NoAutoPack>false</NoAutoPack>
+    <NuGetCachePath>C:\SomeDir\AnotherDir\</NuGetCachePath>
+    <IconPath>images\</IconPath>
   </toolSettings>
 </allsettings>

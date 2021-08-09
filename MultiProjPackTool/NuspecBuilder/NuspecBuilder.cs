@@ -55,7 +55,7 @@ namespace MultiProjPackTool.NuspecBuilder
                                       $"That usually has problems unless the project that uses this uses multiple frameworks too.",
                     LogLevel.Warning, true); //it can continue with this warning
 
-            package.files = _appInfo.AllProjects.SelectMany(x =>
+            var files = _appInfo.AllProjects.SelectMany(x =>
             {
                 var pathToDir = Path.GetDirectoryName(x.ProjectPath)
                     .GetCorrectAssemblyPath(_argsDecoded.DebugOrRelease, x.TargetFramework);
@@ -96,8 +96,24 @@ namespace MultiProjPackTool.NuspecBuilder
 
                 return result;
 
-            }).ToArray();
+            }).ToList();
 
+            //Now we handle the icon (if there)
+            if (_settings.metadata.icon != null)
+            {
+                var iconPath = _settings.toolSettings.IconPath == null
+                    ? currentDirectory
+                    : Path.Combine(currentDirectory, _settings.toolSettings.IconPath);
+
+                files.Add(new packageFile
+                {
+                    src = Path.Combine(iconPath, _settings.metadata.icon).GoUpOneLevelUsingRelativePath(currentDirectory),
+                    target = "images\\"
+                });
+                _consoleOut.LogMessage($"Added icon file to NuGet files", LogLevel.Debug);
+            }
+
+            package.files = files.ToArray();
 
             //only continue if there are no warnings
             _consoleOut.OutputErrorIfAnyWarnings();
