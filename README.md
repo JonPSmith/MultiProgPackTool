@@ -6,11 +6,9 @@ This is a open-source project under the MIT licence.
 
 ## Why was this dotnet tool created
 
-This was created initially to allow you to break up a large application into sub-application based on the Domain-Driven Design (DDD)'s [bounded context](https://martinfowler.com/bliki/BoundedContext.html) approach, and turn them into NuGet packages.
+This was created initially to allow you to break up a large application into sub-application based on the Domain-Driven Design (DDD)'s [bounded context](https://martinfowler.com/bliki/BoundedContext.html) approach, and turn them into NuGet packages. But now I use it for the library [AuthPermissions.AspNetCore](https://github.com/JonPSmith/AuthPermissions.AspNetCore) which has multiple projects. Version 2.0.0 supports multiple frameworks, e.g `<TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>`
 
-_NOTE: I have subsequently used this tool to manage other projects that needed multiple projects in the NuGet package._
-
-This tool will scan your code to create a .nuspec file, which it will then use to create a NuGet package containing multiple projects. The tool also has a number of features than improve the development process by using a local NuGet package source.
+This tool will scan your code to create a .nuspec file, from which it will create a NuGet package containing multiple projects. The tool also has a number of features than improve the development process by using a local NuGet package source.
 
 *NOTE: I cover this bounded context sub-application approach in [part 2 of my evolving modular monolith](#) series.*
 
@@ -28,12 +26,6 @@ I build the `MultiProjPack` tool because the normal NuGet tools don't handle cer
 
 
 See [Release Notes](https://github.com/JonPSmith/MultiProgPackTool/blob/main/ReleaseNotes.md) file for changes to this tool.
-
-## Limitations
-
-NuGet packages are designed handle multi-framework NuGet packages, but when you are creating NuGet package to go into your application you want a single framework. This means that all the projects going into the NuGet package must all be the SAME framework, e.g. `net6.0`.
-
-*NOTE: If your projects have different frameworks the tool will still create a NuGet package, but outputs a warning as its unlikely to be useful in your application.*
 
 ## Overview of how to use the `MultiProjPack` tool
 

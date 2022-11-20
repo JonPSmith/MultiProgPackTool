@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+  </PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0'">
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MultiFrameworks.Project2\MultiFrameworks.Project2.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -21,7 +21,7 @@ namespace MultiProjPackTool.ParseProjects
 
         public string ProjectName => Path.GetFileNameWithoutExtension(ProjectPath);
 
-        public string TargetFramework { get; set; }
+        public List<string> TargetFrameworks { get; set; }
 
         public List<ProjectInfo> ChildProjects { get; set; }
 

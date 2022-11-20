@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 
 namespace MultiProjPackTool.ParseProjects
@@ -35,30 +34,34 @@ namespace MultiProjPackTool.ParseProjects
 
         public List<ProjectInfo> AllProjects { get; private set; }
 
+        /// <summary>
+        /// This dictionary key is the name of the TargetFramework, and the value is all the projects for that TargetFramework
+        /// </summary>
         public Dictionary<string, List<NuGetInfo>> NuGetInfosDistinctByFramework { get; private set; }
 
+        /// <summary>
+        /// This fills in the <see cref="NuGetInfosDistinctByFramework"/> with the <see cref="NuGetInfo"/>
+        /// for each TargetFramework
+        /// </summary>
+        /// <param name="writeToConsoleOut"></param>
         private void SetupAllNuGetInfosDistinctWithChecks(IWriteToConsole writeToConsoleOut)
         {
-            var projectsByFramework = AllProjects.GroupBy(x => x.TargetFramework);
             NuGetInfosDistinctByFramework = new Dictionary<string, List<NuGetInfo>>();
-            foreach (var projectsInFramework in projectsByFramework)
+            foreach (var projectInfo in AllProjects)
             {
-                var groupedNuGets = projectsInFramework.SelectMany(x => x.NuGetPackages)
-                    .GroupBy(x => x.NuGetId);
-
-                var allNuGets = new List<NuGetInfo>();
-                foreach (var groupedNuGet in groupedNuGets
-                    .GroupBy(x => x.ToList().Select(z => z.Version)))
+                foreach (var targetFramework in projectInfo.TargetFrameworks)
                 {
-                    var versionDistinct = groupedNuGet.Key.Distinct().ToList();
-                    if (versionDistinct.Count > 1)
-                        writeToConsoleOut.LogMessage(
-                            $"{groupedNuGet.Key} NuGet has multiple versions: \n {string.Join("\n", versionDistinct)}",
-                            LogLevel.Error);
-                    allNuGets.Add(groupedNuGet.Single().First());
+                    if (!NuGetInfosDistinctByFramework.ContainsKey(targetFramework))
+                    {
+                        NuGetInfosDistinctByFramework[targetFramework] = projectInfo.NuGetPackages;
+                    }
+                    else
+                    {
+                        var currentPackages = NuGetInfosDistinctByFramework[targetFramework];
+                        currentPackages.AddRange(projectInfo.NuGetPackages);
+                        NuGetInfosDistinctByFramework[targetFramework] = currentPackages;
+                    }
                 }
-
-                NuGetInfosDistinctByFramework[projectsInFramework.Key] = allNuGets;
             }
         }
 

@@ -1,5 +1,10 @@
 # Release Notes
 
+## 2.0.0
+
+- Updated to handle projects that have multiple frameworks, e.g. <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+- Updated to NET 6
+
 ## 1.1.1 (bug fix)
 
 - Updated to the new `<icon>images\someicon.png</icon>` format

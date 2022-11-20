@@ -80,26 +80,30 @@ namespace MultiProjPackTool.ProcessHandler
                     //Now copy over all the .dlls
                     foreach (var projectInfo in appInfo.AllProjects)
                     {
-                        var dllFilename = projectInfo.ProjectName + ".dll";
-                        var pathFromDir = Path.GetDirectoryName(projectInfo.ProjectPath)
-                            .GetCorrectAssemblyPath(_argsDecoded.DebugOrRelease, projectInfo.TargetFramework);
-                        var pathToDir = Path.Combine(pathToNuGetFolderInCache, "lib", projectInfo.TargetFramework);
-                        File.Copy(Path.Combine(pathFromDir, dllFilename),
-                            Path.Combine(pathToDir, dllFilename), true);
-                        _consoleOut.LogMessage($"Updated {dllFilename} in nuget cache.", LogLevel.Debug);
-
-                        foreach (var fileType in new []{".xml", ".pdb" })
+                        foreach (var targetFramework in projectInfo.TargetFrameworks)
                         {
-                            
-                            var filename = projectInfo.ProjectName + fileType;
-                            if (File.Exists(Path.Combine(pathFromDir, filename)))
+                            var dllFilename = projectInfo.ProjectName + ".dll";
+                            var pathFromDir = Path.GetDirectoryName(projectInfo.ProjectPath)
+                                .GetCorrectAssemblyPath(_argsDecoded.DebugOrRelease, targetFramework);
+                            var pathToDir = Path.Combine(pathToNuGetFolderInCache, "lib", targetFramework);
+                            File.Copy(Path.Combine(pathFromDir, dllFilename),
+                                Path.Combine(pathToDir, dllFilename), true);
+                            _consoleOut.LogMessage($"Updated {dllFilename} in nuget cache.", LogLevel.Debug);
+
+                            foreach (var fileType in new[] { ".xml", ".pdb" })
                             {
-                                File.Copy(Path.Combine(pathFromDir, filename),
-                                    Path.Combine(pathToDir, filename), true);
-                                _consoleOut.LogMessage($"Updated {filename} in nuget cache.", LogLevel.Debug);
+
+                                var filename = projectInfo.ProjectName + fileType;
+                                if (File.Exists(Path.Combine(pathFromDir, filename)))
+                                {
+                                    File.Copy(Path.Combine(pathFromDir, filename),
+                                        Path.Combine(pathToDir, filename), true);
+                                    _consoleOut.LogMessage($"Updated {filename} in nuget cache.", LogLevel.Debug);
+                                }
                             }
                         }
                     }
+
                     _consoleOut.LogMessage("Have updated .dll files in NugGet cache. Use Rebuild Solution to update.", LogLevel.Information);
                 }
             }

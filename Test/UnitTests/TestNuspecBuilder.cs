@@ -15,6 +15,8 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Test.UnitTests
 {
+    // see https://stackoverflow.com/questions/1408175/execute-unit-tests-serially-rather-than-in-parallel
+    [Collection("Sequential")]
     public class TestNuspecBuilder
     {
         private readonly ITestOutputHelper _output;

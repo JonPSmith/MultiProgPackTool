@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
-using MultiProjPackTool.SettingHandling;
 
 namespace MultiProjPackTool.ParseProjects
 {
@@ -46,7 +45,7 @@ namespace MultiProjPackTool.ParseProjects
                 .ToDictionary(x => x.ProjectName);
 
             //Now we look at each csproj in turn and fill in
-            //- What target framework it has (used to build Nuspec)
+            //- What target framework (or frameworks) it has (used to build Nuspec)
             //- What NuGet packages it uses (used to build Nuspec)
             //- What it links to (used in displaying links)
             foreach (var projFilePath in projFilePaths)
@@ -56,11 +55,18 @@ namespace MultiProjPackTool.ParseProjects
 
                 var projectToUpdate = pInfo[filename];
 
-                //get target framework
-                projectToUpdate.TargetFramework = projectDecoded.PropertyGroup.TargetFramework;
+                //get target framework(s)
+
+                projectToUpdate.TargetFrameworks = projectDecoded.PropertyGroup.TargetFrameworks?
+                    .Split(";").Select(x => x.Trim()).ToList();
+                if (projectToUpdate.TargetFrameworks == null)
+                    projectToUpdate.TargetFrameworks = new List<string>
+                        { projectDecoded.PropertyGroup.TargetFramework };
+                if (projectToUpdate.TargetFrameworks == null)
+                    consoleOut.LogMessage($"The Project called {filename} has a problem about its TargetFramework(s).",
+                        LogLevel.Warning);
 
                 //get NuGet packages
-
                 projectToUpdate.NuGetPackages = projectDecoded.ItemGroup
                     ?.SingleOrDefault(x => x?.PackageReference?.Any() == true)
                     ?.PackageReference
