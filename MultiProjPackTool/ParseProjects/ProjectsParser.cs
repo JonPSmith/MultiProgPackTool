@@ -55,23 +55,31 @@ namespace MultiProjPackTool.ParseProjects
 
                 var projectToUpdate = pInfo[filename];
 
-                //get target framework(s)
+                //This finds all the ItemGroups that contain PackageReferences
+                var filterNuGets = new FilterNuGetsByCondition(projectDecoded, filename, consoleOut);
+
+                //get target framework(s) and then the NuGets for each frameworks
+                //NOTE: This will have duplicates if a dependent Project has the same NuGet
 
                 projectToUpdate.TargetFrameworks = projectDecoded.PropertyGroup.TargetFrameworks?
                     .Split(";").Select(x => x.Trim()).ToList();
-                if (projectToUpdate.TargetFrameworks == null)
+                if (projectToUpdate.TargetFrameworks != null)
+                {
+                    //we need to find the NuGet Packages in the ItemGroup that has a Condition that matches each targetFramework 
+                    foreach (var targetFramework in projectToUpdate.TargetFrameworks)
+                    {
+                        projectToUpdate.NuGetPackagesByFramework[targetFramework] = filterNuGets.IncludeTheseNuGetsWithConditions(targetFramework);
+                    }
+                }
+                else
+                {
                     projectToUpdate.TargetFrameworks = new List<string>
                         { projectDecoded.PropertyGroup.TargetFramework };
-                if (projectToUpdate.TargetFrameworks == null)
-                    consoleOut.LogMessage($"The Project called {filename} has a problem about its TargetFramework(s).",
-                        LogLevel.Warning);
 
-                //get NuGet packages
-                projectToUpdate.NuGetPackages = projectDecoded.ItemGroup
-                    ?.SingleOrDefault(x => x?.PackageReference?.Any() == true)
-                    ?.PackageReference
-                    .Select(x => new NuGetInfo(x))
-                    .ToList() ?? new List<NuGetInfo>();
+                    //get the ItemGroup that contains the NuGet packages
+                    projectToUpdate.NuGetPackagesByFramework[projectDecoded.PropertyGroup.TargetFramework] = 
+                        filterNuGets.IncludeTheseNuGetsNoConditions();
+                }
 
                 // Fill in references to other packages
                 projectToUpdate.ChildProjects = projectDecoded.ItemGroup

@@ -14,7 +14,7 @@ namespace MultiProjPackTool.ParseProjects
 
             ChildProjects = new List<ProjectInfo>();
             ParentProjects = new List<ProjectInfo>();
-            NuGetPackages = new List<NuGetInfo>();
+            NuGetPackagesByFramework = new Dictionary<string, List<NuGetInfo>>();
         }
 
         public string ProjectPath { get;  }
@@ -27,6 +27,6 @@ namespace MultiProjPackTool.ParseProjects
 
         public List<ProjectInfo> ParentProjects { get; set; }
 
-        public List<NuGetInfo> NuGetPackages { get; set; }
+        public Dictionary<string, List<NuGetInfo>> NuGetPackagesByFramework { get; set; }
     }
 }

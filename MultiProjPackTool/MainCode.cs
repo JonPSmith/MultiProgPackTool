@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MultiProjPackTool.BuildNuspec;
 using MultiProjPackTool.HelperExtensions;
 using MultiProjPackTool.ParseProjects;
 using MultiProjPackTool.ProcessHandler;
@@ -61,7 +62,7 @@ namespace MultiProjPackTool
                     LogLevel.Error);
 
             _consoleOut.LogMessage(appInfo.ToString(), LogLevel.Information);
-            var nuspcBuilder = new NuspecBuilder.NuspecBuilder(settings, argsDecoded, appInfo, _consoleOut);
+            var nuspcBuilder = new NuspecBuilder(settings, argsDecoded, appInfo, _consoleOut);
             nuspcBuilder.BuildNuspecFile(currentDirectory);
 
             //stop if any warnings

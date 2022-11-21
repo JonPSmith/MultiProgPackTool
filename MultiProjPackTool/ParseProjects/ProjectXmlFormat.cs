@@ -82,6 +82,22 @@ namespace MultiProjPackTool.ParseProjects
                 this.targetFrameworkField = value;
             }
         }
+
+
+        private string targetFrameworkFields;
+
+        /// <remarks/>
+        public string TargetFrameworks
+        {
+            get
+            {
+                return this.targetFrameworkFields;
+            }
+            set
+            {
+                this.targetFrameworkFields = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -94,6 +110,8 @@ namespace MultiProjPackTool.ParseProjects
         private ProjectItemGroupProjectReference[] projectReferenceField;
 
         private ProjectItemGroupPackageReference[] packageReferenceField;
+
+        private string conditionField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ProjectReference")]
@@ -120,6 +138,20 @@ namespace MultiProjPackTool.ParseProjects
             set
             {
                 this.packageReferenceField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Condition
+        {
+            get
+            {
+                return this.conditionField;
+            }
+            set
+            {
+                this.conditionField = value;
             }
         }
     }

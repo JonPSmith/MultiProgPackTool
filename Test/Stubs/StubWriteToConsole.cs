@@ -2,7 +2,6 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.Eventing.Reader;
 using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 using Xunit.Abstractions;

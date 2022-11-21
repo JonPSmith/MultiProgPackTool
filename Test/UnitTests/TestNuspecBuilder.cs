@@ -4,7 +4,7 @@
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using MultiProjPackTool.NuspecBuilder;
+using MultiProjPackTool.BuildNuspec;
 using MultiProjPackTool.ParseProjects;
 using MultiProjPackTool.SettingHandling;
 using Test.Helpers;

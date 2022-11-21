@@ -1,11 +1,11 @@
 ﻿// Copyright (c) 2022 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
-using MultiProjPackTool.NuspecBuilder;
 using MultiProjPackTool.ParseProjects;
 using MultiProjPackTool.SettingHandling;
 using System.IO;
 using System.Linq;
+using MultiProjPackTool.BuildNuspec;
 using Test.Helpers;
 using Test.Stubs;
 using TestSupport.Helpers;
@@ -51,7 +51,7 @@ namespace Test.UnitTests
         public void ParseModularMonolithApp_MultiFrameworks()
         {
             //SETUP
-            var stubWriter = new StubWriteToConsole();
+            var stubWriter = new StubWriteToConsole(_output);
             var settings = SettingHelpers.GetMinimalSettings();
             settings.toolSettings.NamespacePrefix = "MultiFrameworks";
 
@@ -60,6 +60,18 @@ namespace Test.UnitTests
             var appInfo = pathToProjects.ScanForProjects(settings, stubWriter);
 
             //VERIFY
+            foreach (var project in appInfo.AllProjects)
+            {
+                _output.WriteLine($"Project: {project.ProjectName}");
+                foreach (var targetFramework in project.TargetFrameworks)
+                {
+                    _output.WriteLine($"  TargetFramework {targetFramework}");
+                    foreach (var nuGet in project.NuGetPackagesByFramework[targetFramework])
+                    {
+                        _output.WriteLine($"       {nuGet.NuGetId}, {nuGet.Version}");
+                    }
+                }
+            }
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "MultiFrameworks.Project1", "MultiFrameworks.Project2" });
             appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new[] { "net6.0", "net7.0", "netstandard2.1" });
         }

@@ -10,7 +10,7 @@ using MultiProjPackTool.HelperExtensions;
 using MultiProjPackTool.ParseProjects;
 using MultiProjPackTool.SettingHandling;
 
-namespace MultiProjPackTool.NuspecBuilder
+namespace MultiProjPackTool.BuildNuspec
 {
     public class NuspecBuilder
     {
@@ -26,7 +26,6 @@ namespace MultiProjPackTool.NuspecBuilder
             _appInfo = appInfo;
             _consoleOut = consoleOut;
         }
-
 
         public void BuildNuspecFile(string currentDirectory)
         {
@@ -54,7 +53,6 @@ namespace MultiProjPackTool.NuspecBuilder
             {
                 foreach (var targetFramework in projectInfo.TargetFrameworks)
                 {
-
                     var pathToDir = Path.GetDirectoryName(projectInfo.ProjectPath)
                         .GetCorrectAssemblyPath(_argsDecoded.DebugOrRelease, targetFramework);
 

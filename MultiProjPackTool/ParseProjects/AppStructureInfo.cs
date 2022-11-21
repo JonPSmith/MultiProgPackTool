@@ -53,12 +53,12 @@ namespace MultiProjPackTool.ParseProjects
                 {
                     if (!NuGetInfosDistinctByFramework.ContainsKey(targetFramework))
                     {
-                        NuGetInfosDistinctByFramework[targetFramework] = projectInfo.NuGetPackages;
+                        NuGetInfosDistinctByFramework[targetFramework] = projectInfo.NuGetPackagesByFramework[targetFramework];
                     }
                     else
                     {
                         var currentPackages = NuGetInfosDistinctByFramework[targetFramework];
-                        currentPackages.AddRange(projectInfo.NuGetPackages);
+                        currentPackages.AddRange(projectInfo.NuGetPackagesByFramework[targetFramework]);
                         NuGetInfosDistinctByFramework[targetFramework] = currentPackages;
                     }
                 }
