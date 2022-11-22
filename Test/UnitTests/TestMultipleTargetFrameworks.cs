@@ -72,7 +72,8 @@ namespace Test.UnitTests
                     }
                 }
             }
-            appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "MultiFrameworks.Project1", "MultiFrameworks.Project2" });
+            appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(
+                new[] { "MultiFrameworks.Project1", "MultiFrameworks.Project2", "MultiFrameworks.Project3" });
             appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new[] { "net6.0", "net7.0", "netstandard2.1" });
         }
     }

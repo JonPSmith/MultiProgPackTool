@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using MultiProjPackTool.HelperExtensions;
 
 namespace MultiProjPackTool.ParseProjects
@@ -41,7 +42,8 @@ namespace MultiProjPackTool.ParseProjects
 
         /// <summary>
         /// This fills in the <see cref="NuGetInfosDistinctByFramework"/> with the <see cref="NuGetInfo"/>
-        /// for each TargetFramework
+        /// for each TargetFramework. It warns if a existing NuGet package has an different to the same NuGet package
+        /// being added from a different project
         /// </summary>
         /// <param name="writeToConsoleOut"></param>
         private void SetupAllNuGetInfosDistinctWithChecks(IWriteToConsole writeToConsoleOut)
@@ -52,14 +54,29 @@ namespace MultiProjPackTool.ParseProjects
                 foreach (var targetFramework in projectInfo.TargetFrameworks)
                 {
                     if (!NuGetInfosDistinctByFramework.ContainsKey(targetFramework))
+                        NuGetInfosDistinctByFramework[targetFramework] = new List<NuGetInfo>();
+                  
+                    foreach(var nuGetInfo in projectInfo.NuGetPackagesByFramework[targetFramework])
                     {
-                        NuGetInfosDistinctByFramework[targetFramework] = projectInfo.NuGetPackagesByFramework[targetFramework];
-                    }
-                    else
-                    {
-                        var currentPackages = NuGetInfosDistinctByFramework[targetFramework];
-                        currentPackages.AddRange(projectInfo.NuGetPackagesByFramework[targetFramework]);
-                        NuGetInfosDistinctByFramework[targetFramework] = currentPackages;
+                        var existingNuget = NuGetInfosDistinctByFramework[targetFramework]
+                            .SingleOrDefault(x => x.NuGetId == nuGetInfo.NuGetId);
+                        if (existingNuget?.NuGetId == nuGetInfo.NuGetId)
+                        {
+                            //already in - check if same version
+
+                            if (existingNuget.Version != nuGetInfo.Version)
+                            {
+                                writeToConsoleOut.LogMessage(
+                                    $"The NuGet '{nuGetInfo.NuGetId}' in framework '{targetFramework}' " +
+                                    $"has an existing version of {existingNuget.Version}, which is different " +
+                                    $"from the same NuGet in the {projectInfo.ProjectName} which has version {nuGetInfo.Version}.",
+                                    LogLevel.Warning, true);
+                            }
+                        }
+                        else
+                        {
+                            NuGetInfosDistinctByFramework[targetFramework].Add(nuGetInfo);
+                        }
                     }
                 }
             }

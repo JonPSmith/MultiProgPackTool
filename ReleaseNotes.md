@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.1.0
+
+- Add code to gives a warning of different versions of the same NuGet package.
+
 ## 2.0.0
 
 - Updated to handle projects that have multiple frameworks, e.g. <TargetFrameworks>net6.0;net7.0</TargetFrameworks>

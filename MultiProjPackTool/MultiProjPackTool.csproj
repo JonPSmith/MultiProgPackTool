@@ -13,10 +13,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>2.0.0</PackageVersion>
-    <Version>2.0.0</Version>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <PackageVersion>2.1.0</PackageVersion>
+    <Version>2.1.0</Version>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <FileVersion>2.1.0.0</FileVersion>
     <Company>Selective Analytics</Company>
     <Authors>Jon P Smith</Authors>
     <PackageId>JonPSmith.MultiProjPack</PackageId>
@@ -28,8 +28,7 @@
     <RepositoryType>GuHub</RepositoryType>
     <PackageTags>NuGet Architecture</PackageTags>
     <PackageReleaseNotes>
-	    - Updated to handle projects that have multiple frameworks, e.g. {TargetFrameworks}net6.0;net7.0{/TargetFrameworks}
-	    - Updated to NET 6
+		Add code to gives a warning of different versions of the same NuGet package.
 	</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>

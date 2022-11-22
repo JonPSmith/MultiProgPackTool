@@ -25,9 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group2.Project1", "Group2.P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Group2.Project2", "Group2.Project2\Group2.Project2.csproj", "{8EB87006-1953-4743-BB8D-0F93E031A757}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiFrameworks.Project1", "MultiFrameworks.Project1\MultiFrameworks.Project1.csproj", "{FCB6113C-89B8-4221-AC2D-D302EA7A0E3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiFrameworks.Project1", "MultiFrameworks.Project1\MultiFrameworks.Project1.csproj", "{FCB6113C-89B8-4221-AC2D-D302EA7A0E3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiFrameworks.Project2", "MultiFrameworks.Project2\MultiFrameworks.Project2.csproj", "{6A403142-7C4A-4060-8C48-CFB9804F90E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiFrameworks.Project2", "MultiFrameworks.Project2\MultiFrameworks.Project2.csproj", "{6A403142-7C4A-4060-8C48-CFB9804F90E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiFrameworks.Project3", "MultiFrameworks.Project3\MultiFrameworks.Project3.csproj", "{6DB04573-B22C-4C7D-AE0B-DB455C90E2EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{6A403142-7C4A-4060-8C48-CFB9804F90E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A403142-7C4A-4060-8C48-CFB9804F90E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A403142-7C4A-4060-8C48-CFB9804F90E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DB04573-B22C-4C7D-AE0B-DB455C90E2EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DB04573-B22C-4C7D-AE0B-DB455C90E2EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DB04573-B22C-4C7D-AE0B-DB455C90E2EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DB04573-B22C-4C7D-AE0B-DB455C90E2EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
