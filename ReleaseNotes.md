@@ -1,5 +1,9 @@
 # Release Notes
 
+## 10.0.0
+
+- Updated to .NET 10 because .NET 6 is not supported now
+
 ## 2.1.0
 
 - Add code to gives a warning of different versions of the same NuGet package.
