@@ -5,14 +5,19 @@
     <TargetFramework>net10.0</TargetFramework>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+	  <!--see https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-create -->
+	  <PackAsTool>true</PackAsTool>
+	  <ToolCommandName>multiprojpack</ToolCommandName>
+	  <PackageOutputPath>./DotNetTool</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>10.0.0</PackageVersion>
-    <Version>10.0.0</Version>
-    <AssemblyVersion>10.0.0</AssemblyVersion>
-    <FileVersion>10.0.0</FileVersion>
+    <PackageVersion>10.0.2</PackageVersion>
+    <Version>>10.0.2</Version>
+    <AssemblyVersion>10.0.2</AssemblyVersion>
+    <FileVersion>10.0.2</FileVersion>
     <Company>Selective Analytics</Company>
     <Authors>Jon P Smith</Authors>
     <PackageId>JonPSmith.MultiProjPack</PackageId>
@@ -24,7 +29,8 @@
     <RepositoryType>GuHub</RepositoryType>
     <PackageTags>NuGet Architecture</PackageTags>
     <PackageReleaseNotes>
-		Updated to .NET 10
+		- Updated to .NET 10
+        - Correct type of NuGet type
 	</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
@@ -37,6 +43,15 @@
 
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="SettingHandling\TypicalMultiProjPack.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="MultiProjPack.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
