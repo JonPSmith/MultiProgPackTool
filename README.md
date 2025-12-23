@@ -237,7 +237,7 @@ So, there is the steps you must do to update MultiProjPack dotnet tool, and reco
 ```
 
 ## 2. Build the JonPSmith.MultiProjPack in release mode
-This will create a NuGet called "JonPSmith.MultiProjPack.12.0.0" in the ```…\MultiProgPackTool\MultiProjPackTool\DotNetTool``` folder.
+This will create a NuGet called "JonPSmith.MultiProjPack.12.0.0" in the ```...\MultiProgPackTool\MultiProjPackTool\DotNetTool``` folder.
 
 ## 3. Upload the JonPSmith.MultiProjPack.12.0.0 file to the https://www.nuget.org/packages/manage/upload
  
