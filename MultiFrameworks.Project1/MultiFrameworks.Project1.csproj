@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
   </PropertyGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net9.0'">
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
 	</ItemGroup>
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net10.0'">
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

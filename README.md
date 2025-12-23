@@ -37,8 +37,6 @@ The `MultiProjPack` tool is what is known as a [.NET tool](https://docs.microsof
 dotnet tool install JonPSmith.MultiProjPack --global
 ```
 
-*NOTE: To update the `MultiProjPack` .NET tool you need to run the command `dotnet tool update JonPSmith.MultiProjPack --global`. Or to uninstall this tool you should use `dotnet tool uninstall JonPSmith.MultiProjPack –global` command*
-
 ### 2. Organize the your code by namespaces
 
 The `MultiProjPack` tool finds the projects to combine by the projects' name/namespace. It will find all the projects with a name staring with a given string and combine them into a single NuGet package.
@@ -209,5 +207,9 @@ NOTE: Any NuGet settings that contain spaces must be wrapped in a string, e.g. `
 The `-t:` command allows you to override any tools setting in the `<toolSettings>` part of the `MultiProjPack.xml` settings file, e.g.
 
 `-t:ExcludeProjects=Test,AnotherProject`
+
+# Updating the MultiProjPack dotnet tool
+
+The MultiProjPack dotnet dotnet tool uses .NET target framework, which means at some time the MultiProjPack won't won't work when the MultiProjPack's current .NET isn't supported. This happend in 2025 and I have forgot how to do it!  It took a long time, and help from fellews   
 
 [END]

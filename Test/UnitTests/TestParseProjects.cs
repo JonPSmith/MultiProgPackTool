@@ -36,7 +36,7 @@ namespace Test.UnitTests
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new []{ "Group1.Project1", "Group1.Project2", "Group1.Project3" });
-            appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new []{ "net5.0" });
+            appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new []{ "net10.0" });
             appInfo.NuGetInfosDistinctByFramework.Values.Single().Select(x => x.NuGetId)
                 .ShouldEqual(new []{ "Microsoft.Extensions.Logging", "Newtonsoft.Json" });
         }
@@ -56,7 +56,7 @@ namespace Test.UnitTests
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group1.Project2" });
-            appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new[] { "net5.0" });
+            appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new[] { "net10.0" });
             appInfo.NuGetInfosDistinctByFramework.Values.Single().Select(x => x.NuGetId)
                 .ShouldEqual(new[] { "Newtonsoft.Json" });
         }
@@ -93,9 +93,9 @@ namespace Test.UnitTests
 
             //VERIFY
             appInfo.AllProjects.Select(x => x.ProjectName).ShouldEqual(new[] { "Group2.Project1", "Group2.Project2" });
-            appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new[] { "netstandard2.1", "net5.0" });
+            appInfo.NuGetInfosDistinctByFramework.Keys.ToArray().ShouldEqual(new[] { "netstandard2.1", "net10.0" });
             appInfo.NuGetInfosDistinctByFramework["netstandard2.1"].Single().NuGetId.ShouldEqual("Newtonsoft.Json");
-            appInfo.NuGetInfosDistinctByFramework["net5.0"].Single().NuGetId.ShouldEqual("Microsoft.Extensions.Logging");
+            appInfo.NuGetInfosDistinctByFramework["net10.0"].Single().NuGetId.ShouldEqual("Microsoft.Extensions.Logging");
         }
     }
 }
