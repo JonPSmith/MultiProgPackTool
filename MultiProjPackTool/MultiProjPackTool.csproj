@@ -14,10 +14,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>10.0.2</PackageVersion>
-    <Version>10.0.2</Version>
-    <AssemblyVersion>10.0.2</AssemblyVersion>
-    <FileVersion>10.0.2</FileVersion>
+    <PackageVersion>10.0.10</PackageVersion>
+    <Version>10.0.10</Version>
+    <AssemblyVersion>10.0.10</AssemblyVersion>
+    <FileVersion>10.0.10</FileVersion>
     <Company>Selective Analytics</Company>
     <Authors>Jon P Smith</Authors>
     <PackageId>JonPSmith.MultiProjPack</PackageId>
