@@ -210,6 +210,32 @@ The `-t:` command allows you to override any tools setting in the `<toolSettings
 
 # Updating the MultiProjPack dotnet tool
 
-The MultiProjPack dotnet dotnet tool uses .NET target framework, which means at some time the MultiProjPack won't won't work when the MultiProjPack's current .NET isn't supported. This happend in 2025 and I have forgot how to do it!  It took a long time, and help from fellews   
+The MultiProjPack dotnet tool uses .NET target framework, which means at some time the MultiProjPack won't work when the MultiProjPack's current .NET isn't supported. This happened in 2025 because the current MultiProjPack uses .NET 6 and once .NET 10 came out you get an error and you can’t use it.
+
+It turned out that dotnet tool works a different way to the normal NuGet, and because I hadn’t look at for four years and in this time, I got Alzheimer’s disease too. It took a long time to work out what, and I only got there from help from other clever people to point in the right way.
+
+So, there is the steps you must do to update MultiProjPack dotnet tool, and recommend that you update on ever even .NET, .NET 12, NET 14, and on. The example below shows how to update to .NET 12
+
+## 1. Update the MultiProjPackTool.csprog
+
+### 1.1 Change the TargetFramework to the new .NET, e.g. <TargetFramework>net12.0</TargetFramework> 
+
+### 1.2 Update the NuGet’s version(s), e.g.
+
+<Version>12.0.0</Version>
+<AssemblyVersion>12.0.0</AssemblyVersion>
+<FileVersion>12.0.0</FileVersion>
+
+### 1.3 Update the <PackageReleaseNotes>, e.g,
+<PackageReleaseNotes>
+    - Updated to .NET 12
+</PackageReleaseNotes>
+
+## 2. Build the JonPSmith.MultiProjPack in release mode
+This will create a NuGet called “JonPSmith.MultiProjPack.12.0.0” in the …\MultiProgPackTool\MultiProjPackTool\DotNetTool folder.
+
+## 3. Upload the JonPSmith.MultiProjPack.12.0.0 file to the https://www.nuget.org/packages/manage/upload
+ 
+NOTE: Unit tests for multi-frameworks projects, e.g. net9.0;net10.0, don't work and I can't get it to work at this time.
 
 [END]

@@ -32,7 +32,7 @@
 		- Updated to .NET 10
 		- Correct type of NuGet type
 		- Updated the the README with how to update the JonPSmith.MultiProjPack NuGet
-		- NOTE: Unit tests for multi-frameworks projects, e.g. net9.0;net10.0, don't work and I can't get it to work
+		- NOTE: Unit tests for multi-frameworks projects, e.g. net9.0;net10.0, don't work and I can't get it to work at this time.
 	</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
